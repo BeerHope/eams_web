@@ -1,8 +1,8 @@
 <template>
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
-      <el-input class="filter-item" v-model="filter.workOrderId" placeholder="工单单号"></el-input>
-      <el-input class="filter-item" v-model="filter.deliverryNo" placeholder="出货单号"></el-input>
+      <el-input class="filter-item" v-model="filter.workOrderNumber" placeholder="工单单号"></el-input>
+      <el-input class="filter-item" v-model="filter.deliveryOrderNumber" placeholder="出货单号"></el-input>
       <el-button class="green-btn" type="primary" @click="getWorkOrderList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
@@ -15,8 +15,8 @@
       v-loading="listLoading" :data="workOrderList"
       border highlight-current-row
       style="width: 100%">
-      <el-table-column prop="id" label="工单单号" align="center"></el-table-column>
-      <el-table-column prop="deliveryNo" label="出货单号" align="center"></el-table-column>
+      <el-table-column prop="workOrderNumber" label="工单单号" align="center"></el-table-column>
+      <el-table-column prop="deliveryOrderNumber" label="出货单号" align="center"></el-table-column>
       <el-table-column prop="state" label="状态" align="center"></el-table-column>
       <el-table-column prop="distribution" label="分配状态" align="center"></el-table-column>
       <el-table-column width="140" align="center" prop="operation" label="操作">
@@ -42,6 +42,8 @@
 </template>
 <script>
 import UploadDialog from './components/Upload'
+
+import { getOrderList } from '@/api/order'
 export default {
   name: 'WorkOrderList',
   components: {
@@ -51,31 +53,12 @@ export default {
     return {
       listLoading: false,
       filter: {
-        orderId: '',
-        deliverryNo: '',
+        workOrderNumber: '',
+        deliveryOrderNumber: '',
         page: 1,
         pageSize: 20
       },
-      workOrderList: [
-        {
-          id: '123243411432',
-          deliveryNo: '23721323213',
-          state: '状态：未生产',
-          distribution: '未分配'
-        },
-        {
-          id: '123243431132',
-          deliveryNo: '123232543543',
-          state: '状态：未生产',
-          distribution: '未分配'
-        },
-        {
-          id: '12324233432432',
-          deliveryNo: '123232543543',
-          state: '状态：未生产',
-          distribution: '为分配'
-        }
-      ],
+      workOrderList: [],
       total: 3
     }
   },
@@ -84,7 +67,9 @@ export default {
   methods: {
     /* 工单列表 */
     getWorkOrderList() {
-      console.log('get work order list!!!')
+      getOrderList(this.filter).then(res => {
+        console.log(res, '订单列表获取的结果！！！！')
+      })
     },
     openUploadDialog() {
       this.$refs.uploadDialog.dialogVisible = true
@@ -93,7 +78,6 @@ export default {
     /* 跳转详情页 */
     toDetailsPage(id) {
       // console.log(this.$router, '路由！！！！')
-      console.log(id, 'id!!!!!!!!')
       this.$router.push(`./details/${id}`)
     }
   }

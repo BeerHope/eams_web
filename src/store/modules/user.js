@@ -1,4 +1,4 @@
-import { getUserInfo, redirectToLogin} from '@/api/login'
+import { getUserInfo} from '@/api/user'
 import {getToken, setToken, removeToken} from '@/utils/auth'
 
 const user = {
@@ -8,7 +8,8 @@ const user = {
     accountNum: '',
     roles: [],
     usertype:'',
-    avatar: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
+    avatar: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+    phone: ''
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -26,36 +27,16 @@ const user = {
     SET_USERTYPE: (state, usertype) => {
       state.usertype = usertype;
     },
-    SET_PHONE: (state, phone) => {
+    // 存储当前账号
+    SET_ACCOUNT: (state, phone) => {
       state.phone = phone;
     },
-
-    /*SET_CODE: (state, code) => {
-      state.code = code
-    },
-    SET_INTRODUCTION: (state, introduction) => {
-      state.introduction = introduction
-    },
-    SET_SETTING: (state, setting) => {
-      state.setting = setting
-    },
-    SET_STATUS: (state, status) => {
-      state.status = status
-    },*/
   },
 
   actions: {
     // 登出
     LogOut({commit, state}) {
       return new Promise((resolve, reject) => {
-        /*logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })*/
           commit('SET_TOKEN', '');
           removeToken();
           resolve();
@@ -84,32 +65,22 @@ const user = {
     GetUserInfo({commit, state}) {
       return new Promise((resolve, reject) => {
         getUserInfo().then(response => {
-
           if (response.data.code !== 200) {
             reject('error');
           }
           const data = response.data.data;
-
-
-
           if(data.contactPhone!=""){
-             commit('SET_PHONE',data.contactPhone);
+             commit('SET_ACCOUNT', data.contactPhone);
           }else {
-            commit('SET_PHONE',data.email);
+            commit('SET_ACCOUNT', data.email);
           }
-
-
           if (data.roleType != null && data.roleType != undefined) {
             let tempRoles = (data.roleType == 1 ? ["admin"] : ["editor"]);
-
-
             commit('SET_USERTYPE', data.roleType);
             commit('SET_ROLES', tempRoles);
           } else {
             reject('getInfo: userType must be a non-null array !');
           }
-          // commit('SET_NAME', data.staffName);
-          // commit('SET_ACCOUNTNUM', data.accountNum);
           resolve(response);
         }).catch(error => {
           reject(error);

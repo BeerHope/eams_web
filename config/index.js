@@ -1,60 +1,23 @@
 'use strict'
-// Template version: 1.2.6
-// see http://vuejs-templates.github.io/webpack for documentation.
-
 const path = require('path')
-
 module.exports = {
   dev: {
-    // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/cloud/dologin': {
-        //target: 'http://10.150.132.71:8080/' , //李恒
-        //target: 'http://10.150.132.30:8080' ,   //刘强
-        target: 'http://10.18.6.121:12088/' ,    //测试
-        // target:'http://10.150.132.176:8998/' , //  /xgdsso/auth/login
+      '/eams': {
+        // target: 'http://10.18.6.121:12080/' , //测试服务器
+        target:'http://10.150.149.131:14080/', //银锡奎
         secure: false, //如果是https接口，需要配置这个参数
         changeOrigin: true, //如果接口跨域，需要进行这个参数配置
         pathRewrite: {
-          '^/cloud/dologin':''
-        }
-      },
-      // '/xgdsso': {
-      //   target:'http://10.150.132.176:8998/xgdsso/'  , //
-      //   secure: false, //如果是https接口，需要配置这个参数
-      //   changeOrigin: true, //如果接口跨域，需要进行这个参数配置
-      //   pathRewrite: {
-      //     // '/': '/cloud/speaker'
-      //   }
-      // },
-
-      '/cloud': {
-        target: 'http://10.18.6.121:12080/' , //测试服务器
-        // target:'http://10.150.132.176:12080', //银锡奎
-        secure: false, //如果是https接口，需要配置这个参数
-        changeOrigin: true, //如果接口跨域，需要进行这个参数配置
-        pathRewrite: {
-          '^/cloud': '/cloud/speaker'
-        }
-      },
-      '/findpassApi': {
-        //target: 'http://10.150.132.71:8080/' , //李恒
-        //target: 'http://10.150.132.30:8080' ,   //刘强
-        target: 'http://10.18.6.188:8888' ,    //测试
-        // target: 'http://10.150.132.176:8999' , // 银锡奎
-        secure: false, //如果是https接口，需要配置这个参数
-        changeOrigin: true, //如果接口跨域，需要进行这个参数配置
-        pathRewrite: {
-          '^/findpassApi': '/'
+          '^/eams': '/eams'
         }
       }
     },
     // Various Dev Server settings
     // can be overwritten by process.env.HOST
     // if you want dev by ip, please set host: '0.0.0.0'
-    // host: '10.150.132.52',
     host: '10.150.149.128',
     port: 9528, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
@@ -84,11 +47,9 @@ module.exports = {
   build: {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
-
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-
     /**
      * You can set by youself according to actual condition
      * You will need to set this if you plan to deploy your site under a sub path,
@@ -97,7 +58,6 @@ module.exports = {
      * In most cases please use '/' !!!
      */
     assetsPublicPath: '/',
-
     /**
      * Source Maps
      */

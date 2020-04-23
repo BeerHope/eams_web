@@ -19,9 +19,6 @@ const whiteList = ['/login','/register',  '/auth-redirect','/findpass']// no red
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  //  console.log("##############login####")
-  // console.log((whiteList.indexOf(to.path))
-  // return false;
   if (getToken()) {
     /* has token*/
     if (to.path === '/login') {
@@ -29,21 +26,12 @@ router.beforeEach((to, from, next) => {
       NProgress.done(); // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('GetUserInfo').then(res => { // 拉取user_info
-                                              //根据用户的类型来判断用哪个页面  userType=1 超级管理员  2
-          // const roles = (res.data.data.userType == 1 ? ["admin"] : ["editor"]) // note: roles must be a array! such as: ['editor','develop']
-          // return false;
-          // const menus=res.data.data.menuNavigations;
+        store.dispatch('GetUserInfo').then(res => {
+          // 拉去用户信息动态生成权限
           store.dispatch('GenerateRoutes1', res.data.data).then(() => { // 根据roles权限生成可访问的路由表
-                      router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-                      next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-                    })
-          /*store.dispatch('GenerateRoutes1', { roles }).then(() => { // 根据roles权限生成可访问的路由表
-
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
             next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-          })*/
-
+          })
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
             Message.error(err || 'Verification failed, please login again');
@@ -62,7 +50,6 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入  包括註冊的单独处理
       next();
     }else if(to.path.indexOf("/register/")==0){

@@ -1,8 +1,8 @@
 <template>
   <div class="login">
-   <div class="webName">云喇叭管理平台 </div>
+    <div class="webName">外网协助管理系统</div>
     <div class="loginFrom">
-       <h2> 用户登录</h2>
+        <h2> 用户登录</h2>
       <el-form :model="loginFrom" status-icon  ref="loginFrom" :rules="rules"    label-width="60px" class="demo-ruleForm">
         <el-form-item  prop="username">
           <el-input type="text" placeholder="手机号码"  class="Input_box" v-model="loginFrom.username" ></el-input>
@@ -12,13 +12,13 @@
           <el-input type="password" v-model="loginFrom.passwords"  class="Input_box" placeholder="密码" ></el-input>
           <svg-icon class="btn-scan" icon-class="password" />
         </el-form-item>
-        <div class="remember" >
+        <!-- <div class="remember" >
           <el-checkbox-group v-model="loginFrom.ispass">
             <el-checkbox label="记住密码" name="ispass" v-model="remember"></el-checkbox>
           </el-checkbox-group>
-        </div>
+        </div> -->
         <el-form-item>
-          <el-button type="primary" class="submit" v-waves @click="submitForm()">登录</el-button>
+          <el-button type="primary" class="submit"  @click="submitForm()">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -27,14 +27,112 @@
     <div class="version">Copyright © 2019 深圳市新国都支付技术有限公司 </div>
     </div>
   </div>
-</template >
-<style >
-  .login{
-    background: url('~@/assets/images/login_bg.jpg') 0px -50px no-repeat ;
-    height: 100%;
-    width: 100%;
-    overflow-y: hidden;
+</template>
+
+<script>
+import {doLogin, getUserInfo, getUserList} from '@/api/user'
+import JSEncrypt from 'jsencrypt/bin/jsencrypt'
+import axios from 'axios'
+export default {
+  name: '',
+  components: {},
+  props: {},
+  directive: {},
+  data() {
+    return {
+      remember:true,
+      loginFrom:{
+        username:'',
+        passwords:'',
+        password:'',
+        // openId:'10009'
+      },
+      rules:{
+        username: [
+          { required: true, message: '请输入登录账号', trigger: 'blur' }
+        ],
+        passwords: [
+          { required: true, message: '请输入登录密码', trigger: 'blur' }
+        ]
+      },
+    }
+  },
+  computed: {},
+  watch: {},
+  created() {
+    this.loginFrom.username=this.getCookie("username");
+    this.loginFrom.passwords=this.getCookie("passwords");
+    this.keyupSubmit();
+  },
+  beforeMount() {},
+  mounted() {},
+  beforeDestroy() {},
+  destroyed() {},
+  methods: {
+    keyupSubmit(){
+      document.onkeydown=e=>{
+        let _key=window.event.keyCode;
+        if(_key===13){
+          this.submitForm()
+        }
+      }
+    },
+    submitForm(){
+      this.$refs['loginFrom'].validate((valid) => {
+        if (valid) {
+          let encryptor = new JSEncrypt() // 新建JSEncrypt对象
+          let publicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5simUmTb1cbAaXLKUerWD+0BVsvLPW8FYryQnEFyqOFoA1P2SZXWkcv92eeodWvbonQGU9m3EL50o7W5s0EVvhDIo7kFKVlUmgCCL87SM67NFyy387db4EwR9TQkrBo3inxKp6TnFHlcbfeYuocfx1jqxUQsdn3lQ5C8K4qRIVQIDAQAB';  //把之前生成的贴进来，实际开发过程中，可以是后台传过来的
+          encryptor.setPublicKey(publicKey) // 设置公钥
+          this.loginFrom.password = encryptor.encrypt(this.loginFrom.passwords);
+          doLogin(_.pick(this.loginFrom, ['password', 'username'])).then(response=>{
+            // 登录成功获取用户信息并保存在vuex中（todo:后期修改）
+            if(this.remember){ //记住密码
+                this.setCookie("username",this.loginFrom.username);
+                this.setCookie("passwords",this.loginFrom.passwords);
+            }else {
+              this.setCookie('username','');
+              this.setCookie('passwords','');
+            }
+            /* 设置token信息 */
+            this.$store.dispatch('SaveLoginInfo', response.data.data).then(() => {
+              this.$router.push({ path: '/' });
+            }).catch((err) => {
+              console.log(err);
+            })
+          })
+        }})
+    },
+    // 获取cookie
+    getCookie: function (key) {
+      if (document.cookie.length > 0) {
+        var start = document.cookie.indexOf(key + '=')
+        if (start !== -1) {
+          start = start + key.length + 1
+          var end = document.cookie.indexOf(';', start)
+          if (end === -1) end = document.cookie.length
+          return unescape(document.cookie.substring(start, end))
+        }
+      }
+      return ''
+    },
+    // 保存cookie
+    setCookie: function (cName, value, expiredays) {
+      var exdate = new Date()
+      exdate.setDate(exdate.getDate() + expiredays)
+      document.cookie = cName + '=' + decodeURIComponent(value) +
+        ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
+    },
   }
+}
+</script>
+
+<style>
+.login{
+  background: url('~@/assets/images/login_bg.jpg') 0px -50px no-repeat ;
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+}
 .login .btn-scan {
     font-size: 23px;
     float: right;
@@ -106,101 +204,3 @@
   .bottomInfo{ bottom: 25px; text-align: center; position: absolute; color: white; font-size: 14px; line-height: 30px; width: 100%; margin: 0 auto; margin-bottom: 5px; }
   .bottomInfo .version{ width: 400px; margin: 0 auto;}
 </style>
-<style >
- .login{
- }
-</style>
-<script>
-  import {doLogin,checkAddUser } from '@/api/sso'
-  import waves from '@/directive/waves' // 水波纹指令
-  import JSEncrypt from 'jsencrypt/bin/jsencrypt'
-  export default {
-    name: 'login',
-    directives: {
-      waves
-    },
-    data() {
-      return {
-        remember:true,
-        loginFrom:{
-          username:'',
-          passwords:'',
-          password:'',
-          openId:'10009'
-        },
-        rules:{
-          username: [
-            { required: true, message: '请输入登录账号', trigger: 'blur' }
-          ],
-          passwords: [
-            { required: true, message: '请输入登录密码', trigger: 'blur' }
-          ]
-        },
-      }
-    },
-    created(){
-      this.loginFrom.username=this.getCookie("username");
-      this.loginFrom.passwords=this.getCookie("passwords");
-      this.keyupSubmit();
-    },
-    methods: {
-      keyupSubmit(){
-        document.onkeydown=e=>{
-          let _key=window.event.keyCode;
-          if(_key===13){
-            this.submitForm()
-          }
-        }
-      },
-
-      submitForm(){
-        // console.log(this.remember); return false;
-        this.$refs['loginFrom'].validate((valid) => {
-          if (valid) {
-            let encryptor = new JSEncrypt() // 新建JSEncrypt对象
-            let publicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5simUmTb1cbAaXLKUerWD+0BVsvLPW8FYryQnEFyqOFoA1P2SZXWkcv92eeodWvbonQGU9m3EL50o7W5s0EVvhDIo7kFKVlUmgCCL87SM67NFyy387db4EwR9TQkrBo3inxKp6TnFHlcbfeYuocfx1jqxUQsdn3lQ5C8K4qRIVQIDAQAB';  //把之前生成的贴进来，实际开发过程中，可以是后台传过来的
-            encryptor.setPublicKey(publicKey) // 设置公钥
-            this.loginFrom.password = encryptor.encrypt(this.loginFrom.passwords);
-            this.loginFrom.form='formData';
-            doLogin(this.loginFrom).then(response=>{
-              if(this.remember){ //记住密码
-                 this.setCookie("username",this.loginFrom.username);
-                 this.setCookie("passwords",this.loginFrom.passwords);
-                 // console.log("#####cookie"); return false;
-              }else {
-                this.setCookie("username","");
-                this.setCookie("passwords","");
-              }
-              this.$store.dispatch('SaveLoginInfo', response.data.data.token
-              ).then(()=>{
-              }).then(() => {
-                this.$router.push({ path: '/' });
-              }).catch((err) => {
-                console.log(err);
-              })
-            })
-          }})
-      },
-      // 获取cookie
-      getCookie: function (key) {
-        if (document.cookie.length > 0) {
-          var start = document.cookie.indexOf(key + '=')
-          if (start !== -1) {
-            start = start + key.length + 1
-            var end = document.cookie.indexOf(';', start)
-            if (end === -1) end = document.cookie.length
-            return unescape(document.cookie.substring(start, end))
-          }
-        }
-        return ''
-      },
-      // 保存cookie
-      setCookie: function (cName, value, expiredays) {
-        var exdate = new Date()
-        exdate.setDate(exdate.getDate() + expiredays)
-        document.cookie = cName + '=' + decodeURIComponent(value) +
-          ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
-      },
-    }
-  }
-</script>

@@ -66,12 +66,12 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    redirect: 'dashboard',
+    redirect: '/home',
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
+        path: 'home',
+        component: () => import('@/views/home/index'),
+        name: 'Home',
         meta: { title: '首页', icon: 'home_icon', noCache: true, affix: true}
       }
     ]
@@ -133,13 +133,13 @@ export const constantRouterMap = [
         path: 'list',
         component: () => import('@/views/work-order/list'),
         name: 'WorkOrderList',
-        meta: { title: '工单管理', icon: 'work-order', active:'/work-order/list'}
+        meta: { title: '工单管理', icon: 'work-order'}
       },
       {
         path: 'details/:id',
         component: () => import('@/views/work-order/details'),
         name: 'WorkOrderDetails',
-        meta: { title: '工单详情', icon: '' },
+        meta: { title: '工单详情', icon: '', active:'/work-order/list'},
         hidden: true
       }
     ]
@@ -198,6 +198,7 @@ export const constantRouterMap = [
 
 export default new Router({
   mode: 'history', // require service support
+  base: '/',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })

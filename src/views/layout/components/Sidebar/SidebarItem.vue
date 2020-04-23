@@ -41,7 +41,6 @@ export default {
   name: 'SidebarItem',
   components: { Item },
   props: {
-    // route object
     item: {
       type: Object,
       required: true

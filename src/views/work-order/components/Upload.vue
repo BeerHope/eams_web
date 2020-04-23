@@ -18,9 +18,9 @@
       :limit="1">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div class="el-upload__tip" slot="tip">只能选择excel文件</div>
+      <!-- <div class="el-upload__tip" slot="tip"></div> -->
     </el-upload>
-    <span slot="footer" class="dialog-footer t-c">
+    <span slot="footer" class="dialog-footer">
       <el-button type="primary" class="cancel" @click="dialogVisible=false">取消</el-button>
       <el-button type="primary" class="green-btn" @click="handleUpload">确定</el-button>
     </span>

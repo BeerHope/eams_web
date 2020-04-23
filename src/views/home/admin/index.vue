@@ -1,8 +1,7 @@
 <template>
-
-
   <div class="dashboard-editor-container app-container Mains">
-    <div class="header">
+    首页
+    <div v-if="false" class="header">
       <el-row>
         <el-col :span="8">
           <ReportDay :ReportInfo="ReportInfo"></ReportDay>
@@ -29,7 +28,7 @@
 
 
     </div>
-    <div class="DataLine">
+    <div v-if="false" class="DataLine">
       <div class="Line">
         <h2 class="Line_title"> 统计</h2>
         <div class="Line_right">

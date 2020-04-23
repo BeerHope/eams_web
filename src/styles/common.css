@@ -1315,14 +1315,37 @@
   min-width: 1060px;
 }
 
-.common-dilalog .el-dialog__footer {
+.common-dialog {
+  max-width: 800px;
+  min-width: 500px;
+}
+
+.common-dialog .el-dialog__footer {
   text-align: center;
+}
+
+.common-dialog .el-dialog__headerbtn:hover .el-dialog__close:hover {
+  color: #1DC9BB;
+}
+
+.common-dialog .el-input.is-disabled .el-input__inner {
+  color: #999;
+}
+
+.common-form {
+  width: 80%;
+  margin: auto;
 }
 
 .common-pagination {
   width: 100%;
   text-align: center;
   margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.el-form .el-select, .el-form .el-date-editor {
+  width: 100%;
 }
 
 /* 统一设置列表表头样式 */
@@ -1335,10 +1358,6 @@
 }
 
 .el-upload-dragger .el-upload__text em {
-  color: #1DC9BB;
-}
-
-.el-dialog__headerbtn:hover .el-dialog__close:hover {
   color: #1DC9BB;
 }
 
@@ -1396,73 +1415,7 @@
   border-color: #FCA84C;
 }
 
-.custom-list .filter-item {
-  display: inline-block;
-  width: 210px;
-  margin-right: 10px;
-}
-
-.custom-list .filter-text {
-  width: 200px;
-}
-
-.custom-list .status_1 {
-  color: #28DBCD;
-  background: #f1fcfb;
-  border: 1px solid #28dbcd;
-  width: 70px;
-}
-
-.custom-list .status_2 {
-  color: #FDA7A7;
-  background: #fef0f0;
-  border: 1px solid #fda7a7;
-  width: 70px;
-}
-
-.custom-list .reg {
-  background: #FCA84C !important;
-  border-color: #FCA84C !important;
-}
-
-.custom-list .search1,
-.custom-list .edit-app {
-  background: #1DC9BB !important;
-  border-color: #1DC9BB !important;
-}
-
-.custom-list .addBg {
-  background: #FCA84C;
-  border-color: #FCA84C;
-}
-
-.custom-list .addBg:hover, .custom-list .addBg:focus {
-  background: #FCA84C;
-  border-color: #FCA84C;
-}
-
-.custom-dialog .el-dialog {
-  min-width: "700px";
-}
-
-.custom-dialog .el-dialog .dialog-footer {
-  text-align: center;
-}
-
-.custom-dialog .el-form {
-  width: 80%;
-  margin: auto;
-}
-
-.custom-dialog .el-form .el-select, .custom-dialog .el-form .el-date-editor.el-input {
-  width: 100%;
-}
-
-.custom-dialog .bgc_1DC9BB {
-  background-color: #1DC9BB;
-  border: 1px solid #1DC9BB;
-}
-
-.custom-dialog .el-textarea__inner:focus {
-  border: 1px solid #1DC9BB !important;
+/* 输入框公共样式设置 */
+.el-textarea__inner:focus {
+  border-color: #1DC9BB;
 }

@@ -7,6 +7,7 @@ $color_FDA7A7: #FDA7A7;
 $dialog_min_width: '700px';
 $dialog_form_width: 80%;
 $white: #fff;
+$color_999: #999;
 
 /* size of margin/border/padding */
 $size: 0;
@@ -95,36 +96,54 @@ $align in(c, center),
 .common-list {
   padding: 0 40px;
   .filter-box{
-      display: flex;
+    display: flex;
   }
   .filter-item{
-      display: inline-block;
-      width: 210px;
-      margin-right: 10px;
+    display: inline-block;
+    width: 210px;
+    margin-right: 10px;
   }
   .common-table {
-      height: calc(100% - 50px);
-      margin: auto;
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
+    height: calc(100% - 50px);
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
   .list-wrapper{
-      width: calc(100% - 100px);
-      min-width: 1060px;
+    width: calc(100% - 100px);
+    min-width: 1060px;
   }
 }
-.common-dilalog{
+.common-dialog{
+  max-width: 800px;
+  min-width: 500px;
   .el-dialog__footer{
-      text-align: center;
+    text-align: center;
+  }
+  .el-dialog__headerbtn:hover .el-dialog__close{
+    &:hover{
+      color: $color_1DC9BB;
+    }
+  }
+  .el-input.is-disabled .el-input__inner{
+    color: $color_999;
   }
 }
-
+.common-form{
+  width: 80%;
+  margin: auto;
+}
 .common-pagination {
   width: 100%;
-  // padding: 20px 10px;
   text-align: center;
   margin-top: 20px;
+  margin-bottom: 20px;
+}
+.el-form{
+  .el-select, .el-date-editor{
+    width: 100%;
+  }
 }
 /* 统一设置列表表头样式 */
 .el-table__header-wrapper{
@@ -138,11 +157,7 @@ $align in(c, center),
 .el-upload-dragger .el-upload__text em{
   color: $color_1DC9BB;
 }
-.el-dialog__headerbtn:hover .el-dialog__close{
-  &:hover{
-    color: $color_1DC9BB;
-  }
-}
+
 /* set color of background,text and border */
 @mixin bg_text_border-color($bgColor, $textColor, $borderColor) {
   background-color: $bgColor;
@@ -181,67 +196,73 @@ $hoverOpacity: 0.78;
   }
 }
 
-.custom-list {
-    .filter-item{
-      display: inline-block;
-      width: 210px;
-      margin-right: 10px;
-    }
-    .filter-text {
-        width: 200px;
-    }
-    // 状态样式
-    .status_1 {
-        color: $color_28DBCD;
-        background: rgba(241, 252, 251, 1);
-        border: 1px solid rgba(40, 219, 205, 1);
-        width: 70px;
-    }
-    .status_2 {
-        color: $color_FDA7A7;
-        background: rgba(254, 240, 240, 1);
-        border: 1px solid rgba(253, 167, 167, 1);
-        width: 70px;
-    }
-    .reg {
-        background: $color_FCA84C !important;
-        border-color: $color_FCA84C !important;
-    }
-    .search1,
-    .edit-app {
-        background: $color_1DC9BB !important;
-        border-color: $color_1DC9BB !important;
-    }
-    .addBg {
-        background: $color_FCA84C;
-        border-color: $color_FCA84C;
-        &:hover, &:focus{
-          background: $color_FCA84C;
-          border-color: $color_FCA84C;
-        }
-    }
-}
-.custom-dialog {
-  .el-dialog {
-    min-width: $dialog_min-width;
-    .dialog-footer{
-      text-align: center;
-    }
-  }
-  .el-form {
-    width: $dialog_form_width;
-    margin: auto;
-    .el-select, .el-date-editor.el-input {
-      width: 100%;
-    }
-  }
-  .bgc_1DC9BB{
-    background-color: $color_1DC9BB;
-    border: 1px solid $color_1DC9BB;
-  }
-  .el-textarea__inner{
-    &:focus{
-      border: 1px solid $color_1DC9BB !important;
-    }
+/* 输入框公共样式设置 */
+.el-textarea__inner{
+  &:focus{
+    border-color:$color_1DC9BB;
   }
 }
+// .custom-list {
+//     .filter-item{
+//       display: inline-block;
+//       width: 210px;
+//       margin-right: 10px;
+//     }
+//     .filter-text {
+//         width: 200px;
+//     }
+//     // 状态样式
+//     .status_1 {
+//         color: $color_28DBCD;
+//         background: rgba(241, 252, 251, 1);
+//         border: 1px solid rgba(40, 219, 205, 1);
+//         width: 70px;
+//     }
+//     .status_2 {
+//         color: $color_FDA7A7;
+//         background: rgba(254, 240, 240, 1);
+//         border: 1px solid rgba(253, 167, 167, 1);
+//         width: 70px;
+//     }
+//     .reg {
+//         background: $color_FCA84C !important;
+//         border-color: $color_FCA84C !important;
+//     }
+//     .search1,
+//     .edit-app {
+//         background: $color_1DC9BB !important;
+//         border-color: $color_1DC9BB !important;
+//     }
+//     .addBg {
+//         background: $color_FCA84C;
+//         border-color: $color_FCA84C;
+//         &:hover, &:focus{
+//           background: $color_FCA84C;
+//           border-color: $color_FCA84C;
+//         }
+//     }
+// }
+// .custom-dialog {
+//   .el-dialog {
+//     min-width: $dialog_min-width;
+//     .dialog-footer{
+//       text-align: center;
+//     }
+//   }
+//   .el-form {
+//     width: $dialog_form_width;
+//     margin: auto;
+//     .el-select, .el-date-editor.el-input {
+//       width: 100%;
+//     }
+//   }
+//   .bgc_1DC9BB{
+//     background-color: $color_1DC9BB;
+//     border: 1px solid $color_1DC9BB;
+//   }
+//   .el-textarea__inner{
+//     &:focus{
+//       border: 1px solid $color_1DC9BB !important;
+//     }
+//   }
+// }

@@ -1,62 +1,79 @@
 <template>
-  <div >
-    <el-dialog title="新建账号" :visible.sync="dialogAdduser" class="dialog_content">
-      <div>
-        <el-form ref="form" :model="form" :rules="rules" label-width="140px">
-
-          <el-form-item label="客户:" prop="customerId">
-            <el-select v-model="form.customerId" placeholder="请选择客户">
-
-              <el-option v-for="item in customerList"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value"></el-option>
-
-            </el-select>
-          </el-form-item>
-          <el-form-item label="联系人姓名:" prop="contactName">
-            <el-input v-model="form.contactName" class="input_1"></el-input>
-          </el-form-item>
-          <el-form-item label="联系人手机号码:" prop="contactPhone">
-            <el-input v-model="form.contactPhone" @blur="form.username=form.contactPhone" class="input_1"></el-input>
-          </el-form-item>
-          <el-form-item label="登陆账号:" >
-            <el-input v-model="form.username" :disabled="true" class="input_1"></el-input>
-          </el-form-item>
-          <div class="sub">
-            <el-button @click="dialogAdduser=false">取消</el-button>
-            <el-button type="primary" style="width: 80px" class="submit" @click="onSubmit">创建</el-button>
-          </div>
-        </el-form>
-      </div>
-    </el-dialog>
-  </div>
+  <el-dialog
+    custom-class="common-dialog"
+    title="新增用户" 
+    width="36%" 
+    @close="closeDialog"
+    :visible.sync="dialogVisible">
+    <el-form class="common-form" ref="form" :model="form" :rules="rules" label-width="140px">
+      <el-form-item label="归属工厂:" prop="factoryId">
+        <el-select v-model="form.factoryId" placeholder="请选择客户">
+          <el-option v-for="item in factoryList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="登陆账号:" prop="username">
+        <el-input v-model="form.username"></el-input>
+      </el-form-item>
+      <el-form-item label="登录密码:" prop="password">
+        <el-input v-model="form.password"></el-input>
+      </el-form-item>
+      <el-form-item label="联系人姓名:" prop="contactName">
+        <el-input v-model="form.contactName"></el-input>
+      </el-form-item>
+      <el-form-item label="联系手机号:" prop="contactPhone">
+        <el-input v-model="form.contactPhone"></el-input>
+      </el-form-item>
+     
+      <!-- <el-form-item label="登陆账号:" >
+        <el-input v-model="form.username" disabled></el-input>
+      </el-form-item> -->
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible=false">取消</el-button>
+      <el-button type="primary" class="green-btn" @click="onSubmit">新增</el-button>
+    </span>
+  </el-dialog>
 </template>
+
 <script>
-  import {GetUserAll,addUser} from '@/api/account'
-  import { validatePhone } from '@/utils/validate'
+  import { mapGetters } from 'vuex'
+  import { getAllFactory } from '@/api/factory'
+  import { addUser } from '@/api/user'
+  import { validatePhone, validatePassword } from '@/utils/validate'
+  import { getEncryptText } from '@/utils/encryption'
   export default {
     name: "addUser",
     data(){
-      const validatePhoneNum = (rule, value, callback) => {
+      const checkPhone = (rule, value, callback) => {
         if (!validatePhone(value)) {
           callback(new Error('请输入正确的手机号码！'))
         } else {
           callback()
         }
       }
-
+      const checkPsd = (rule, value, callback) => {
+        if (!validatePassword(value)) {
+          callback(new Error('密码必须包含大小写字母，数字，长度在6~18个字符 '))
+        } else {
+          callback()
+        }
+      }
       return{
-        customerList:[],
+        factoryList:[],
         form:{
-          customerId:'',
+          factoryId:'',
           contactName:'',
-          username:'',
-          contactPhone:''
+          contactPhone:'',
+          password: '',
+          username: '', // 当前账号,存在store中
         },
-        dialogAdduser:false,
+        dialogVisible:false,
         rules:{
-          customerId: [
+          factoryId: [
             { required: true, message: '请选择客户', trigger: 'blur' }
           ],
           contactName: [
@@ -65,69 +82,53 @@
           ],
           contactPhone: [
             { required: true, message: '请输入联系人手机号', trigger: 'blur' },
-            { validator: validatePhoneNum, trigger: 'blur' }
+            { validator: checkPhone, trigger: 'blur' }
+          ],
+          username: [
+            { required: true, message: '请输入登录账号', trigger: 'blur' },
+            {  min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入登录密码', trigger: 'blur' },
+            { validator: checkPsd, trigger: 'blur' }
           ]
         }
       }
     },
     created(){
-       this.GetUserAll();
+      this.getAllFactory();
+    },
+    computed: {
+      ...mapGetters(['phone'])
     },
     methods:{
-      GetUserAll(){
-        GetUserAll().then(response=>{
-           this.customerList=response.data.data;
+      getAllFactory(){
+        getAllFactory().then(response=>{
+          this.factoryList=response.data.data;
         })
       },
       onSubmit(){
-        this.$refs['form'].validate((valid) => {
+        this.$refs.form.validate((valid) => {
           if (valid) {
-             addUser(this.form).then(response=>{
-               if(!response){
-                 return false;
-               }
-               this.dialogAdduser=false;
-               this.$notify({
-                 title: '成功',
-                 message: '新增用户成功！',
-                 type: 'success',
-                 duration: 2000
-               })
-               this.$parent.fetchList();
-             })
-          }})
+            // 处理提交输出
+            const reqData = _.omit(this.form, ['password'])
+            reqData.password = getEncryptText(this.form.password)
+            addUser(reqData).then(res=>{
+              this.dialogVisible=false;
+              this.$message.success('新增用户成功');
+              this.$emit('refresh')
+            })
+          }
+        })
       },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
+      closeDialog() {
+        this.$refs.form.resetFields()
       },
-      handlePreview(file) {
-        console.log(file);
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${ file.name }？`);
+      openDialog() {
+        this.form.username = this.phone
       }
     }
   }
 </script>
 <style scoped>
-  .dialog_content{ width:75%; margin: 0 auto;}
-  .submit{ background: #1DC9BB; border-color: #1DC9BB; letter-spacing: 5px;}
-  .input_1{ width: 60%;}
-  .sub{ text-align: center}
-  .sub .el-button{ margin-right: 30px;}
-  .sub .submit{ background: #1DC9BB; border-color: #1DC9BB;}
-  .upload_file{ background: #FCA84C; border-color: #FCA84C;}
-  .download{     width: 80px;
-    height: 25px;
-    line-height: 25px;
-    position: absolute;
-    top: 8px;
-    left: 105px;
-    color: #5FA2FC;
-    cursor: pointer;
-    text-decoration: underline;}
-  .upload-demo{ width: 400px;}
 </style>

@@ -2,19 +2,19 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input
-        placeholder="请输入客户编号"
-        v-model.trim="filter.customerCode"
+        placeholder="工厂编号"
+        v-model.trim="filter.factoryCode"
         class="filter-item"
         style="width: 200px;"
         clearable />
       <el-input
-        placeholder="请输入客户名称"
+        placeholder="工厂名称"
         v-model.trim="filter.customerName"
         class="filter-item"
         style="width: 200px;"
         clearable />
       <el-input
-        placeholder="请输入联系人手机号"
+        placeholder="联系手机号"
         v-model.trim="filter.contactPhone"
         class="filter-item"
         style="width: 200px;"
@@ -48,18 +48,18 @@
          {{ scope.row.createTime }}
         </template>
       </el-table-column>
-      <el-table-column  label="客户编号" min-width="120px"  align="center">
+      <el-table-column  label="工厂编号" min-width="120px"  align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.customerCode }}</span>
+          <span>{{ scope.row.factoryCode }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column  label="客户名称" min-width="120px"  align="center">
+      <el-table-column  label="工厂名称" min-width="120px"  align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.customerName }}</span>
+          <span>{{ scope.row.factoryName }}</span>
         </template>
       </el-table-column>
-      <el-table-column  label="联系人手机号码" min-width="120px"  align="center">
+      <el-table-column  label="联系手机号" min-width="120px"  align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.contactPhone }}</span>
         </template>
@@ -73,10 +73,10 @@
       <el-table-column label="操作" min-width="240px" align="center">
         <template slot-scope="scope">
           <span>
-            <el-button type="warning" class="reg" @click="details(scope.row)" size="mini">详情</el-button>
+            <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
             <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
             <el-button type="danger" v-else class="activate"  @click="freeze(scope.row)" size="mini">激活</el-button>
-            <el-button type="danger" @click="updatePass(scope.row)"  size="mini">重置密码</el-button>
+            <el-button type="danger" @click="resetPassword(scope.row)"  size="mini">重置密码</el-button>
           </span>
         </template>
       </el-table-column>
@@ -93,17 +93,16 @@
       @current-change="getUserList"
       :current-page.sync="filter.page"
     ></el-pagination>
-    <DialogAddUser ref="addUser"></DialogAddUser>
+    <DialogAddUser ref="addUser" @refresh="getUserList"></DialogAddUser>
     <DialogDetails ref="Details" :Details="Details"></DialogDetails>
-    <DialogFreeze ref="Freeze" :cause="cause"></DialogFreeze>
+    <DialogFreeze ref="Freeze" :cause="cause" @refresh="getUserList"></DialogFreeze>
   </div>
 </template>
-
 <script>
   import DialogAddUser from './components/dialog_addUser' //新建用户模块
   import DialogDetails from './components/dialog_details' //详情
   import DialogFreeze from './components/dialog_freeze'
-  import {fetchList ,Details ,updatePass } from '@/api/account'
+  import { getUserList, getUserDetails, getAllFactory, resetPassword } from '@/api/user'
   export default {
     name: 'report',
     components:{
@@ -120,30 +119,26 @@
         totalRecord:1,
         filter:{
           page: 1,
-          customerCode:null,
-          customerName:null,
-          contactPhone:null,
-          state:null,
+          factoryCode:'',
+          factoryName:'',
+          contactPhone:'',
+          state:'',
           pageSize: 20
         },
         total: 32,
         list:[],
-        options: [{
-          value: null,
-          label: '全部状态'
-        }, {
-          value: '1',
-          label: '激活'
-        },{
-          value: '2',
-          label: '禁用'
-        }
-        ],
-        rules:{
-          username: [
-            { required: true, message: '请输入登录账号', trigger: 'blur' }
-          ]
-        },
+        options: [
+          {
+            value: null,
+            label: '全部状态'
+          }, {
+            value: '1',
+            label: '激活'
+          },{
+            value: '2',
+            label: '禁用'
+          }
+        ]
       }
     },
     filters:{
@@ -151,16 +146,11 @@
         const Arr={1:'激活',2:'禁用'};
         return Arr[state];
       }
-
-
     },
     created(){
-      this.fetchList();
+      this.getUserList();
     },
     methods: {
-      getUserList() {
-        console.log('用户列表 ')
-      },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return 'background:#EFEFEF'
@@ -168,65 +158,35 @@
           return ''
         }
       },
-      updatePass(row){ //重置密码
-
-        this.$confirm('确定重置客户:'+row.customerName+' 登陆密码, 是否继续?', '提示', {
+      resetPassword(row){ //重置密码
+        this.$confirm('确定重置客户:'+row.factoryName+' 登陆密码, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-
-          updatePass({id:row.id}).then(response=>{
-
-            this.$message({
-              type: 'success',
-              message: '重置密码成功!'
-            });
-
+          resetPassword({id:row.id}).then(response=>{
+            this.$message.success('重置密码成功！')
           })
-
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消重置密码！'
-          });
+          this.$message('已取消重置密码！')
         });
-
-
-
       },
       addUser(){
-       this.$refs['addUser'].dialogAdduser=true
-        this.$refs['addUser'].form={};
+       this.$refs.addUser.dialogVisible=true
       },
-      fetchList(){
-        fetchList(this.filter).then(response=>{
-          this.list = response.data.data.rows
-          this.totalRecord = response.data.data.totalRecord
+      getUserList(){
+        getUserList(this.filter).then(res=>{
+          const resData = res.data.data
+          this.list = resData.rows
+          this.total = resData.totalRecord
           this.listLoading = false
         })
       },
-      handleSizeChange(val) {
-        this.filter.pageSize = val
-        this.fetchList()
-      },
-      handleCurrentChange(val) {
-        this.filter.page = val
-        this.fetchList()
-      },
-      handleFilter() {
-        this.filter.page = 1
-        this.fetchList()
-      },
       details(row){
-        this.$refs['Details'].dialogDetails=true;
-        Details({id:row.id}).then(response=>{
+        this.$refs.Details.dialogDetails=true;
+        getUserDetails(row.id).then(response=>{
           this.Details=response.data.data;
-
         })
-
-
-
       },
       freeze(row){ //冻结
         this.cause=row;
@@ -236,18 +196,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .eq_search{
-
-  }
-  .reg{ background: #FCA84C !important; border-color:#FCA84C !important;  }
-  .cannel{  background: #1DC9BB !important; border-color:  #1DC9BB !important; }
-  .search1{ background: #1DC9BB !important;border-color:  #1DC9BB !important; }
-  .activate{      background: #1DC9BB !important; border-color: #1DC9BB !important;}
-  .dateTime{ top:-4px;}
-  .addBg{ background: #FCA84C !important; border-color: #FCA84C;}
-
-
-
-</style>

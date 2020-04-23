@@ -52,5 +52,11 @@ export function validatePhone(phone) {
   return re.test(phone);
 }
 
+export function validatePassword(password){
+  /* 匹配字母，数字和英文标点符号，必须包含大小写字母，数字，支持6~18 */
+  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\s\S]{6,18}$/;
+  return re.test(password)
+}
+
 
 
