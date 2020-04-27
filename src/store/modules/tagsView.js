@@ -5,7 +5,8 @@ const tagsView = {
   },
   mutations: {
     ADD_VISITED_VIEW: (state, view) => {
-      if (state.visitedViews.some(v => v.path === view.path)) return
+      /* 因详情不同会打开不同的详情窗口，将path改为name进行匹配 */
+      if (state.visitedViews.some(v => v.name === view.name)) return
       state.visitedViews.push(
         Object.assign({}, view, {
           title: view.meta.title || 'no-name'

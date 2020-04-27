@@ -26,6 +26,10 @@ import * as filters from './filters' // global filters
 import JsonViewer from 'vue-json-viewer'
 import _ from 'lodash'
 import moment from 'moment'  //时间处理格式转换
+import BaiduMap from 'vue-baidu-map'
+Vue.use(BaiduMap, {
+  ak: 'bk91MMymjCaShtD4fNWGbZ35eMIkisVq'
+})
 
 Vue.use(JsonViewer)
 Vue.use(scroll)

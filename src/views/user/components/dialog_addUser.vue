@@ -57,7 +57,7 @@
       }
       const checkPsd = (rule, value, callback) => {
         if (!validatePassword(value)) {
-          callback(new Error('密码必须包含大小写字母，数字，长度在6~18个字符 '))
+          callback(new Error('密码必须包含大小写字母，数字，长度在8~18个字符 '))
         } else {
           callback()
         }

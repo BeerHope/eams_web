@@ -1,32 +1,31 @@
 <template>
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
-      <el-input class="filter-item" v-model="filter.workOrderId" placeholder="机身号" clearable></el-input>
+      <el-input class="filter-item" v-model="filter.sn" placeholder="机身号" clearable></el-input>
       <el-select class="filter-item" v-model="filter.state" placeholder="状态" clearable>
         <el-option 
           v-for="item in bindStates" :key="item.value" 
           :value="item.value" :label="item.label">
         </el-option>
       </el-select>
-      <el-button class="green-btn" type="primary" @click="getRecordList">
+      <el-button class="green-btn" type="primary" @click="getDeviceList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
     </div>
     <el-table
-      v-loading="listLoading" :data="recordList"
+      v-loading="listLoading" :data="deviceList"
       border highlight-current-row
       style="width: 100%">
       <el-table-column prop="sn" label="机身号" align="center"></el-table-column>
-      <el-table-column prop="accountId" label="账号ID" align="center"></el-table-column>
+      <el-table-column prop="tusn" label="Tusn" align="center"></el-table-column>
       <el-table-column prop="mac" label="MAC" align="center"></el-table-column>
       <el-table-column prop="state" label="状态" align="center">
         <template slot-scope="scope"><span>{{scope.row.state|filterState(bindStates)}}</span></template>
       </el-table-column>
-      <el-table-column prop="createdTime" label="创建时间" align="center"></el-table-column>
-      <el-table-column prop="log" label="日志" align="center"></el-table-column>
-      <!-- <el-table-column width="140" align="center" prop="operation" label="操作">
+      <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+      <!-- <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" class="line-type green-btn" @click="openEditDialog">编辑</el-button>
+          <el-button type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
         </template>
       </el-table-column> -->
     </el-table>
@@ -34,25 +33,24 @@
     <el-pagination
       v-show="total>0"
       class="common-pagination"
-      @size-change="getRecordList"
+      @size-change="getDeviceList"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
       :page-sizes="[10, 20, 30, 50]"
       :page-size.sync="filter.pageSize"
-      @current-change="getRecordList"
+      @current-change="getDeviceList"
       :current-page.sync="filter.page"
     ></el-pagination>
   </div>
 </template>
-
 <script>
-import { bindStates } from '@/dictionary'
+import { bindStates } from '@/utils/dictionary'
 import { filterState } from '@/filters'
+import { getDeviceList } from '@/api/device'
 
 export default {
-  name: 'WorkOrderList',
-  components: {
-  },
+  name: 'DeviceList',
+  components: {},
   filters: {
     filterState
   },
@@ -61,50 +59,33 @@ export default {
       listLoading: false,
       filter: {
         sn: '',
-        state: null,
+        state: '',
         page: 1,
         pageSize: 20
       },
       bindStates,
-      recordList: [
-        {
-          id: 1,
-          sn: '123243411432',
-          log: 'log记录loglogloglolg',
-          state: 1,
-          mac: '4ffdsfdsfrewrew43243243',
-          accountId: 'account111',
-          createdTime: '2020-04-12 10:20:12'
-        },
-        {
-          id: 2,
-          sn: '123243411232',
-          log: 'log记录loglogloglol3232',
-          state: 1,
-          mac: '4ffdsfdsfrewrew43243243',
-          accountId: 'account111',
-          createdTime: '2020-04-12 10:20:12'
-        }
-      ],
+      deviceList: [],
       total: 3
     }
   },
   created() {
+    this.getDeviceList()
   },
   methods: {
-    /* 工单列表 */
-    getRecordList() {
-      console.log('get work order list!!!')
-    },
-    openEditDialog() {
-      this.$refs.uploadDialog.dialogVisible = true
-      console.log('打开弹窗')
+    getDeviceList() {
+      this.listLoading = true
+      getDeviceList(this.filter).then(res => {
+        const resData = res.data.data
+        this.deviceList = resData.rows
+        this.total = resData.totalRecord
+        this.listLoading = false
+      })
     },
     /* 跳转详情页 */
     toDetailsPage(id) {
-      // console.log(this.$router, '路由！！！！')
-      console.log(id, 'id!!!!!!!!')
-      this.$router.push(`./details/${id}`)
+      console.log(id, 'toDetailsPage id!!!!!!!!')
+      return
+      this.$router.push(`/log/details/${id}`)
     }
   }
 }

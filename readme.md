@@ -10,7 +10,7 @@
 ## 开始
 ```
 # 克隆项目
-git clone http://10.18.6.177/tms/web.git
+git clone http://10.18.6.177/eams/eams-frontend.git
 
 # 进入项目
 cd web
@@ -23,9 +23,9 @@ npm install --registry=https://registry.npm.taobao.org
 yarn
 
 # 开启本地开发服务
-npm run:dev
+npm run dev
 // or 
-yarn run:dev
+yarn dev
 ```
 
 ## 发布构建

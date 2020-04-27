@@ -11,10 +11,10 @@
       drag
       :action="uploadUrl"
       :headers="headers"
-      :on-success="uploadSuccess"
-      :before-upload="beforeUpload"
       :on-exceed="handleExceed"
       :auto-upload="false"
+      :on-change="uploadChange"
+      :on-remove="removeFile"
       :limit="1">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -29,6 +29,7 @@
 
 <script>
 import { getToken } from '@/utils/auth'
+import { importOrder } from '@/api/order'
 export default {
   name: 'Upload',
   components: {},
@@ -37,11 +38,12 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      file: null
     }
   },
   computed: {
     uploadUrl() {
-      return 'https://jsonplaceholder.typicode.com/posts/'
+      return `${process.env.APP_BASE_API}/eams/order/import`
     },
     headers() {
       return {
@@ -50,43 +52,51 @@ export default {
     }
   },
   watch: {},
-  created() {},
+  created() {
+  },
   beforeMount() {},
   mounted() {},
   beforeDestroy() {},
   destroyed() {},
   methods: {
-    beforeUpload(file) {
+    uploadChange(file, fileList) {
       const acceptTypes = ['xlsx', 'xls']
       const type = file.name.slice(file.name.lastIndexOf('.') + 1)
       const isAcceptedType = _.includes(acceptTypes, type)
       const isLt5M = file.size / 1024 / 1024 <= 5;
       if (!isAcceptedType) {
-        this.$message.error(this.$t('base.upload.fileCheckType'))
+        this.$message.error('检测到当前上传的文件格式不是excel文件格式?')
       }
       if (!isLt5M) {
-        this.$message.error(this.$t('base.upload.fileCheckSize'))
+        this.$message.error('上传文件不能超过5M')
       }
-      return isAcceptedType && isLt5M;
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(this.$t('base.upload.exceedTips'))
-    },
-    uploadSuccess() {
-      if (res.code !== 200) {
-        this.$message.error("上传失败");
+      if (!isAcceptedType || !isLt5M) {
         this.$refs.upload.clearFiles()
         return
       }
+      // 保存文件
+      this.file = file
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning('上传文件数量超限, 只允许上传单个文件')
     },
     handleUpload() {
       const upload = this.$refs.upload
       if (!upload.uploadFiles.length) {
-        this.$message.warning(this.$t('base.upload.fileNullTips'))
+        this.$message.warning('请先上传文件')
         return
       }
-      upload.submit()
-      this.dialogVisible = false
+      const formData = new FormData()
+      formData.append('file', this.file.raw)
+      importOrder(formData).then(res => {
+        this.$message.success('文件上传成功!')
+        this.dialogVisible = false
+        this.$emit('refresh')
+      })
+    },
+    removeFile() {
+      this.$refs.upload.clearFiles()
+      this.file = null
     },
     closeDialog() {
       this.$refs.upload.clearFiles()

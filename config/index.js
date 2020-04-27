@@ -6,8 +6,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/eams': {
-        // target: 'http://10.18.6.121:12080/' , //测试服务器
-        target:'http://10.150.149.131:14080/', //银锡奎
+        target:'http://10.150.133.238:14080/', // 黄家永
         secure: false, //如果是https接口，需要配置这个参数
         changeOrigin: true, //如果接口跨域，需要进行这个参数配置
         pathRewrite: {
@@ -18,7 +17,8 @@ module.exports = {
     // Various Dev Server settings
     // can be overwritten by process.env.HOST
     // if you want dev by ip, please set host: '0.0.0.0'
-    host: '10.150.149.128',
+    // host: '10.150.132.52',
+    host: '10.150.149.130',
     port: 9528, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,

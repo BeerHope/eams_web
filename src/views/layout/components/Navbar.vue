@@ -21,7 +21,7 @@
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="updatePass">修改密码</span>
+            <span style="display:block;" @click="updatePassword">修改密码</span>
           </el-dropdown-item>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">退出登录</span>
@@ -29,13 +29,7 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-
-    <div v-show="showIframePass" class="password-block">
-      <el-button id="btn-close" type="danger" icon="el-icon-close" circle @click="showIframePass=false;"/>
-      <iframe id="updatePass" src="" scrolling="no" frameborder="0"/>
-      <div class="masks"/>
-    </div>
-
+    <find-pass ref="findPass"></find-pass>
   </div>
 </template>
 
@@ -47,6 +41,8 @@
   import SizeSelect from '@/components/SizeSelect'
   import LangSelect from '@/components/LangSelect'
   import ThemePicker from '@/components/ThemePicker'
+  import { updatePassword } from '@/api/user.js'
+  import FindPass from './FindPass'
 
   export default {
     components: {
@@ -55,7 +51,8 @@
       Screenfull,
       SizeSelect,
       LangSelect,
-      ThemePicker
+      ThemePicker,
+      FindPass
     },
     data() {
       return {
@@ -87,6 +84,9 @@
         this.$store.dispatch('LogOut').then(() => {
           location.reload();// In order to re-instantiate the vue-router object to avoid bugs
         })
+      },
+      updatePassword() {
+        this.$refs.findPass.dialogVisible = true
       },
       updatePass() {
         /* 当前页弹窗*/
@@ -147,29 +147,13 @@
       .screenfull {
         height: 20px;
       }
-
-      .international {
-        vertical-align: top;
-      }
-
-      .theme-switch {
-        vertical-align: 15px;
-      }
-
       .avatar-container {
         height: 50px;
         margin-right: 30px;
-
         .avatar-wrapper {
           cursor: pointer;
           margin-top: -2px;
           position: relative;
-          .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-          }
-
           .el-icon-caret-bottom {
             position: absolute;
             right: -20px;
@@ -194,7 +178,6 @@
       z-index: 3000;
       box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
       border-radius: 2px;
-
       input.form-control {
         display: inline-block;
       }
@@ -210,6 +193,4 @@
     }
   }
 .el-icon-caret-bottom{ font-size: 23px !important; top: 15px !important;}
-
-
 </style>

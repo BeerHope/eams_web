@@ -5,6 +5,7 @@ import { getToken } from '@/utils/auth'
 import Vue from "vue";
 import qs from 'qs'
 // create an axios instance
+// axios.defaults.headers.post['Content-Type']='application/json'
 const service = axios.create({
   baseURL: process.env.BASE_API, // api 的 base_url
   timeout: 120 * 1000 // request timeout
@@ -33,7 +34,7 @@ service.interceptors.request.use(
     if(config.url.indexOf("dologin")>=1){
       config.data=qs.stringify(config.data);
       config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-     }
+    }
     return config;
   },
   error => {
@@ -53,7 +54,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data;
-    if(res.loginFail && res.loginFail == 401){
+    if(res.code == 401){
       MessageBox.confirm('当前登录超时，您可以取消继续留在该页面，或者重新登录', '确定登出', {
         confirmButtonText: '重新登录',
         cancelButtonText: '取消',
@@ -64,8 +65,7 @@ service.interceptors.response.use(
         })
       })
     }
-    if ( res.code != 200 && res.code!=0 && res.loginFail!= 401) {
-      // loadingInstance.close();
+    if ( res.code != 200 && res.code!=0 && res.code!= 401) {
       Message({
         message: res.msg?res.msg:"系统异常，请联系管理员",
         type: 'error',

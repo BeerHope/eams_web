@@ -64,7 +64,7 @@ export default {
       return false
     },
     isActive(route) {
-      return route.path === this.$route.path
+      return route.name === this.$route.name
     },
     isAffix(tag) {
       return tag.meta && tag.meta.affix

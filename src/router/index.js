@@ -72,7 +72,7 @@ export const constantRouterMap = [
         path: 'home',
         component: () => import('@/views/home/index'),
         name: 'Home',
-        meta: { title: '首页', icon: 'home_icon', noCache: true, affix: true}
+        meta: { title: '首页', icon: 'home', noCache: true, affix: true}
       }
     ]
   },
@@ -120,9 +120,9 @@ export const constantRouterMap = [
   },
   // 工单管理
   {
-    path: '/work-order',
+    path: '/order',
     component: Layout,
-    redirect: '/work-order/list',
+    redirect: '/order/list',
     name: 'WorkOrder',
     meta: {
       title: '',
@@ -131,38 +131,38 @@ export const constantRouterMap = [
     children: [
       {
         path: 'list',
-        component: () => import('@/views/work-order/list'),
+        component: () => import('@/views/order/list'),
         name: 'WorkOrderList',
-        meta: { title: '工单管理', icon: 'work-order'}
+        meta: { title: '订单管理', icon: 'order'}
       },
       {
-        path: 'details/:id',
-        component: () => import('@/views/work-order/details'),
+        path: 'details/:orderId',
+        component: () => import('@/views/order/details'),
         name: 'WorkOrderDetails',
-        meta: { title: '工单详情', icon: '', active:'/work-order/list'},
+        meta: { title: '订单详情', icon: '', active:'/order/list'},
         hidden: true
       }
     ]
   },
   {
-    path: '/equipment',
+    path: '/device',
     component: Layout,
-    name: 'Equipment',
+    name: 'Device',
     meta: { title: '', icon: ''},
     children: [
       {
         path: 'list',
-        component: () => import('@/views/equipment/list'),
-        name: 'EquipmentList',
-        meta: { title: '设备管理', icon: 'equipment'},
+        component: () => import('@/views/device/list'),
+        name: 'DeviceList',
+        meta: { title: '设备管理', icon: 'device'},
       }
     ]
   },
   {
-    path: '/record',
+    path: '/log',
     component: Layout,
-    redirect: '/record/list',
-    name: 'Record',
+    redirect: '/log/list',
+    name: 'Log',
     meta: {
       title: '',
       icon: ''
@@ -170,30 +170,19 @@ export const constantRouterMap = [
     children: [
       {
         path: 'list',
-        component: () => import('@/views/record/list'),
-        name: 'RecordList',
-        meta: { title: '生产记录', icon: 'work-order' }
-      }
-    ]
-  },
-  {
-    path: '/binding',
-    component: Layout,
-    redirect: '/binding/list',
-    name: 'Bind',
-    meta: {
-      title: '',
-      icon: ''
-    },
-    children: [
+        component: () => import('@/views/log/list'),
+        name: 'LogList',
+        meta: { title: '生产记录', icon: 'log' }
+      },
       {
-        path: 'list',
-        component: () => import('@/views/binding/list'),
-        name: 'BindingList',
-        meta: { title: '绑定记录', icon: 'work-order' }
+        path: 'details/:logId',
+        component: () => import('@/views/log/details'),
+        name: 'LogDetails',
+        meta: { title: '生产记录详情', active:'/log/list' },
+        hidden: true,
       }
     ]
-  },
+  }
 ]
 
 export default new Router({
@@ -203,7 +192,7 @@ export default new Router({
   routes: constantRouterMap
 })
 
-
+// 其他账号权限
 export const otherPermission=[];
 
 //运营人员

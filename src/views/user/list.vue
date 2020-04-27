@@ -9,7 +9,7 @@
         clearable />
       <el-input
         placeholder="工厂名称"
-        v-model.trim="filter.customerName"
+        v-model.trim="filter.factoryName"
         class="filter-item"
         style="width: 200px;"
         clearable />
@@ -38,45 +38,24 @@
       fit
       highlight-current-row
       style="width: 100%;">
-      <el-table-column  label="序号" min-width="50px" align="center">
-        <template slot-scope="scope">
-          <span> {{scope.$index + 1}} </span>
-        </template>
-      </el-table-column>
-      <el-table-column  label="创建时间" min-width="120px" align="center">
-        <template slot-scope="scope">
-         {{ scope.row.createTime }}
-        </template>
-      </el-table-column>
-      <el-table-column  label="工厂编号" min-width="120px"  align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.factoryCode }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column  label="工厂名称" min-width="120px"  align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.factoryName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column  label="联系手机号" min-width="120px"  align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.contactPhone }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column  label="状态" width="100px"  align="center">
+      <el-table-column prop="username" label="用户名" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="contactPhone" label="联系手机号" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="factoryCode"  label="工厂编号" min-width="120px"  align="center"></el-table-column>
+      <el-table-column prop="factoryName" label="工厂名称" min-width="120px"  align="center"></el-table-column>
+      <el-table-column prop="state" label="状态" width="100px"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.state|ShowState }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" min-width="120px" align="center"></el-table-column>
       <el-table-column label="操作" min-width="240px" align="center">
         <template slot-scope="scope">
           <span>
             <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
             <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
-            <el-button type="danger" v-else class="activate"  @click="freeze(scope.row)" size="mini">激活</el-button>
-            <el-button type="danger" @click="resetPassword(scope.row)"  size="mini">重置密码</el-button>
+            <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+            <!-- 管理员权限——重设密码权限 -->
+            <el-button type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
           </span>
         </template>
       </el-table-column>
@@ -96,19 +75,23 @@
     <DialogAddUser ref="addUser" @refresh="getUserList"></DialogAddUser>
     <DialogDetails ref="Details" :Details="Details"></DialogDetails>
     <DialogFreeze ref="Freeze" :cause="cause" @refresh="getUserList"></DialogFreeze>
+    <reset-password ref="resetPass" @refresh="getUserList"></reset-password>
   </div>
 </template>
 <script>
   import DialogAddUser from './components/dialog_addUser' //新建用户模块
   import DialogDetails from './components/dialog_details' //详情
-  import DialogFreeze from './components/dialog_freeze'
-  import { getUserList, getUserDetails, getAllFactory, resetPassword } from '@/api/user'
+  import DialogFreeze from './components/dialog_freeze' // 冻结、激活
+  import ResetPassword from './components/reset_password' //重置密码
+  import { getUserList, getUserDetails, getAllFactory } from '@/api/user'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'report',
     components:{
       DialogAddUser,
       DialogDetails,
-      DialogFreeze
+      DialogFreeze,
+      ResetPassword
     },
     data() {
       return {
@@ -147,6 +130,9 @@
         return Arr[state];
       }
     },
+    computed: {
+      ...mapGetters(['userType'])
+    },
     created(){
       this.getUserList();
     },
@@ -158,23 +144,18 @@
           return ''
         }
       },
-      resetPassword(row){ //重置密码
-        this.$confirm('确定重置客户:'+row.factoryName+' 登陆密码, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          resetPassword({id:row.id}).then(response=>{
-            this.$message.success('重置密码成功！')
-          })
-        }).catch(() => {
-          this.$message('已取消重置密码！')
-        });
+      openResetPassDialog(dialogVisible, userId) {
+        const resetPass = this.$refs.resetPass
+        _.assign(resetPass, {
+          dialogVisible,
+          userId
+        })
       },
       addUser(){
        this.$refs.addUser.dialogVisible=true
       },
       getUserList(){
+        this.listLoading = true
         getUserList(this.filter).then(res=>{
           const resData = res.data.data
           this.list = resData.rows
@@ -190,8 +171,9 @@
       },
       freeze(row){ //冻结
         this.cause=row;
-        this.$refs['Freeze'].dialogFreeze=true;
-        this.$refs['Freeze'].form.stateDesc="";
+        this.$refs.Freeze.dialogFreeze=true;
+        // this.flag = row.state
+
       }
     }
   }

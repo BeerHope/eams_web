@@ -12,26 +12,25 @@
           <el-input type="password" v-model="loginFrom.passwords"  class="Input_box" placeholder="密码" ></el-input>
           <svg-icon class="btn-scan" icon-class="password" />
         </el-form-item>
-        <!-- <div class="remember" >
-          <el-checkbox-group v-model="loginFrom.ispass">
-            <el-checkbox label="记住密码" name="ispass" v-model="remember"></el-checkbox>
-          </el-checkbox-group>
-        </div> -->
+        <div class="remember" >
+          <el-checkbox label="记住密码" name="ispass" v-model="remember"></el-checkbox>
+        </div>
         <el-form-item>
-          <el-button type="primary" class="submit"  @click="submitForm()">登录</el-button>
+          <el-button type="primary" class="submit" :loading="loading" @click="submitForm()">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
 
     <div class="bottomInfo">
-    <div class="version">Copyright © 2019 深圳市新国都支付技术有限公司 </div>
+    <div class="version">Copyright © 2020 深圳市新国都支付技术有限公司 </div>
     </div>
   </div>
 </template>
 
 <script>
 import {doLogin, getUserInfo, getUserList} from '@/api/user'
-import JSEncrypt from 'jsencrypt/bin/jsencrypt'
+// import JSEncrypt from 'jsencrypt/bin/jsencrypt'
+import {getEncryptText} from '@/utils/encryption'
 import axios from 'axios'
 export default {
   name: '',
@@ -40,13 +39,13 @@ export default {
   directive: {},
   data() {
     return {
-      remember:true,
+      remember: false,
       loginFrom:{
         username:'',
         passwords:'',
         password:'',
-        // openId:'10009'
       },
+      loading: false,
       rules:{
         username: [
           { required: true, message: '请输入登录账号', trigger: 'blur' }
@@ -62,6 +61,9 @@ export default {
   created() {
     this.loginFrom.username=this.getCookie("username");
     this.loginFrom.passwords=this.getCookie("passwords");
+    if (this.loginFrom.username && this.loginFrom.passwords) {
+      this.remember = true
+    }
     this.keyupSubmit();
   },
   beforeMount() {},
@@ -78,17 +80,16 @@ export default {
       }
     },
     submitForm(){
-      this.$refs['loginFrom'].validate((valid) => {
+      this.$refs.loginFrom.validate((valid) => {
         if (valid) {
-          let encryptor = new JSEncrypt() // 新建JSEncrypt对象
-          let publicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5simUmTb1cbAaXLKUerWD+0BVsvLPW8FYryQnEFyqOFoA1P2SZXWkcv92eeodWvbonQGU9m3EL50o7W5s0EVvhDIo7kFKVlUmgCCL87SM67NFyy387db4EwR9TQkrBo3inxKp6TnFHlcbfeYuocfx1jqxUQsdn3lQ5C8K4qRIVQIDAQAB';  //把之前生成的贴进来，实际开发过程中，可以是后台传过来的
-          encryptor.setPublicKey(publicKey) // 设置公钥
-          this.loginFrom.password = encryptor.encrypt(this.loginFrom.passwords);
+          this.loading = true
+          this.loginFrom.password = getEncryptText(this.loginFrom.passwords);
           doLogin(_.pick(this.loginFrom, ['password', 'username'])).then(response=>{
             // 登录成功获取用户信息并保存在vuex中（todo:后期修改）
+            this.loading = true
             if(this.remember){ //记住密码
-                this.setCookie("username",this.loginFrom.username);
-                this.setCookie("passwords",this.loginFrom.passwords);
+              this.setCookie("username",this.loginFrom.username);
+              this.setCookie("passwords",this.loginFrom.passwords);
             }else {
               this.setCookie('username','');
               this.setCookie('passwords','');
@@ -99,6 +100,8 @@ export default {
             }).catch((err) => {
               console.log(err);
             })
+          }).catch((err) => {
+            this.loading = false
           })
         }})
     },
@@ -144,8 +147,8 @@ export default {
   }
   .remember{
     height: 35px !important;
-    margin-left: 60px;
-    margin-top: -6px;
+    margin-left: 260px;
+    margin-top: 20px;
   }
   .webName{
     color: white;

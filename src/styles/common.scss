@@ -82,6 +82,12 @@ $size: 0;
     $size: $size + 2;
 }
 
+@each $cursor in auto, pointer, wait, help, move, {
+  .cur-#{$cursor} {
+      cursor: $cursor;
+  }
+}
+
 @each $alignName,
 $align in(c, center),
 (l, left),
@@ -133,6 +139,7 @@ $align in(c, center),
 .common-form{
   width: 80%;
   margin: auto;
+  
 }
 .common-pagination {
   width: 100%;
@@ -141,7 +148,9 @@ $align in(c, center),
   margin-bottom: 20px;
 }
 .el-form{
-  .el-select, .el-date-editor{
+  .el-select,
+  .el-date-editor,
+  .el-input-number{
     width: 100%;
   }
 }
@@ -155,6 +164,11 @@ $align in(c, center),
   border-color:$color_28DBCD
 }
 .el-upload-dragger .el-upload__text em{
+  color: $color_1DC9BB;
+}
+.el-dropdown-menu__item:focus,
+.el-dropdown-menu__item:not(.is-disabled):hover{
+  background-color: rgba(29, 201, 187, 0.1);
   color: $color_1DC9BB;
 }
 
@@ -194,6 +208,9 @@ $hoverOpacity: 0.78;
       @include bg_text_border-color($white, $color_FCA84C, $color_FCA84C);
     }
   }
+  &.el-button--text{
+    color: $color_1DC9BB;
+  }
 }
 
 /* 输入框公共样式设置 */
@@ -202,67 +219,21 @@ $hoverOpacity: 0.78;
     border-color:$color_1DC9BB;
   }
 }
-// .custom-list {
-//     .filter-item{
-//       display: inline-block;
-//       width: 210px;
-//       margin-right: 10px;
-//     }
-//     .filter-text {
-//         width: 200px;
-//     }
-//     // 状态样式
-//     .status_1 {
-//         color: $color_28DBCD;
-//         background: rgba(241, 252, 251, 1);
-//         border: 1px solid rgba(40, 219, 205, 1);
-//         width: 70px;
-//     }
-//     .status_2 {
-//         color: $color_FDA7A7;
-//         background: rgba(254, 240, 240, 1);
-//         border: 1px solid rgba(253, 167, 167, 1);
-//         width: 70px;
-//     }
-//     .reg {
-//         background: $color_FCA84C !important;
-//         border-color: $color_FCA84C !important;
-//     }
-//     .search1,
-//     .edit-app {
-//         background: $color_1DC9BB !important;
-//         border-color: $color_1DC9BB !important;
-//     }
-//     .addBg {
-//         background: $color_FCA84C;
-//         border-color: $color_FCA84C;
-//         &:hover, &:focus{
-//           background: $color_FCA84C;
-//           border-color: $color_FCA84C;
-//         }
-//     }
-// }
-// .custom-dialog {
-//   .el-dialog {
-//     min-width: $dialog_min-width;
-//     .dialog-footer{
-//       text-align: center;
-//     }
-//   }
-//   .el-form {
-//     width: $dialog_form_width;
-//     margin: auto;
-//     .el-select, .el-date-editor.el-input {
-//       width: 100%;
-//     }
-//   }
-//   .bgc_1DC9BB{
-//     background-color: $color_1DC9BB;
-//     border: 1px solid $color_1DC9BB;
-//   }
-//   .el-textarea__inner{
-//     &:focus{
-//       border: 1px solid $color_1DC9BB !important;
-//     }
-//   }
-// }
+.el-dialog__footer{
+  text-align: center;
+}
+/* 日期插件 */
+.el-date-table {
+  td.today span, td.available:hover{
+    color: $color_1DC9BB;
+  }
+  td.current:not(.disabled) span{
+    background-color:$color_1DC9BB;
+  }
+}
+.el-picker-panel__icon-btn:hover{
+  color: $color_1DC9BB;
+}
+.el-checkbox__inner:hover{
+  border-color: $color_1DC9BB;
+}

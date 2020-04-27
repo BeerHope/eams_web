@@ -11,7 +11,7 @@
        <div  class="detail">
          <el-row>
            <el-col :span="12"><div class="grid-content bg-purple">设备编号: {{details.sn}}</div></el-col>
-           <el-col :span="12" v-if="usertype!=3"><div class="grid-content bg-purple-light">最后签到时间:{{details.lastCheckInTime}}</div></el-col>
+           <el-col :span="12" v-if="userType!=3"><div class="grid-content bg-purple-light">最后签到时间:{{details.lastCheckInTime}}</div></el-col>
          </el-row>
          <el-row>
            <el-col :span="12"><div class="grid-content bg-purple">注册时间:{{details.createTime}}</div></el-col>
@@ -21,17 +21,6 @@
       <h3>运行信息</h3>
       <div  class="detail bgbg">
         <json-viewer :value="terminalInfo"  :expand-depth=10 class="bgbg"></json-viewer>
-        <!--<el-row>-->
-          <!--<el-col :span="12"><div class="grid-content bg-purple">设备状态: <span class="status">{{details.deviceInfoDTO.deviceState}}</span></div></el-col>-->
-          <!--<el-col :span="12"><div class="grid-content bg-purple-light">设备网络:{{terminalInfo.commMode}}</div></el-col>-->
-        <!--</el-row>-->
-        <!--<el-row>-->
-          <!--<el-col :span="12"><div class="grid-content bg-purple">设备IP地址:{{details.deviceInfoDTO.deviceIp}}</div></el-col>-->
-          <!--<el-col :span="12"><div class="grid-content bg-purple-light">设备电量:{{details.deviceInfoDTO.devicePower}}</div></el-col>-->
-        <!--</el-row>-->
-        <!--<el-row>-->
-          <!--<el-col :span="12"><div class="grid-content bg-purple">其他信息:{{info.extraInfo}}</div></el-col>-->
-        <!--</el-row>-->
       </div>
     </div>
   </div>
@@ -67,7 +56,7 @@
     computed: {
       ...mapGetters([
         'roles',
-        'usertype'
+        'userType'
       ])
     },
     methods:{

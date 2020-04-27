@@ -29,7 +29,7 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
-  min-width: 1024px;
+  /* min-width: 1024px; */
 }
 </style>
 

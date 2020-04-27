@@ -59,10 +59,12 @@ export default {
   methods: {
     /* 工单列表 */
     getFactoryList() {
+      this.listLoading = true
       getFactoryList(this.filter).then(res => {
         const resData = res.data.data
         this.factoryList = resData.rows
         this.total = resData.totalRecord
+        this.listLoading = false
       })
     },
     openUploadDialog() {

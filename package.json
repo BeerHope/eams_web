@@ -58,6 +58,7 @@
     "v-viewer": "^1.4.1",
     "vue": "2.5.17",
     "vue-area-linkage": "^5.0.1",
+    "vue-baidu-map": "^0.21.22",
     "vue-count-to": "^1.0.13",
     "vue-i18n": "7.3.2",
     "vue-json-viewer": "^2.2.1",

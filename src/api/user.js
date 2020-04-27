@@ -60,3 +60,12 @@ export function resetPassword(data) {
     data
   })
 }
+
+/* 修改密码 */
+export function updatePassword(data) {
+  return request({
+    url: '/user/modify',
+    method: 'post',
+    data
+  })
+}

@@ -1264,6 +1264,26 @@
   font-size: 50px !important;
 }
 
+.cur-auto {
+  cursor: auto;
+}
+
+.cur-pointer {
+  cursor: pointer;
+}
+
+.cur-wait {
+  cursor: wait;
+}
+
+.cur-help {
+  cursor: help;
+}
+
+.cur-move {
+  cursor: move;
+}
+
 .t-c {
   text-align: center !important;
 }
@@ -1344,7 +1364,9 @@
   margin-bottom: 20px;
 }
 
-.el-form .el-select, .el-form .el-date-editor {
+.el-form .el-select,
+.el-form .el-date-editor,
+.el-form .el-input-number {
   width: 100%;
 }
 
@@ -1358,6 +1380,12 @@
 }
 
 .el-upload-dragger .el-upload__text em {
+  color: #1DC9BB;
+}
+
+.el-dropdown-menu__item:focus,
+.el-dropdown-menu__item:not(.is-disabled):hover {
+  background-color: rgba(29, 201, 187, 0.1);
   color: #1DC9BB;
 }
 
@@ -1415,7 +1443,32 @@
   border-color: #FCA84C;
 }
 
+.el-button.el-button--text {
+  color: #1DC9BB;
+}
+
 /* 输入框公共样式设置 */
 .el-textarea__inner:focus {
+  border-color: #1DC9BB;
+}
+
+.el-dialog__footer {
+  text-align: center;
+}
+
+/* 日期插件 */
+.el-date-table td.today span, .el-date-table td.available:hover {
+  color: #1DC9BB;
+}
+
+.el-date-table td.current:not(.disabled) span {
+  background-color: #1DC9BB;
+}
+
+.el-picker-panel__icon-btn:hover {
+  color: #1DC9BB;
+}
+
+.el-checkbox__inner:hover {
   border-color: #1DC9BB;
 }

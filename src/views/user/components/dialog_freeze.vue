@@ -1,5 +1,5 @@
 <template>
-  <el-dialog width="36%" title="冻结" :visible.sync="dialogFreeze" custom-class="common-dialog">
+  <el-dialog width="36%" :title="cause.state==1? '冻结': '激活'" :visible.sync="dialogFreeze" custom-class="common-dialog" @close="closeDialog">
     <el-form ref="form" :model="form" :rules="rules" class="common-form" label-width="60px">
       <el-form-item>
         <span v-if="cause.state==1">是否冻结<strong>{{cause.contactPhone}}</strong> ，冻结后，该用户的部分业务操作将被限制？</span>
@@ -22,7 +22,6 @@
     name: "addUser",
     data(){
       return{
-
         form:{
           stateDesc:'',
           id:'',
@@ -58,18 +57,13 @@
             })
           }
         })
+      },
+      closeDialog() {
+        this.$refs.form.resetFields()
       }
     }
   }
 </script>
 
 <style scoped>
-  /* .dialog_content{ width:75%; margin: 0 auto;}
-  .dialog_content .content{ width: 70%;
-    margin: 0 auto; line-height: 26px;}
-  .submit{ background: #1DC9BB; border-color: #1DC9BB; width: 100px; letter-spacing: 5px;}
-  .sub{ text-align: center}
-  .sub .el-button{ margin-right: 60px;}
-  .sub .submit{ background: #1DC9BB; border-color: #1DC9BB;} */
-
 </style>

@@ -7,7 +7,7 @@ const user = {
     name: '',
     accountNum: '',
     roles: [],
-    usertype:'',
+    userType:'',
     avatar: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
     phone: ''
   },
@@ -24,8 +24,8 @@ const user = {
     SET_ROLES: (state, roles) => {
       state.roles = roles;
     },
-    SET_USERTYPE: (state, usertype) => {
-      state.usertype = usertype;
+    SET_USERTYPE: (state, userType) => {
+      state.userType = userType;
     },
     // 存储当前账号
     SET_ACCOUNT: (state, phone) => {
@@ -35,8 +35,8 @@ const user = {
 
   actions: {
     // 登出
-    LogOut({commit, state}) {
-      return new Promise((resolve, reject) => {
+    LogOut({commit}) {
+      return new Promise((resolve) => {
           commit('SET_TOKEN', '');
           removeToken();
           resolve();
