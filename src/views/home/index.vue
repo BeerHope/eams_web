@@ -99,5 +99,7 @@ export default {
   width: 100%;
   height: 100%;
   position: absolute;
+  min-height: 768px;
+  transition: all .5s;
 }
 </style>

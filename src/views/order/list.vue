@@ -74,8 +74,15 @@ export default {
       total: 3
     }
   },
-  created() {
-    this.getOrderList()
+  computed: {
+    route() {
+      return this.$route.path
+    }
+  },
+  watch: {
+    route(to, from) {
+      this.getOrderList()
+    }
   },
   methods: {
     /* 工单列表 */

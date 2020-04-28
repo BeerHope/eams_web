@@ -160,8 +160,15 @@ $align in(c, center),
     background-color: #efefef;
   }
 }
-.el-upload-dragger:hover{
-  border-color:$color_28DBCD
+.el-upload:focus{
+  .el-upload-dragger{
+    border-color: $color_28DBCD;
+  }
+}
+.el-upload-dragger{
+  &:hover{
+    border-color:$color_28DBCD;
+  }
 }
 .el-upload-dragger .el-upload__text em{
   color: $color_1DC9BB;

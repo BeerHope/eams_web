@@ -9,7 +9,6 @@
         </el-col>
         <el-col :md="8" :sm="12">
           <el-form-item label="开单日期:" prop="orderCreateDate">
-            <!-- <el-input v-model="formData.orderCreateDate" clearable></el-input> -->
              <el-date-picker
               v-model="formData.orderCreateDate"
               type="datetime">
@@ -18,7 +17,7 @@
         </el-col>
         <el-col :md="8" :sm="12">
           <el-form-item label="工单状态:" prop="orderState">
-            <el-select v-model="formData.orderState" clearable>
+            <el-select v-model="formData.orderState" clearable disabled>
               <el-option
                 v-for="item in orderStates" 
                 :key="item.value" :value="item.value" 
@@ -59,7 +58,7 @@
           </el-form-item>
         </el-col>
         <el-col :md="8" :sm="12">
-          <el-form-item label="标识:">
+          <el-form-item label="标识:" prop="processIdentity">
             <el-input v-model="formData.processIdentity" clearable></el-input>
           </el-form-item>
         </el-col>
@@ -79,17 +78,21 @@
           </el-form-item>
         </el-col>
         <el-col :md="8" :sm="12">
-          <el-form-item label="发货时间:">
-            <el-input v-model="formData.deliveryDate" clearable></el-input>
+          <el-form-item label="发货时间:" prop="deliveryDate">
+            <!-- <el-input v-model="formData.deliveryDate" clearable></el-input> -->
+            <el-date-picker
+              v-model="formData.deliveryDate"
+              type="datetime">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :md="8" :sm="12">
-          <el-form-item label="收货方:">
+          <el-form-item label="收货方:" prop="consignee">
             <el-input v-model="formData.consignee" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :md="8" :sm="12">
-          <el-form-item label="发货地址:">
+          <el-form-item label="发货地址:" prop="consigneeAddress">
             <el-input v-model="formData.consigneeAddress" clearable></el-input>
           </el-form-item>
         </el-col>
@@ -268,6 +271,15 @@ export default {
         factoryId: [
           { required: true, message: '请选择要分配的外协厂标识', trigger: 'blur' }
         ],
+        deliveryDate: [
+          { required: true, message: '请设置发货时间', trigger: 'blur' }
+        ],
+        consignee: [
+          { required: true, message: '请填写发货方', trigger: 'blur' }
+        ],
+        processIdentity: [
+          { required: true, message: '请填写标识', trigger: 'blur' }
+        ],
         snBegin: [
           { required: true, message: '请填写订单起始SN', trigger: 'blur' }
         ],
@@ -339,7 +351,6 @@ export default {
             console.log(res, 'ress')
             this.$message.success('更新订单状态成功！')
             this.handleCancel()
-            // 刷新列表
           })
         }
       })

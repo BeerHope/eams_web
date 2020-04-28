@@ -1375,6 +1375,10 @@
   background-color: #efefef;
 }
 
+.el-upload:focus .el-upload-dragger {
+  border-color: #28DBCD;
+}
+
 .el-upload-dragger:hover {
   border-color: #28DBCD;
 }
