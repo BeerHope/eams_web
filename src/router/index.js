@@ -178,8 +178,26 @@ export const constantRouterMap = [
         path: 'details/:logId',
         component: () => import('@/views/log/details'),
         name: 'LogDetails',
-        meta: { title: '生产记录详情', active:'/log/list' },
+        meta: { title: '设备生产详情', active:'/log/list' },
         hidden: true,
+      }
+    ]
+  },
+  {
+    path: '/unbind',
+    component: Layout,
+    redirect: '/unbind/list',
+    name: 'Unbind',
+    meta: {
+      title: '',
+      icon: ''
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/unbind/list'),
+        name: 'UnbindList',
+        meta: { title: '解绑记录', icon: 'unbind' }
       }
     ]
   }

@@ -23,11 +23,11 @@
         <template slot-scope="scope"><span>{{scope.row.state|filterState(bindStates)}}</span></template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
-      <!-- <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
+          <el-button type="primary" size="mini" class="orange-btn" @click="unbindDevice(scope.row.sn)">解绑</el-button>
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <el-pagination
@@ -46,7 +46,7 @@
 <script>
 import { bindStates } from '@/utils/dictionary'
 import { filterState } from '@/filters'
-import { getDeviceList } from '@/api/device'
+import { getDeviceList, unbindDevice } from '@/api/device'
 
 export default {
   name: 'DeviceList',
@@ -79,14 +79,17 @@ export default {
         this.deviceList = resData.rows
         this.total = resData.totalRecord
         this.listLoading = false
+      }).catch(err => {
+        console.log(err, '设备列表')
+        this.listLoading= false
       })
     },
-    /* 跳转详情页 */
-    toDetailsPage(id) {
-      console.log(id, 'toDetailsPage id!!!!!!!!')
-      return
-      this.$router.push(`/log/details/${id}`)
-    }
+    unbindDevice(sn) {
+      unbindDevice({sn}).then(res => {
+        this.$message.success('设备解绑成功！')
+        this.getDeviceList()
+      })
+    },
   }
 }
 </script>

@@ -161,6 +161,9 @@
           this.list = resData.rows
           this.total = resData.totalRecord
           this.listLoading = false
+        }).catch(err => {
+          console.log(err, '用户列表')
+          this.listLoading = false
         })
       },
       details(row){

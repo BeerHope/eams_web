@@ -21,7 +21,7 @@ export const bindStates = [
 export const orderStates = [
   {
     value: 0,
-    label: '待分配'
+    label: '未生效'
   },
   {
     value: 1,
@@ -38,26 +38,6 @@ export const orderStates = [
   {
     value: 4,
     label: '已废弃'
-  }
-]
-
-/* 目标版本号 */
-export const targetVersions = [
-  {
-    value: 1,
-    label: 'boot'
-  },
-  {
-    value: 2,
-    label: 'recovery'
-  },
-  {
-    value: 3,
-    label: 'core'
-  },
-  {
-    value: 4,
-    label: 'test'
   }
 ]
 
@@ -86,5 +66,29 @@ export const logTypes = [
   {
     value: 1,
     label: '失败'
+  }
+]
+
+/* 插入sim卡的标识 */
+export const simStates = [
+  {
+    value: 0,
+    label: '否',
+  },
+  {
+    value: 1,
+    label: '是'
+  }
+]
+
+/* 注册秘钥标识 */
+export const registerKeyStates = [
+  {
+    value: 0,
+    label: '未注册'
+  },
+  {
+    value: 1,
+    label: '已注册'
   }
 ]

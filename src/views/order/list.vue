@@ -1,12 +1,12 @@
 <template>
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
-      <el-input class="filter-item" v-model="filter.workOrderNumber" placeholder="工单单号" clearable></el-input>
-      <el-input class="filter-item" v-model="filter.deliveryOrderNumber" placeholder="出货单号" clearable></el-input>
+      <el-input class="filter-item" v-model="filter.workOrderNumber" placeholder="生产订单号" clearable></el-input>
+      <el-input class="filter-item" v-model="filter.deliveryOrderNumber" placeholder="K/3单据编号" clearable></el-input>
       <el-button class="green-btn" type="primary" @click="getOrderList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
-      <el-button class="orange-btn" @click="openUploadDialog" type="primary">
+      <el-button class="orange-btn" @click="openOrderUpload" type="primary">
         <i class="el-icon-upload m-r-4"></i>
         导入
       </el-button>
@@ -15,16 +15,18 @@
       v-loading="listLoading" :data="orderList"
       border highlight-current-row
       style="width: 100%">
-      <el-table-column prop="workOrderNumber" label="工单单号" align="center"></el-table-column>
-      <el-table-column prop="deliveryOrderNumber" label="出货单号" align="center"></el-table-column>
+      <el-table-column prop="workOrderNumber" label="生产订单号" align="center"></el-table-column>
+      <el-table-column prop="deliveryOrderNumber" label="K/3单据编号" align="center"></el-table-column>
       <el-table-column prop="customerName" label="客户名称" align="center"></el-table-column>
       <el-table-column prop="orderState" label="订单状态" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.orderState | filterState(orderStates)}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="140" align="center" prop="operation" label="操作">
+      <el-table-column width="320" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
+          <el-button type="primary" size="mini" class="green-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
+          <el-button :disabled="scope.row.keyGenerate === 1" type="primary" size="mini" class="green-btn" @click="registerKey(scope.row.id)">注册密钥</el-button>
           <el-button type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
         </template>
       </el-table-column>
@@ -41,21 +43,24 @@
       :current-page.sync="filter.pageNum"
       @current-change="getOrderList"
     ></el-pagination>
-    <upload-dialog ref="uploadDialog" @refresh="getOrderList"></upload-dialog>
+    <order-upload ref="uploadDialog" @refresh="getOrderList"></order-upload>
+    <ini-upload ref="iniUpload" @refresh="getOrderList"></ini-upload>
   </div>
 </template>
 <script>
 /**
  * 订单列表报系统异常
  */
-import UploadDialog from './components/Upload'
+import OrderUpload from './components/OrderUpload'
+import IniUpload from './components/IniUpload'
 import { orderStates } from '@/utils/dictionary'
 import { filterState } from '@/filters'
-import { getOrderList } from '@/api/order'
+import { getOrderList, register21Key } from '@/api/order'
 export default {
   name: 'WorkOrderList',
   components: {
-    UploadDialog
+    OrderUpload,
+    IniUpload
   },
   filters: {
     filterState,
@@ -74,6 +79,9 @@ export default {
       total: 3
     }
   },
+  created() {
+    this.getOrderList()
+  },
   computed: {
     route() {
       return this.$route.path
@@ -81,7 +89,7 @@ export default {
   },
   watch: {
     route(to, from) {
-      this.getOrderList()
+      console.log(from, 'form!!!!')
     }
   },
   methods: {
@@ -93,14 +101,32 @@ export default {
         this.orderList = resData.rows
         this.total = resData.totalRecord
         this.listLoading = false
+      }).catch(err => {
+        console.log(err, '订单列表')
+        this.listLoading = false
       })
     },
-    openUploadDialog() {
+    openOrderUpload() {
       this.$refs.uploadDialog.dialogVisible = true
+    },
+    openIniUpload(orderId) {
+      // console.log(orderId, 'orderId!!!!!')
+      const iniUpload = this.$refs.iniUpload
+       _.assign(iniUpload, {
+        dialogVisible: true,
+        orderId
+      })
     },
     /* 跳转详情页 */
     toDetailsPage(id) {
       this.$router.push(`./details/${id}`)
+    },
+    /* 注册密钥 */
+    registerKey(orderId) {
+      register21Key(orderId).then(res => {
+        this.$message.success('注册密钥成功！')
+        this.getOrderList()
+      })
     }
   }
 }

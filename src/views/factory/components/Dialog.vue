@@ -8,6 +8,10 @@
       <el-form-item prop="factoryName" label="工厂名称">
         <el-input v-model="formData.factoryName"></el-input>
       </el-form-item>
+      <!-- 此处的线别填写的是excel表中的线别，用于将excel表中的关联工厂 -->
+      <el-form-item prop="customerName" label="线别">
+        <el-input v-model="formData.customerName"></el-input>
+      </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button type="primary" class="cancel" @click="dialogVisible=false">取消</el-button>
@@ -28,11 +32,16 @@ export default {
       dialogVisible: false,
       formData: {
         foctoryName: '',
+        customerName: '', // 客户标识，将工厂跟excel表中的线别关联对应
       },
       rules: {
         factoryName: [
-          { required: true, message: '请输入工厂名称', trigger: 'blur' },
-          { min: 2, max: 30, message: '长度在2到30个字符', trigger: 'blur'}
+          { required: true, message: '请填写工厂名称', trigger: 'blur' },
+          { min: 2, max: 50, message: '长度在2到50个字符', trigger: 'blur'}
+        ],
+        customerName: [
+          { required: true, message: '请填写客户标识', trigger: 'blur' },
+          { min: 2, max: 30, message: '长度在2到50个字符', trigger: 'blur'}
         ]
       }
     }

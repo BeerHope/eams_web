@@ -8,6 +8,8 @@ $dialog_min_width: '700px';
 $dialog_form_width: 80%;
 $white: #fff;
 $color_999: #999;
+$color_7e7e7e: #7e7e7e;
+$color_ccc: #ccc;
 
 /* size of margin/border/padding */
 $size: 0;
@@ -136,6 +138,7 @@ $align in(c, center),
     color: $color_999;
   }
 }
+
 .common-form{
   width: 80%;
   margin: auto;
@@ -178,6 +181,10 @@ $align in(c, center),
   background-color: rgba(29, 201, 187, 0.1);
   color: $color_1DC9BB;
 }
+.el-textarea.is-disabled .el-textarea__inner,
+.el-input.is-disabled .el-input__inner{
+  color: $color_7e7e7e;
+}
 
 /* set color of background,text and border */
 @mixin bg_text_border-color($bgColor, $textColor, $borderColor) {
@@ -189,6 +196,10 @@ $align in(c, center),
 $hoverOpacity: 0.78;
 .el-button {
   color: $white;
+  &.is-disabled{
+    background-color: $color_ccc !important;
+    border-color: $color_ccc !important;
+  }
   &.el-button--default {
     @include bg_text_border-color($white, $color_1DC9BB, $color_1DC9BB);
   }

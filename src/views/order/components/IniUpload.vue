@@ -1,9 +1,9 @@
 <template>
   <el-dialog
     width="40%"
-    title="文件上传"
+    title="上传ini文件"
     @close="closeDialog"
-    custom-class="common-dilalog upload"
+    custom-class="common-dialog upload"
     :visible.sync="dialogVisible">
     <el-upload
       ref="upload"
@@ -18,7 +18,7 @@
       :limit="1">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <!-- <div class="el-upload__tip" slot="tip"></div> -->
+      <div class="el-upload__tip" slot="tip">只允许上传.ini文件</div>
     </el-upload>
     <span slot="footer" class="dialog-footer">
       <el-button type="primary" class="cancel" @click="dialogVisible=false">取消</el-button>
@@ -29,7 +29,7 @@
 
 <script>
 import { getToken } from '@/utils/auth'
-import { importOrder } from '@/api/order'
+import { uploadIniFile } from '@/api/order'
 export default {
   name: 'Upload',
   components: {},
@@ -38,7 +38,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      file: null
+      file: null,
+      orderId: ''
     }
   },
   computed: {
@@ -60,17 +61,13 @@ export default {
   destroyed() {},
   methods: {
     uploadChange(file, fileList) {
-      const acceptTypes = ['xlsx', 'xls']
+      const acceptTypes = ['ini']
       const type = file.name.slice(file.name.lastIndexOf('.') + 1)
       const isAcceptedType = _.includes(acceptTypes, type)
-      const isLt5M = file.size / 1024 / 1024 <= 5;
       if (!isAcceptedType) {
-        this.$message.error('检测到当前上传的文件格式不是excel文件格式?')
+        this.$message.error('检测到当前上传的文件格式不是.ini文件格式！')
       }
-      if (!isLt5M) {
-        this.$message.error('上传文件不能超过5M')
-      }
-      if (!isAcceptedType || !isLt5M) {
+      if (!isAcceptedType) {
         this.$refs.upload.clearFiles()
         return
       }
@@ -88,7 +85,8 @@ export default {
       }
       const formData = new FormData()
       formData.append('file', this.file.raw)
-      importOrder(formData).then(res => {
+      console.log(this.orderId, '订单Id！！！！')
+      uploadIniFile(formData, {id: this.orderId}).then(res => {
         this.$message.success('文件上传成功!')
         this.dialogVisible = false
         this.$emit('refresh')

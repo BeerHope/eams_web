@@ -29,11 +29,23 @@ export function getOrderDetails(orderId) {
   })
 }
 
-/* 更新工单 */
-export function updateOrder(data) {
+/* 注册密钥 */
+export function register21Key(orderId) {
   return request({
-    url: '/order/update',
+    url: `/order/registration21key/${orderId}`,
+    method: 'get',
+  })  
+}
+
+/* 上传ini文件 */
+export function uploadIniFile(data, params) {
+  return request({
+    url: '/order/program',
     method: 'post',
+    headers: {
+      "Content-Type": 'multipart/form-data'
+    },
+    params,
     data
   })
 }

@@ -8,3 +8,12 @@ export function getDeviceList(params) {
     params
   })
 }
+
+/* 设备解绑 */
+export function unbindDevice(data) {
+  return request({
+    url: '/device/unbind',
+    method: 'post',
+    data
+  })
+}

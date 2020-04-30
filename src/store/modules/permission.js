@@ -110,7 +110,6 @@ const permission = {
       //组装路由菜单
       return new Promise(resolve => {
         let accessedRouters;
-        // accessedRouters = filterAsyncMenus(menuList, menus);
         //根据用户的角色加载不同类型
         if(data.roleType==1){  //1：运营 2：研发 3：客户
           accessedRouters=operateMenu;

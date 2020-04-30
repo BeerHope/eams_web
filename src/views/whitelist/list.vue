@@ -3,7 +3,6 @@
     <div class="filter-box m-t-20 m-b-20">
       <el-input class="filter-item" v-model="filter.factoryName" placeholder="工厂名称" clearable></el-input>
       <el-input class="filter-item" v-model="filter.factoryCode" placeholder="工厂编号" clearable></el-input>
-      <el-input class="filter-item" v-model="filter.customerName" placeholder="线别" clearable></el-input>
       <el-button class="green-btn" type="primary" @click="getFactoryList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
@@ -17,7 +16,6 @@
       style="width: 100%">
       <el-table-column prop="factoryName" label="工厂名称" align="center"></el-table-column>
       <el-table-column prop="factoryCode" label="工厂编号" align="center"></el-table-column>
-      <el-table-column prop="customerName" label="线别" align="center"></el-table-column>
     </el-table>
     <!-- 分页 -->
     <el-pagination
@@ -31,17 +29,13 @@
       @current-change="getFactoryList"
       :current-page.sync="filter.page"
     ></el-pagination>
-    <factory-dialog ref="factoryDialog" @refresh="getFactoryList"></factory-dialog>
   </div>
 </template>
 <script>
 import { getFactoryList } from '@/api/factory'
-import FactoryDialog from './components/Dialog'
-
 export default {
   name: 'factoryList',
   components: {
-    FactoryDialog
   },
   data() {
     return {
@@ -49,7 +43,6 @@ export default {
       filter: {
         factoryName: '',
         factoryCode: '',
-        customerName: '',
         page: 1,
         pageSize: 20
       },
@@ -70,7 +63,8 @@ export default {
         this.total = resData.totalRecord
         this.listLoading = false
       }).catch(err => {
-        console.log(err, '工厂列表')
+        console(err, '白名单列表')
+        this.listLoading = false
       })
     },
     openUploadDialog() {

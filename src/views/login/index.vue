@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="webName">外网协助管理系统</div>
+    <div class="webName">外协组包一体管理系统</div>
     <div class="loginFrom">
         <h2> 用户登录</h2>
       <el-form :model="loginFrom" status-icon  ref="loginFrom" :rules="rules"    label-width="60px" class="demo-ruleForm">
@@ -135,6 +135,7 @@ export default {
   height: 100%;
   width: 100%;
   overflow-y: hidden;
+  background-size: 100%;
 }
 .login .btn-scan {
     font-size: 23px;
