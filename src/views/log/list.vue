@@ -17,7 +17,7 @@
       border highlight-current-row
       style="width: 100%">
       <el-table-column prop="sn" label="机身号" align="center"></el-table-column>
-      <el-table-column prop="orderId" label="订单ID" align="center"></el-table-column>
+      <el-table-column prop="orderId" label="生产订单号" align="center"></el-table-column>
       <el-table-column prop="mac" label="MAC" align="center"></el-table-column>
       <el-table-column prop="type" label="状态" align="center">
         <template slot-scope="scope"><span>{{scope.row.type|filterState(logTypes)}}</span></template>
@@ -70,7 +70,7 @@ export default {
       },
       logTypes,
       logList: [],
-      total: 3
+      total: 0
     }
   },
   created() {

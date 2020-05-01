@@ -200,7 +200,26 @@ export const constantRouterMap = [
         meta: { title: '解绑记录', icon: 'unbind' }
       }
     ]
-  }
+  },
+  /* 白名单管理(工具授权) */
+  // {
+  //   path: '/toolAuth',
+  //   component: Layout,
+  //   redirect: '/toolAuth/list',
+  //   name: 'ToolAuth',
+  //   meta: {
+  //     title: '',
+  //     icon: ''
+  //   },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/views/toolAuth/list'),
+  //       name: 'ToolAuthList',
+  //       meta: { title: '白名单管理', icon: 'unbind' }
+  //     }
+  //   ]
+  // }
 ]
 
 export default new Router({

@@ -54,7 +54,7 @@ export default {
         pageSize: 20
       },
       factoryList: [],
-      total: 3
+      total: 0
     }
   },
   created() {

@@ -65,7 +65,7 @@ export default {
       },
       bindStates,
       deviceList: [],
-      total: 3
+      total: 0
     }
   },
   created() {

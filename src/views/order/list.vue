@@ -76,7 +76,7 @@ export default {
         pageSize: 20
       },
       orderList: [],
-      total: 3
+      total: 0
     }
   },
   created() {

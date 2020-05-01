@@ -58,5 +58,9 @@ export function validatePassword(password){
   return re.test(password)
 }
 
+// export function validateIP(ip){
+//   const re = 
+// }
+
 
 

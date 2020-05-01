@@ -22,7 +22,7 @@
             </el-form-item>
           </el-col>
           <el-col :md="12" :sm="24">
-            <el-form-item label="订单ID:">
+            <el-form-item label="生产订单号:">
               <span>{{details.orderId}}</span>
             </el-form-item>
           </el-col>
