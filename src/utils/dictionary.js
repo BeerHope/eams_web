@@ -61,11 +61,11 @@ export const logTypes = [
   },
   {
     value: 0,
-    label: '成功',
+    label: '失败',
   },
   {
     value: 1,
-    label: '失败'
+    label: '成功'
   }
 ]
 
