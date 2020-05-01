@@ -197,6 +197,16 @@
               <el-input v-model="formData.targetVersionApp" disabled></el-input>
             </el-form-item>
           </el-col>
+          <el-col :md="8" :sm="12">
+            <el-form-item label="wifi版本号:" prop="targetVersionWifi">
+              <el-input v-model="formData.targetVersionWifi" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="8" :sm="12">
+            <el-form-item label="无线版本号:" prop="targetVersionWireless">
+              <el-input v-model="formData.targetVersionWireless" disabled></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-form-item class="el-col el-col-24" label="工单备注:" prop="orderRemark">
@@ -249,7 +259,8 @@ export default {
         targetVersionCore: '', // 目标core版本号
         targetVersionTest: '', // 目标test版本号
         targetVersionApp: '', // 目标app版本号
-        appUrl: '', // app程序包下载流程
+        targetVersionWifi: '', // 目标wifi版本号
+        targetVersionWireless: '', // 目标无线版本号
         id: '', // 工单id
         tusnBegin: '', // tusn起始
         tusnEnd: '', // tusn结束
