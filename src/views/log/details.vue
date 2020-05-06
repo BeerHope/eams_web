@@ -17,7 +17,7 @@
             </el-form-item>
           </el-col>
           <el-col :md="12">
-            <el-form-item label="MAC:">
+            <el-form-item label="工位MAC:">
               <span>{{details.mac}}</span>
             </el-form-item>
           </el-col>

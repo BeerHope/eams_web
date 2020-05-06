@@ -2,7 +2,6 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input class="filter-item" v-model="filter.factoryName" placeholder="工厂名称" clearable></el-input>
-      <el-input class="filter-item" v-model="filter.factoryCode" placeholder="工厂编号" clearable></el-input>
       <el-input class="filter-item" v-model="filter.customerName" placeholder="线别" clearable></el-input>
       <el-button class="green-btn" type="primary" @click="getFactoryList">
         <i class="el-icon-search m-r-4"></i>搜索
@@ -16,7 +15,6 @@
       border highlight-current-row
       style="width: 100%">
       <el-table-column prop="factoryName" label="工厂名称" align="center"></el-table-column>
-      <el-table-column prop="factoryCode" label="工厂编号" align="center"></el-table-column>
       <el-table-column prop="customerName" label="线别" align="center"></el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -48,7 +46,6 @@ export default {
       listLoading: false,
       filter: {
         factoryName: '',
-        factoryCode: '',
         customerName: '',
         page: 1,
         pageSize: 20

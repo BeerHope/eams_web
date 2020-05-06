@@ -2,12 +2,6 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input
-        placeholder="工厂编号"
-        v-model.trim="filter.factoryCode"
-        class="filter-item"
-        style="width: 200px;"
-        clearable />
-      <el-input
         placeholder="工厂名称"
         v-model.trim="filter.factoryName"
         class="filter-item"
@@ -19,7 +13,7 @@
         class="filter-item"
         style="width: 200px;"
         clearable />
-      <el-select v-model="filter.state" placeholder="请选择状态"  class="filter-item">
+      <el-select v-model="filter.state" placeholder="请选择状态"  class="filter-item" clearable>
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -40,9 +34,8 @@
       style="width: 100%;">
       <el-table-column prop="username" label="用户名" min-width="120px" align="center"></el-table-column>
       <el-table-column prop="contactPhone" label="联系手机号" min-width="120px" align="center"></el-table-column>
-      <el-table-column prop="factoryCode"  label="工厂编号" min-width="120px"  align="center"></el-table-column>
       <el-table-column prop="factoryName" label="工厂名称" min-width="120px"  align="center"></el-table-column>
-      <el-table-column prop="state" label="状态" width="100px"  align="center">
+      <el-table-column prop="state" label="状态" width="120px"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.state|ShowState }}</span>
         </template>

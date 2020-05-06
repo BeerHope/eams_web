@@ -58,9 +58,16 @@ export function validatePassword(password){
   return re.test(password)
 }
 
-// export function validateIP(ip){
-//   const re = 
-// }
+export function validateIP(ip){
+  const re = /^(2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2}(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}$/
+  return re.test(ip)
+}
+
+/* 校验mac */
+export function validateMac(mac) {
+  const re = /^[a-fA-F0-9]{2}(-[a-fA-F0-9]{2}){5}$/
+  return re.test(mac)
+}
 
 
 

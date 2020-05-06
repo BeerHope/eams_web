@@ -15,7 +15,7 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button type="primary" class="cancel" @click="dialogVisible=false">取消</el-button>
-      <el-button type="primary" class="green-btn" @click="addFactory">确定</el-button>
+      <el-button type="primary" class="green-btn" @click="addFactory">新增</el-button>
     </span>
   </el-dialog>
 </template>
@@ -40,7 +40,7 @@ export default {
           { min: 2, max: 50, message: '长度在2到50个字符', trigger: 'blur'}
         ],
         customerName: [
-          { required: true, message: '请填写客户标识', trigger: 'blur' },
+          { required: true, message: '请填写线别', trigger: 'blur' },
           { min: 2, max: 30, message: '长度在2到50个字符', trigger: 'blur'}
         ]
       }

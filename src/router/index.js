@@ -202,24 +202,24 @@ export const constantRouterMap = [
     ]
   },
   /* 白名单管理(工具授权) */
-  // {
-  //   path: '/toolAuth',
-  //   component: Layout,
-  //   redirect: '/toolAuth/list',
-  //   name: 'ToolAuth',
-  //   meta: {
-  //     title: '',
-  //     icon: ''
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       component: () => import('@/views/toolAuth/list'),
-  //       name: 'ToolAuthList',
-  //       meta: { title: '白名单管理', icon: 'unbind' }
-  //     }
-  //   ]
-  // }
+  {
+    path: '/whitelist',
+    component: Layout,
+    redirect: '/whitelist/list',
+    name: 'Whitelist',
+    meta: {
+      title: '',
+      icon: ''
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/whitelist/list'),
+        name: 'WhitelistList',
+        meta: { title: '白名单管理', icon: 'whitelist' }
+      }
+    ]
+  }
 ]
 
 export default new Router({
