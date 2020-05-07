@@ -323,7 +323,12 @@ export default {
   }
 }
 </script>
-
+<style lang="scss">
+.el-textarea.is-disabled .el-textarea__inner,
+.el-input.is-disabled .el-input__inner{
+  text-overflow: ellipsis;
+}
+</style>
 <style lang='scss' scoped>
 $color_f8f8f8: #f8f8f8;
 $color_1DC9BB: #1DC9BB;

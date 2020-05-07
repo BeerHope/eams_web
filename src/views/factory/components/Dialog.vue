@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    custom-class="common-dialog"
+    custom-class="common-dialog "
     width="36%" :visible.sync="dialogVisible"
     title="新增工厂"
     @close="closeDialog">

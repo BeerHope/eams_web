@@ -108,9 +108,10 @@ export default {
      
     },
     filterFactory(factoryId) {
-      return _.find(this.factoryList, {
+      const factory = _.find(this.factoryList, {
         value: factoryId
-      }).label
+      })
+      return factory && factory.label || ''
     },
     openDialog() {
       const addWhiltelist = this.$refs.addWhiltelist
