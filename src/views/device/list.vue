@@ -24,8 +24,9 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
       <el-table-column label="操作" align="center">
+        <!-- 临时修改绑定按钮限制重复点击 -->
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" class="orange-btn" @click="unbindDevice(scope.row.sn)">解绑</el-button>
+          <el-button type="primary" size="mini" :disabled="scope.row.state==2" class="orange-btn" @click="unbindDevice(scope.row)">解绑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,11 +81,15 @@ export default {
         this.total = resData.totalRecord
         this.listLoading = false
       }).catch(err => {
-        console.log(err, '设备列表')
+        console.log('设备列表异常提示:', err)
         this.listLoading= false
       })
     },
-    unbindDevice(sn) {
+    unbindDevice({sn, state}) {
+      /* state==2未绑定,无需重复解绑 */
+      if (state === 2) {
+        return
+      }
       unbindDevice({sn}).then(res => {
         this.$message.success('设备解绑成功！')
         this.getDeviceList()

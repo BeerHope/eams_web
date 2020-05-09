@@ -25,8 +25,8 @@
       </el-table-column>
       <el-table-column width="320" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" class="green-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
           <el-button :disabled="scope.row.keyGenerate === 1" type="primary" size="mini" class="green-btn" @click="registerKey(scope.row.id)">注册密钥</el-button>
+          <el-button type="primary" size="mini" class="green-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
           <el-button type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
         </template>
       </el-table-column>
