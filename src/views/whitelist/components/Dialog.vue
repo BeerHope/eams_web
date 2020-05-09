@@ -88,7 +88,6 @@ export default {
     addWhitelist() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          console.log(this.formData, '提交的数据！！！')
           addWhitelist(this.formData).then(res => {
             this.$message.success('新增白名单成功!')
             this.dialogVisible = false

@@ -6,7 +6,7 @@
     @close="closeDialog">
     <el-form class="common-form" ref="form" :model="formData" :rules="rules" label-width="100px">
       <el-form-item prop="factoryName" label="工厂名称">
-        <el-input v-model="formData.factoryName"></el-input>
+        <el-input v-model="formData.factoryName" @input="change($event)"></el-input>
       </el-form-item>
       <!-- 此处的线别填写的是excel表中的线别，用于将excel表中的关联工厂 -->
       <el-form-item prop="customerName" label="线别">
@@ -56,6 +56,9 @@ export default {
   methods: {
     closeDialog() {
       this.$refs.form.resetFields()
+    },
+    change(e) {
+      this.$forceUpdate()
     },
     addFactory() {
       this.$refs.form.validate((valid) => {
