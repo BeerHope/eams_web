@@ -20,6 +20,8 @@
       <el-table-column prop="customerName" label="客户名称" align="center"></el-table-column>
       <el-table-column prop="orderState" label="订单状态" align="center">
         <template slot-scope="scope">
+          <!-- filterIcon(scope.row.orderState) -->
+          <svg-icon class="order-icon" :icon-class="filterIcon(scope.row.orderState)"></svg-icon>
           <span>{{scope.row.orderState | filterState(orderStates)}}</span>
         </template>
       </el-table-column>
@@ -63,7 +65,7 @@ export default {
     IniUpload
   },
   filters: {
-    filterState,
+    filterState
   },
   data() {
     return {
@@ -76,7 +78,29 @@ export default {
         pageSize: 20
       },
       orderList: [],
-      total: 0
+      total: 0,
+      orderIcons: [
+        {
+          state: 0,
+          icon: 'order-invalid'
+        },
+        {
+          state: 1,
+          icon: 'order-not-begin'
+        },
+        {
+          state: 2,
+          icon: 'order-ongoing'
+        },
+        {
+          state: 3,
+          icon: 'order-accomplished'
+        },
+        {
+          state: 4,
+          icon: 'order-abandoned'
+        }
+      ]
     }
   },
   created() {
@@ -85,11 +109,6 @@ export default {
   computed: {
     route() {
       return this.$route.path
-    }
-  },
-  watch: {
-    route(to, from) {
-      console.log(from, 'form!!!!')
     }
   },
   methods: {
@@ -127,6 +146,9 @@ export default {
         this.$message.success('注册密钥成功！')
         this.getOrderList()
       })
+    },
+    filterIcon(orderState) {
+      return _.find(this.orderIcons, {state: orderState}).icon
     }
   }
 }
@@ -143,5 +165,8 @@ export default {
 }
 .tbody .el-table__row{
   cursor: pointer !important;
+}
+.order-icon{
+  font-size: 16px;
 }
 </style>
