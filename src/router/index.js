@@ -219,6 +219,25 @@ export const constantRouterMap = [
         meta: { title: '白名单管理', icon: 'whitelist' }
       }
     ]
+  },
+   /* 标识管理 */
+   {
+    path: '/process',
+    component: Layout,
+    redirect: '/process/list',
+    name: 'Process',
+    meta: {
+      title: '',
+      icon: ''
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/process/list'),
+        name: 'ProcessList',
+        meta: { title: '标识管理', icon: 'process' }
+      }
+    ]
   }
 ]
 

@@ -49,3 +49,21 @@ export function uploadIniFile(data, params) {
     data
   })
 }
+
+/* 废弃订单 */
+export function abandonOrder(data) {
+  return request({
+    url: '/order/abandon',
+    method: 'post',
+    data
+  })
+}
+
+/* 导出订单 */
+export function exportOrder(id) {
+  return request({
+    url: `/order/export/${id}`,
+    method: 'get',
+    responseType: 'blob'
+  })
+}

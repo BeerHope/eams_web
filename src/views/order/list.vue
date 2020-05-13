@@ -3,6 +3,14 @@
     <div class="filter-box m-t-20 m-b-20">
       <el-input class="filter-item" v-model="filter.workOrderNumber" placeholder="生产订单号" clearable></el-input>
       <el-input class="filter-item" v-model="filter.deliveryOrderNumber" placeholder="K/3单据编号" clearable></el-input>
+      <el-select  class="filter-item" v-model="filter.orderState" placeholder="订单状态" clearable>
+        <el-option 
+          v-for="item in orderStates" 
+          :key="item.value" 
+          :value="item.value" 
+          :label="item.label">
+        </el-option>
+      </el-select>
       <el-button class="green-btn" type="primary" @click="getOrderList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
@@ -21,15 +29,20 @@
       <el-table-column prop="orderState" label="订单状态" align="center">
         <template slot-scope="scope">
           <!-- filterIcon(scope.row.orderState) -->
-          <svg-icon class="order-icon" :icon-class="filterIcon(scope.row.orderState)"></svg-icon>
-          <span>{{scope.row.orderState | filterState(orderStates)}}</span>
+          <div class="order-state">
+            <svg-icon :class="['order-icon', {'invalid': scope.row.orderState === 0}]" :icon-class="filterIcon(scope.row.orderState)"></svg-icon>
+            <span>{{scope.row.orderState | filterState(orderStates)}}</span>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column width="320" align="center" prop="operation" label="操作">
+      <el-table-column width="400" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
-          <el-button :disabled="scope.row.keyGenerate === 1" type="primary" size="mini" class="green-btn" @click="registerKey(scope.row.id)">注册密钥</el-button>
+          <!-- 移除密钥注册功能 -->
+          <!-- <el-button :disabled="scope.row.keyGenerate === 1" type="primary" size="mini" class="green-btn" @click="registerKey(scope.row.id)">注册密钥</el-button> -->
           <el-button type="primary" size="mini" class="green-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
+           <el-button type="primary" size="mini" class="green-btn" @click="exportOrder(scope.row)">导出</el-button>
           <el-button type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
+          <el-button :disabled="scope.row.orderState === 4" type="danger" size="mini" @click="abandonOrder(scope.row.id)">废弃</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -57,7 +70,7 @@ import OrderUpload from './components/OrderUpload'
 import IniUpload from './components/IniUpload'
 import { orderStates } from '@/utils/dictionary'
 import { filterState } from '@/filters'
-import { getOrderList, register21Key } from '@/api/order'
+import { getOrderList, register21Key, abandonOrder, exportOrder } from '@/api/order'
 export default {
   name: 'WorkOrderList',
   components: {
@@ -74,6 +87,7 @@ export default {
       filter: {
         workOrderNumber: '',
         deliveryOrderNumber: '',
+        orderState: '',
         pageNum: 1,
         pageSize: 20
       },
@@ -129,7 +143,6 @@ export default {
       this.$refs.uploadDialog.dialogVisible = true
     },
     openIniUpload(orderId) {
-      // console.log(orderId, 'orderId!!!!!')
       const iniUpload = this.$refs.iniUpload
        _.assign(iniUpload, {
         dialogVisible: true,
@@ -149,12 +162,44 @@ export default {
     },
     filterIcon(orderState) {
       return _.find(this.orderIcons, {state: orderState}).icon
+    },
+    /* 废弃订单 */
+    abandonOrder(id) {
+      this.$confirm('此操作将废弃当前订单，是否继续?', '提示', {
+        confirmButtonText:'确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        abandonOrder({id}).then(res => {
+          this.getOrderList()
+          this.$message.success('废弃订单成功')
+        })
+      }).catch(() => {
+        console.log('取消废弃订单')
+      })
+    },
+    /*
+      订单导出操作
+      内容为pc上送上来的sn/iccid/imei对应关系 
+    */
+    exportOrder({id, workOrderNumber}) {
+        exportOrder(id).then(res => {
+          const blob = new Blob([res.data])
+          const link = document.createElement('a')
+          link.href = URL.createObjectURL(blob)
+          const url = URL.createObjectURL(blob)
+          link.download = `${workOrderNumber}.xlsx`
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+      })
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .edit-input {
   padding-right: 100px;
 }
@@ -168,5 +213,15 @@ export default {
 }
 .order-icon{
   font-size: 16px;
+  margin-right: 4px;
+  &.invalid{
+    font-size: 17px;
+  }
+}
+.order-state{
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

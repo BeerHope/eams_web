@@ -20,6 +20,10 @@ export const bindStates = [
 /* 工单状态 */
 export const orderStates = [
   {
+    value: '',
+    label: '全部状态'
+  },
+  {
     value: 0,
     label: '未生效'
   },

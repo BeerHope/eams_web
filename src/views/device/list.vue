@@ -24,7 +24,7 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
       <el-table-column label="操作" align="center">
-        <!-- 临时修改绑定按钮限制重复点击 -->
+        <!-- 限制重复解绑点击 -->
         <template slot-scope="scope">
           <el-button type="primary" size="mini" :disabled="scope.row.state==2" class="orange-btn" @click="unbindDevice(scope.row)">解绑</el-button>
         </template>

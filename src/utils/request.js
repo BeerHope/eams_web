@@ -30,7 +30,6 @@ service.interceptors.request.use(
       config.headers['token'] = getToken(); // 让每个请求携带token-- ["token"]为自定义key
       config.headers['X-Tag'] = 'speaker';
     }
-
     if(config.url.indexOf("dologin")>=1){
       config.data=qs.stringify(config.data);
       config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -54,6 +53,11 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data;
+    // 针对导出操作的情况，返回的response.data下没有code字段
+    const isBlob = response.config.responseType === 'blob'
+    if(response.status === 200 && isBlob) {
+      return response
+    }
     if(res.code == 401){
       MessageBox.confirm('当前登录超时，您可以取消继续留在该页面，或者重新登录', '确定登出', {
         confirmButtonText: '重新登录',
