@@ -18,6 +18,7 @@ function hasPermission(roles, route) {
  */
 function filterAsyncMenus(menuList, menus){
   const res = [];
+
   // const permissionButton=[];
   menus.forEach(menu => {
     const tmp = { ...menu };
@@ -26,22 +27,31 @@ function filterAsyncMenus(menuList, menus){
       if (menu.child && menu.child.length > 0&&menu.type==1) {
         m.children = filterAsyncMenus(m.children, menu.child)
       }
-      if ((+menu.type === 1 && menu.child && menu.child.length > 0) || (+menu.type === 2) ) { // 目录级菜单无子节点时，不展示
         res.push(m);
-
-      }
     }
   });
-
   return res
 }
+function findDetailObject(menuList) {
+  let menuObject={};
+    menuList.forEach(menu=>{
+    if(menu.path.indexOf("details")>-1 ){
+      menuObject=menu;
+    }
+  })
+  return menuObject;
+}
+
 function findMenuObject(menuList,path){
       let menuObject={};
-      // console.log(menuList)
       menuList.forEach(menu=>{
-        if(menu.path.toString()===path.toString()){
+        if(menu.path.toString()===path.toString() ){
             menuObject=menu;
-        }
+         }
+         if(path.toString().indexOf("details")>-1&&menu.path.toString().indexOf("details")>-1){
+           menuObject=menu;
+          }
+
        })
     return menuObject;
 }
@@ -128,6 +138,7 @@ const routesMap = [
     ]
   }
 ]
+
 /* 动态菜单(待完善)*/
 function filterAsyncRouter(asyncRoutes, accessRoutes) {
   return _.filter(asyncRoutes, (item) => {
@@ -165,7 +176,7 @@ const permission = {
         //获取动态菜单
         // debugger
         const accessedRoutes1 = filterAsyncMenus(asyncRoutes, accessRoutes.menuTreeVO.child);
-           // console.log(accessedRoutes1);
+           console.log(accessedRoutes1);
 
         commit('SET_ROUTERS', accessedRoutes1)
         commit('SET_BUTTONS', permissionButtons)
