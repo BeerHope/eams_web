@@ -1,27 +1,17 @@
 <template>
   <el-dialog
     custom-class="common-dialog"
-    title="新增用户" 
-    width="36%" 
+    title="新增用户"
+    width="36%"
     @close="closeDialog"
     :visible.sync="dialogVisible">
     <el-form class="common-form" ref="form" :model="form" :rules="rules" label-width="140px">
       <el-form-item label="归属工厂:" prop="factoryId">
-        <el-select v-model="form.factoryId" placeholder="请选择工厂">
+        <el-select v-model="form.factoryId" placeholder="请选择客户">
           <el-option v-for="item in factoryList"
             :key="item.value"
             :label="item.label"
             :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="角色:" prop="roles">
-        <el-select v-model="form.roles" multiple placeholder="请选择角色">
-          <el-option
-            v-for="item in factoryRoles"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -37,6 +27,10 @@
       <el-form-item label="联系手机号:" prop="contactPhone">
         <el-input v-model="form.contactPhone"></el-input>
       </el-form-item>
+
+      <!-- <el-form-item label="登陆账号:" >
+        <el-input v-model="form.username" disabled></el-input>
+      </el-form-item> -->
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible=false">取消</el-button>
@@ -48,8 +42,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import { getAllFactory } from '@/api/factory'
-  import { addUser } from '@/api/user'
-  import { getFactoryRoles } from '@/api/role'
+  import { addSysUser } from '@/api/user'
   import { validatePhone, validatePassword } from '@/utils/validate'
   import { getEncryptText } from '@/utils/encryption'
   export default {
@@ -71,10 +64,8 @@
       }
       return{
         factoryList:[],
-        factoryRoles: [],
         form:{
           factoryId:'',
-          roles: [],
           contactName:'',
           contactPhone:'',
           password: '',
@@ -83,10 +74,7 @@
         dialogVisible:false,
         rules:{
           factoryId: [
-            { required: true, message: '请选择工厂', trigger: 'blur' }
-          ],
-          roles: [
-            { required: true, message: '请选择角色', trigger: 'blur' }
+            { required: true, message: '请选择客户', trigger: 'blur' }
           ],
           contactName: [
             { required: true, message: '请输入联系人姓名', trigger: 'blur' },
@@ -108,7 +96,6 @@
       }
     },
     created(){
-      this.getFactoryRoles();
       this.getAllFactory();
     },
     computed: {
@@ -120,19 +107,13 @@
           this.factoryList=response.data.data;
         })
       },
-      getFactoryRoles() {
-        getFactoryRoles().then(res => {
-          this.factoryRoles = res.data.data
-          console.log(this.factoryRoles, 'roles!!!!!')
-        })
-      },
       onSubmit(){
         this.$refs.form.validate((valid) => {
           if (valid) {
             // 处理提交输出
             const reqData = _.omit(this.form, ['password'])
             reqData.password = getEncryptText(this.form.password)
-            addUser(reqData).then(res=>{
+            addSysUser(reqData).then(res=>{
               this.dialogVisible=false;
               this.$message.success('新增用户成功');
               this.$emit('refresh')
