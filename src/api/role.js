@@ -46,6 +46,14 @@ export function getMenus() {
   })
 }
 
+/* 获取外协厂角色列表 */
+export function getFactoryRoles() {
+  return request({
+    url: '/role/select4Factory',
+    method: 'get'
+  })
+}
+
 
 
 

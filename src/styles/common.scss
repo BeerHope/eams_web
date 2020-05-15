@@ -186,6 +186,7 @@ $align in(c, center),
   color: $color_7e7e7e;
 }
 
+
 /* set color of background,text and border */
 @mixin bg_text_border-color($bgColor, $textColor, $borderColor) {
   background-color: $bgColor;
