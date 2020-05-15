@@ -75,7 +75,7 @@ export default {
     border-color: rgb(29, 201, 187) !important;
   }
   .menu-wrapper li.el-menu-item.submenu-title-noDropdown:hover {
-    background:#01beae !important ;
+    background: #01beae !important ;
   }
 </style>
 <style rel="stylesheet/scss" lang="scss" scoped>
