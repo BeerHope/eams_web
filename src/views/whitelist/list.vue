@@ -8,7 +8,7 @@
       <el-button class="green-btn" type="primary" @click="getWhitelistList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
-      <el-button class="orange-btn" type="primary" @click="openDialog">
+      <el-button v-if="$checkBtnPermission('whitelist.add')" class="orange-btn" type="primary" @click="openDialog">
         <i class="el-icon-plus m-r-4"></i>新增
       </el-button>
     </div>
@@ -25,7 +25,7 @@
       <el-table-column prop="mac" label="工位MAC" align="center"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="danger" size="mini" @click="deleteWhitelist(scope.row.id)">删除</el-button>
+          <el-button v-if="$checkBtnPermission('whitelist.delete')" type="danger" size="mini" @click="deleteWhitelist(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

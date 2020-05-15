@@ -4,9 +4,10 @@ import store from '@/store'
 export default {
   install (Vue, options) {
     /* 校验按钮权限 */
-    Vue.prototype.$checkBtnPermission = function (btnMark) {
+    Vue.prototype.$checkBtnPermission = function (btnClassName) {
       const permissionButtons = store.getters.permissionButtons
-      return _.findIndex(permissionButtons, {className: btnMark}) >= 0
+      console.log(permissionButtons[btnClassName])
+      return permissionButtons[btnClassName] !== undefined
     }
   }
 }

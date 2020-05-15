@@ -16,7 +16,6 @@ function hasPermission(roles, permissionRoles) {
 }
 
 const whiteList = ['/login','/register',  '/auth-redirect','/findpass']// no redirect whitelist
-
 router.beforeEach((to, from, next) => {
   NProgress.start();
   if (getToken()) {

@@ -6,7 +6,7 @@
       <el-button class="green-btn" type="primary" @click="getProcessList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
-      <el-button class="orange-btn" type="primary" @click="openAddDialog">
+      <el-button v-if="$checkBtnPermission('process.add')" class="orange-btn" type="primary" @click="openAddDialog">
         <i class="el-icon-plus m-r-4"></i>新增
       </el-button>
     </div>
@@ -18,7 +18,7 @@
       <el-table-column prop="kmsCustomerCode" label="KMS编码" align="center"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="danger" size="mini" @click="deleteProcess(scope.row.id)">删除</el-button>
+          <el-button v-if="$checkBtnPermission('process.delete')" type="danger" size="mini" @click="deleteProcess(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

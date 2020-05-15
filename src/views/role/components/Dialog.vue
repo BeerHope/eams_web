@@ -16,7 +16,7 @@
           <el-input v-model="formData.name"></el-input>
         </el-form-item>
         <!-- 状态 -->
-        <el-form-item v-if="flag!==0" label="状态" prop="state">
+        <el-form-item v-if="roleId!==-1" label="状态" prop="state">
           <el-select v-model="formData.state" class="w-100">
             <el-option 
               v-for="item in roleStates" :key="item.value" 
@@ -24,16 +24,29 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item v-if="roleId === -1" prop="type" label="角色类型">
+          <el-select v-model="formData.type">
+            <el-option 
+              v-for="item in roleTypes" 
+              :key="item.value" 
+              :value="item.value" 
+              :label="item.label">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="角色菜单" prop="menus" :class="['tree-wrapper']">
-          <el-tree
-            show-checkbox
-            node-key="id"
-            ref="authTree"
-            :data="menuList"
-            :default-expand-all="true"
-            :props="defaultProps"
-            @check="changeCheck"
-          ></el-tree>
+          <div>
+            <el-tree
+              show-checkbox
+              node-key="id"
+              ref="authTree"
+              :data="menuList"
+              :default-expand-all="true"
+              :props="defaultProps"
+              @check="changeCheck"
+            ></el-tree>
+          </div>
+          <!-- <div class="form-item__error">请填写角色名称</div> -->
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input type="textarea" v-model="formData.remark"></el-input>
@@ -41,14 +54,15 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" class="cancel" @click="dialogVisible = false">取消</el-button>
-        <el-button v-if="flag === 0" type="primary" class="green-btn" @click="addRole">新增</el-button>
-        <el-button v-if="flag === 1" type="primary" class="green-btn" @click="updateRole">保存</el-button>
+        <el-button v-if="roleId === -1" type="primary" class="green-btn" @click="addRole">新增</el-button>
+        <el-button v-else type="primary" class="green-btn" @click="updateRole">保存</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { roleTypes } from '@/utils/dictionary'
 import { getMenus, addRole, getRoleDetails, updateRole } from '@/api/role'
 export default {
   name: "",
@@ -57,13 +71,14 @@ export default {
   directive: {},
   data() {
     return {
-      flag: 0,
-      roleId: -1,
+      roleId: -1, // 新增/编辑标识
       loading: false,
       dialogVisible: false,
+      roleTypes,
       formData: {
         name: '',
         state: '',
+        type: '',
         remark: '',
         menus: []
       },
@@ -78,8 +93,15 @@ export default {
         state: [
           {
             required: true,
-            message: '请勾选角色状态',
+            message: '请选择角色状态',
             trigger: "blur"
+          }
+        ],
+        type: [
+          {
+            required: true,
+            message: '请选择角色类型',
+            trigger: 'blur'
           }
         ],
         menus: [
@@ -109,7 +131,7 @@ export default {
   },
   computed: {
     dialogTitle() {
-      return !this.flag ? '新增角色' : '编辑角色'
+      return this.roleId === -1 ? '新增角色' : '编辑角色'
     }
   },
   watch: {},
@@ -124,7 +146,6 @@ export default {
     async getMenus() {
       const res = await getMenus()
       this.menuList = [res.data.data]
-      console.log(this.menuList, 'this.menuList!!!!!!!!!')
     },
     handleClose() {
       this.$refs.form.resetFields()
@@ -136,7 +157,7 @@ export default {
       if (this.roleId !== -1) {
         this.loading = true
         getRoleDetails(this.roleId).then(res => {
-          this.formData = _.cloneDeep(res.data)
+          this.formData = _.cloneDeep(res.data.data)
           this.$refs.authTree.setCheckedKeys(this.formData.menus)
           setTimeout(() => {
             this.loading = false
@@ -147,6 +168,8 @@ export default {
     changeCheck(curData, checkedData) {
       if (!checkedData.checkedKeys.length) {
         this.$refs.form.validateField('menus')
+      } else {
+        this.$refs.form.clearValidate('menus')
       }
     },
     // 新增角色
@@ -170,7 +193,7 @@ export default {
       updateRole(roleId, reqData).then(res => {
         this.$emit('refresh')
         this.dialogVisible = false
-        this.$message.success(this.$t('base.tips.editSuccess'))
+        this.$message.success('修改角色成功')
       })
     }
   }
@@ -180,7 +203,7 @@ export default {
 <style lang="scss">
 .role-dialog{
   .tree-wrapper{
-    .el-form-item__content{
+    .el-form-item__content>div:first-child{
       height: 200px !important;
       border: 1px solid #DCDFE6;
       border-radius: 4px;

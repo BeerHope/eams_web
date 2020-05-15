@@ -14,7 +14,7 @@
       <el-button class="green-btn" type="primary" @click="getOrderList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
-      <el-button class="orange-btn" @click="openOrderUpload" type="primary">
+      <el-button v-if="$checkBtnPermission('order.import')" class="orange-btn" @click="openOrderUpload" type="primary">
         <i class="el-icon-upload m-r-4"></i>
         导入
       </el-button>
@@ -37,12 +37,10 @@
       </el-table-column>
       <el-table-column width="400" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
-          <!-- 移除密钥注册功能 -->
-          <!-- <el-button :disabled="scope.row.keyGenerate === 1" type="primary" size="mini" class="green-btn" @click="registerKey(scope.row.id)">注册密钥</el-button> -->
-          <el-button type="primary" size="mini" class="green-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
-           <el-button type="primary" size="mini" class="green-btn" @click="exportOrder(scope.row)">导出</el-button>
-          <el-button type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
-          <el-button :disabled="scope.row.orderState === 4" type="danger" size="mini" @click="abandonOrder(scope.row.id)">废弃</el-button>
+          <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="green-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
+           <el-button v-if="$checkBtnPermission('order.export')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="green-btn" @click="exportOrder(scope.row)">导出</el-button>
+          <el-button v-if="$checkBtnPermission('order.details')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
+          <el-button v-if="$checkBtnPermission('order.abandon')" :disabled="scope.row.orderState === 4" type="danger" size="mini" @click="abandonOrder(scope.row.id)">废弃</el-button>
         </template>
       </el-table-column>
     </el-table>

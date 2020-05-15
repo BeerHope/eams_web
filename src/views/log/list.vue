@@ -26,6 +26,7 @@
       <el-table-column label="操作" align="center" width="120">
         <template slot-scope="scope">
           <el-button
+            v-if="$checkBtnPermission('log.details')"
             type="primary" size="mini" class="orange-btn" 
             @click="toDetailsPage(scope.row.id)">
             详情
