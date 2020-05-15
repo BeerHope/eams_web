@@ -19,6 +19,7 @@ const whiteList = ['/login','/register',  '/auth-redirect','/findpass']// no red
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
+  // debugger
   if (getToken()) {
     /* has token*/
     if (to.path === '/login') {

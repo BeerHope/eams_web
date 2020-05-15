@@ -17,38 +17,37 @@ function hasPermission(roles, route) {
  * @type {{mutations: {SET_ROUTERS: permission.mutations.SET_ROUTERS}, state: {routers: *, addRouters: Array}, actions: {GenerateRoutes1({commit: *}, *): *, GenerateRoutes({commit: *}, *=): *}}}
  */
 function filterAsyncMenus(menuList, menus){
-  let res = []
+  const res = [];
+  // const permissionButton=[];
   menus.forEach(menu => {
-    const tmp = { ...menu }
-    const m=findMenuObject(menuList,tmp.url);
-      if(menu.children.length>0){
-        let childrenArr=[];
-        const childrens=menu.children;
-        childrens.forEach(children=>{
-          const tmp = { ...children }
-          const mm=findMenuObject(menuList,tmp.url);
-          childrenArr.push(mm);
-        })
-        m.children=childrenArr;
+    const tmp = { ...menu };
+    const m = findMenuObject(menuList, tmp.className);
+    if (Object.keys(m).length !== 0) { // 后台传递过来的菜单选项 为 有效信息（在asyncRoutes中有匹配项）
+      if (menu.child && menu.child.length > 0&&menu.type==1) {
+        m.children = filterAsyncMenus(m.children, menu.child)
       }
-    res.push(m);
-  })
+      if ((+menu.type === 1 && menu.child && menu.child.length > 0) || (+menu.type === 2) ) { // 目录级菜单无子节点时，不展示
+        res.push(m);
 
-  res.push({ path: '*', redirect: '/404', hidden: true });
+      }
+    }
+  });
+
   return res
 }
 function findMenuObject(menuList,path){
       let menuObject={};
+      // console.log(menuList)
       menuList.forEach(menu=>{
-        if(menu.path===path){
-            menuObject=menu.content;
+        if(menu.path.toString()===path.toString()){
+            menuObject=menu;
         }
-      })
+       })
     return menuObject;
 }
 /* 菜单权限数据mock */
 /*
-type: 1,2 => 页面，按钮 
+type: 1,2 => 页面，按钮
 
  先获取第一层级
 */
@@ -160,9 +159,15 @@ const permission = {
     /* 存储动态权限（菜单、按钮） */
     GenerateRoutes({ commit }, accessRoutes){
       return new Promise(resolve => {
+
         const permissionRoutes = filterAsyncRouter(asyncRoutes, routesMap)
         const permissionButtons = filterAsyncButtons(routesMap)
-        commit('SET_ROUTERS', asyncRoutes)
+        //获取动态菜单
+        // debugger
+        const accessedRoutes1 = filterAsyncMenus(asyncRoutes, accessRoutes.menuTreeVO.child);
+           // console.log(accessedRoutes1);
+
+        commit('SET_ROUTERS', accessedRoutes1)
         commit('SET_BUTTONS', permissionButtons)
         resolve()
       })

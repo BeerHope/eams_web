@@ -95,18 +95,27 @@ export const asyncRoutes = [
     redirect: '/user/list',
     name: 'User',
     meta: {
-      title: '',
-      icon: ''
+      title: '用户管理',
+      icon: 'user'
     },
     children: [
       {
         path: 'list',
         component: () => import('@/views/user/list'),
         meta: {
-          title: '用户管理',
+          title: '系统用户',
           icon: 'user'
         },
         name: 'UserList'
+      },
+      {
+        path: 'factory',
+        component: () => import('@/views/user/list'),
+        meta: {
+          title: '外协厂用户',
+          icon: 'user'
+        },
+        name: 'UserList1'
       }
     ]
   },
