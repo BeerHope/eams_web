@@ -180,7 +180,7 @@ const permission = {
         const buttonsArray = filterAsyncButtons(accessRoutes)
         const permissionButtons = array2Json(buttonsArray, 'className')
         const accessedRoutes1 = filterAsyncMenus(asyncRoutes, accessRoutes.menuTreeVO.child);
-        console.log(accessedRoutes1)
+        // console.log(accessedRoutes1)
         commit('SET_ROUTERS', accessedRoutes1)
         commit('SET_BUTTONS', permissionButtons)
         resolve()

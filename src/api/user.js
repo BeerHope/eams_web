@@ -69,3 +69,47 @@ export function updatePassword(data) {
     data
   })
 }
+//获取系统用户
+export function sysUserlist(data) {
+  return request({
+    url: '/user/system/list',
+    method: 'GET',
+     params:data
+  })
+}
+
+
+
+//新增系统用户
+export function addSysUser(data) {
+  return request({
+    url: '/user/system/add',
+    method: 'PUT',
+     data
+  })
+}
+
+//系统用户启用 冻结
+export function SysfreezeUser(data) {
+  return request({
+    url: '/user/system/updateState',
+    method: 'POST',
+    data
+  })
+}
+
+//系统用户详情
+export function SysUserDetails(data) {
+  return request({
+    url: '/user/system/detail/'+data.id,
+    method: 'GET'
+  })
+}
+//重置密码 系统用户
+export function SysResetPwd(data) {
+  return request({
+    url: '/user/system/resetPwd',
+    method: 'POST',
+    data
+  })
+}

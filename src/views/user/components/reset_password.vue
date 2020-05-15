@@ -3,9 +3,9 @@
     <el-form class="common-form" ref="form" :model="formData" :rules="rules" label-width="120px">
       <el-form-item prop="newPassword" label="新密码">
         <el-input v-model="formData.newPassword" :type="passVisible ? 'text': 'password'">
-          <svg-icon 
-            class="cur-pointer" slot="suffix" 
-            :icon-class="passVisible ? 'eye-open' : 'eye-close'" 
+          <svg-icon
+            class="cur-pointer" slot="suffix"
+            :icon-class="passVisible ? 'eye-open' : 'eye-close'"
             @click.native="passVisible = !passVisible">
           </svg-icon>
         </el-input>
@@ -21,7 +21,7 @@
 <script>
 import { validatePassword } from '@/utils/validate'
 import { getEncryptText } from '@/utils/encryption'
-import { resetPassword } from '@/api/user'
+import { SysResetPwd } from '@/api/user'
 
 export default {
   name: '',
@@ -69,7 +69,7 @@ export default {
             id: this.userId,
             newPassword: getEncryptText(this.formData.newPassword)
           })
-          resetPassword(reqData).then(res => {
+          SysResetPwd(reqData).then(res => {
             this.$message.success('重置密码成功')
             this.dialogVisible = false
             this.$emit('refresh')

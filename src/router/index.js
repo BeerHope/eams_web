@@ -104,7 +104,7 @@ export const asyncRoutes = [
         component: () => import('@/views/user/list'),
         meta: {
           title: '系统用户',
-          icon: 'user'
+          // icon: 'user'
         },
         name: 'UserList'
       },
@@ -113,7 +113,7 @@ export const asyncRoutes = [
         component: () => import('@/views/user/list'),
         meta: {
           title: '外协厂用户',
-          icon: 'user'
+          // icon: 'user'
         },
         name: 'UserList1'
       }

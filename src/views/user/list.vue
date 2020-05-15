@@ -34,7 +34,7 @@
       style="width: 100%;">
       <el-table-column prop="username" label="用户名" min-width="120px" align="center"></el-table-column>
       <el-table-column prop="contactPhone" label="联系手机号" min-width="120px" align="center"></el-table-column>
-      <el-table-column prop="factoryName" label="工厂名称" min-width="120px"  align="center"></el-table-column>
+<!--      <el-table-column prop="factoryName" label="工厂名称" min-width="120px"  align="center"></el-table-column>-->
       <el-table-column prop="state" label="状态" width="120px"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.state|ShowState }}</span>
@@ -76,7 +76,7 @@
   import DialogDetails from './components/dialog_details' //详情
   import DialogFreeze from './components/dialog_freeze' // 冻结、激活
   import ResetPassword from './components/reset_password' //重置密码
-  import { getUserList, getUserDetails } from '@/api/user'
+  import {  SysUserDetails ,sysUserlist } from '@/api/user'
   import { mapGetters } from 'vuex'
   export default {
     name: 'report',
@@ -147,7 +147,7 @@
       },
       getUserList(){
         this.listLoading = true
-        getUserList(this.filter).then(res=>{
+        sysUserlist(this.filter).then(res=>{
           const resData = res.data.data
           this.list = resData.rows
           this.total = resData.totalRecord
@@ -159,7 +159,7 @@
       },
       details(row){
         this.$refs.Details.dialogDetails=true;
-        getUserDetails(row.id).then(response=>{
+        SysUserDetails(row.id).then(response=>{
           this.Details=response.data.data;
         })
       },

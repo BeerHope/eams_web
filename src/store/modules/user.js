@@ -61,8 +61,7 @@ const user = {
     GetUserInfo({commit, state}) {
       return new Promise((resolve, reject) => {
         getUserInfo().then(response => {
-          console.log("########")
-          // return false;
+
           if (response.data.code !== 200) {
             reject('error');
           }

@@ -1,8 +1,8 @@
 <template>
   <el-dialog
     custom-class="common-dialog"
-    title="新增用户" 
-    width="36%" 
+    title="新增用户"
+    width="36%"
     @close="closeDialog"
     :visible.sync="dialogVisible">
     <el-form class="common-form" ref="form" :model="form" :rules="rules" label-width="140px">
@@ -27,7 +27,7 @@
       <el-form-item label="联系手机号:" prop="contactPhone">
         <el-input v-model="form.contactPhone"></el-input>
       </el-form-item>
-     
+
       <!-- <el-form-item label="登陆账号:" >
         <el-input v-model="form.username" disabled></el-input>
       </el-form-item> -->
@@ -42,7 +42,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import { getAllFactory } from '@/api/factory'
-  import { addUser } from '@/api/user'
+  import { addSysUser } from '@/api/user'
   import { validatePhone, validatePassword } from '@/utils/validate'
   import { getEncryptText } from '@/utils/encryption'
   export default {
@@ -113,7 +113,7 @@
             // 处理提交输出
             const reqData = _.omit(this.form, ['password'])
             reqData.password = getEncryptText(this.form.password)
-            addUser(reqData).then(res=>{
+            addSysUser(reqData).then(res=>{
               this.dialogVisible=false;
               this.$message.success('新增用户成功');
               this.$emit('refresh')
