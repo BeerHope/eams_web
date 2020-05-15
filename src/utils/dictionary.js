@@ -100,15 +100,22 @@ export const registerKeyStates = [
 /* 角色状态 */
 export const roleStates = [
   {
-    value: '',
-    label: '全部状态',
-  },
-  {
     value: 1,
     label: '启用'
   },
   {
     value: 2,
     label: '禁用'
+  }
+]
+/* 角色类型 */
+export const roleTypes = [
+  {
+    value: 1,
+    label: '系统角色'
+  },
+  {
+    value: 2,
+    label: '外协厂角色'
   }
 ]

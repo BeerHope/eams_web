@@ -149,13 +149,17 @@ function filterAsyncRouter(asyncRoutes, accessRoutes) {
 function filterAsyncButtons(accessRoutes) {
   return _.filter(_.concat([], ..._.map(accessRoutes, (item) => {
     return _.concat([], item, ...filterAsyncButtons(item.child))
-  })), {type: 2})
+  })), {type: 3})
 }
+function array2Json(array, key) {
+  return _.keyBy(array, key)
+}
+
 const permission = {
   state: {
     routers: constantRouter,
     addRouters: [],
-    permissionButtons: [],
+    permissionButtons: {},
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
@@ -170,14 +174,13 @@ const permission = {
     /* 存储动态权限（菜单、按钮） */
     GenerateRoutes({ commit }, accessRoutes){
       return new Promise(resolve => {
-
-        const permissionRoutes = filterAsyncRouter(asyncRoutes, routesMap)
-        const permissionButtons = filterAsyncButtons(routesMap)
-        //获取动态菜单
-        // debugger
+        // const permissionRoutes = filterAsyncRouter(asyncRoutes, routesMap)
+        /* todo 将按钮为json存储在vuex中*/
+        // const buttonsArray = filterAsyncButtons(routesMap)
+        const buttonsArray = filterAsyncButtons(accessRoutes)
+        const permissionButtons = array2Json(buttonsArray, 'className')
         const accessedRoutes1 = filterAsyncMenus(asyncRoutes, accessRoutes.menuTreeVO.child);
-           console.log(accessedRoutes1);
-
+        console.log(accessedRoutes1)
         commit('SET_ROUTERS', accessedRoutes1)
         commit('SET_BUTTONS', permissionButtons)
         resolve()

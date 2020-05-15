@@ -26,7 +26,7 @@
       <el-table-column label="操作" align="center">
         <!-- 限制重复解绑点击 -->
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" :disabled="scope.row.state==2" class="orange-btn" @click="unbindDevice(scope.row)">解绑</el-button>
+          <el-button v-if="$checkBtnPermisstion('device.unbind')" type="primary" size="mini" :disabled="scope.row.state==2" class="orange-btn" @click="unbindDevice(scope.row)">解绑</el-button>
         </template>
       </el-table-column>
     </el-table>

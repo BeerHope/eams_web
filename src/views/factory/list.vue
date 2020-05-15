@@ -6,7 +6,7 @@
       <el-button class="green-btn" type="primary" @click="getFactoryList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
-      <el-button class="orange-btn" type="primary" @click="openDialog">
+      <el-button v-if="$checkBtnPermission('factory.add')" class="orange-btn" type="primary" @click="openDialog">
         <i class="el-icon-plus m-r-4"></i>新增
       </el-button>
     </div>

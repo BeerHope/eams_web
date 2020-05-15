@@ -231,6 +231,15 @@ $hoverOpacity: 0.78;
   }
 }
 
+.el-checkbox__input{
+  &:focus,&:active,&.is-indeterminate,&.is-checked{
+    .el-checkbox__inner{
+      background-color: $color_1DC9BB;
+      border-color: $color_1DC9BB;
+    }
+  }
+}
+
 /* 输入框公共样式设置 */
 .el-textarea__inner{
   &:focus{

@@ -1,16 +1,18 @@
 <template>
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
-      <el-select v-model="filter.state" class="filter-item" placeholder="工厂" clearable>
+      <el-input v-model="filter.name" class="filter-item" placeholder="角色名称" clearable></el-input>
+      <el-select v-model="filter.type" class="filter-item" placeholder="角色类型" clearable>
+        <el-option label="全部类型" value=""></el-option>
         <el-option 
-          v-for="item in factoryList" 
+          v-for="item in roleTypes" 
           :key="item.value" 
           :label="item.label" 
           :value="item.value">
         </el-option>
       </el-select>
-      <el-input v-model="filter.name" class="filter-item" placeholder="角色名称" clearable></el-input>
       <el-select v-model="filter.state" class="filter-item" placeholder="状态" clearable>
+        <el-option label="全部状态" value=''></el-option>
         <el-option 
           v-for="item in roleStates" 
           :key="item.value" 
@@ -19,7 +21,7 @@
         </el-option>
       </el-select>
       <el-button type="primary" class="green-btn" icon="el-icon-search" @click="getRoleList">搜索</el-button>
-      <el-button type="primary" class="orange-btn" icon="el-icon-plus"  @click="openDialog(true, 0)">新增</el-button>
+      <el-button v-if="$checkBtnPermission('role.add')"  type="primary" class="orange-btn" icon="el-icon-plus"  @click="openDialog(true, -1)">新增</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -30,16 +32,25 @@
       highlight-current-row
       style="width: 100%;">
       <el-table-column prop="name" label="角色名称" align="center"></el-table-column>
+      <el-table-column prop="type" label="角色类型" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.type | filterState(roleTypes)}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="state" label="状态" align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.state === 1 ? '启用': '禁用'}}</span>
+          <span>{{scope.row.state | filterState(roleStates)}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" align="center"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <!-- <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button> -->
-          <el-button type="primary" class="green-btn" @click="openDialog(scope.row)" size="mini">编辑</el-button>
+          <el-button 
+            v-if="$checkBtnPermission('role.update')" 
+            type="primary" class="green-btn" size="mini"
+             @click="openDialog(true, scope.row.id)" >
+             编辑
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -59,14 +70,18 @@
   </div>
 </template>
 <script>
+  import { roleStates, roleTypes } from '@/utils/dictionary'
+  import { filterState } from '@/filters'
   import roleDialog from './components/Dialog'
   import { getRoleList } from '@/api/role'
-  import { getAllFactory } from '@/api/factory'
   import { mapGetters } from 'vuex'
   export default {
     name: 'report',
     components:{
       roleDialog
+    },
+    filter: {
+      filterState
     },
     data() {
       return {
@@ -76,34 +91,21 @@
         totalRecord:1,
         filter:{
           name:'',
-          factoryId:'',
+          type:'',
           state: '',
           page: 1,
           pageSize: 20
         },
         total: 0,
         list:[],
-        roleStates: [
-          {
-            value: '',
-            label: '全部状态'
-          }, {
-            value: 1,
-            label: '启用'
-          }, {
-            value: 2,
-            label: '禁用'
-          }
-        ],
-        factoryList: []
+        roleStates,
+        roleTypes
       }
     },
     filters: {},
     computed: {},
     created(){
-      this.getAllFactory()
       this.getRoleList();
-      
     },
     methods: {
       getRowClass({ row, column, rowIndex, columnIndex }) {
@@ -125,16 +127,11 @@
           this.listLoading = false
         })
       },
-      getAllFactory() {
-        getAllFactory().then(res => {
-          this.factoryList = res.data.data
-        })
-      },
-      openDialog(dialogVisible, flagId) {
+      openDialog(dialogVisible, roleId) {
         const roleDialog = this.$refs.roleDialog
         _.assign(roleDialog, {
           dialogVisible,
-          flagId
+          roleId
         })
       },
       details(row){

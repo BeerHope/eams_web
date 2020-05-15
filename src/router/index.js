@@ -136,7 +136,7 @@ export const asyncRoutes = [
         name: 'RoleList',
         meta: {
           title: '角色管理',
-          icon: 'user'
+          icon: 'role'
         }
       }
     ]
