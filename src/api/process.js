@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
 /* 标识管理列表 */
-export function getProcessList(params) {
+export function getProcessList(data) {
   return request({
     url: '/process/list',
     method: 'post',
-    params
+    data
   })
 }
 

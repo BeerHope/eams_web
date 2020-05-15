@@ -96,3 +96,19 @@ export const registerKeyStates = [
     label: '已注册'
   }
 ]
+
+/* 角色状态 */
+export const roleStates = [
+  {
+    value: '',
+    label: '全部状态',
+  },
+  {
+    value: 1,
+    label: '启用'
+  },
+  {
+    value: 2,
+    label: '禁用'
+  }
+]

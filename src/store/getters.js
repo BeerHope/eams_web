@@ -11,11 +11,11 @@ const getters = {
   introduction: state => state.user.introduction,
   status: state => state.user.status,
   roles: state => state.user.roles,
-  userType:state=>state.user.userType,
   phone:state=>state.user.phone,
   setting: state => state.user.setting,
   permission_routers: state => state.permission.routers,
   addRouters: state => state.permission.addRouters,
+  permissionButtons: state => state.permission.permissionButtons,
   errorLogs: state => state.errorLog.logs,
   logistics:state=>state.logistics.list,
 }

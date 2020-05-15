@@ -20,7 +20,6 @@
         </el-form-item>
       </el-form>
     </div>
-
     <div class="bottomInfo">
     <div class="version">Copyright © 2020 深圳市新国都支付技术有限公司 </div>
     </div>
@@ -29,9 +28,7 @@
 
 <script>
 import {doLogin, getUserInfo, getUserList} from '@/api/user'
-// import JSEncrypt from 'jsencrypt/bin/jsencrypt'
 import {getEncryptText} from '@/utils/encryption'
-import axios from 'axios'
 export default {
   name: '',
   components: {},

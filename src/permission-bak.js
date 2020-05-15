@@ -25,10 +25,10 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done(); // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
-      /* 判断vuex中是否存储菜单 */
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetUserInfo').then(res => {
-          store.dispatch('GenerateRoutes', res.data.data).then(() => { // 根据roles权限生成可访问的路由表
+          // 拉去用户信息动态生成权限
+          store.dispatch('GenerateRoutes1', res.data.data).then(() => { // 根据roles权限生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
             next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
           })

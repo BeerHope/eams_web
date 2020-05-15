@@ -1,9 +1,9 @@
 <template>
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
-      <el-input class="filter-item" v-model="filter.kmsCustomerCode" placeholder="KMS编码" clearable></el-input>
+      <!-- <el-input class="filter-item" v-model="filter.kmsCustomerCode" placeholder="KMS编码" clearable></el-input> -->
       <el-input class="filter-item" v-model="filter.processIdentity" placeholder="标识" clearable></el-input>
-      <el-button class="green-btn" type="primary" @click="getWhitelistList">
+      <el-button class="green-btn" type="primary" @click="getProcessList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
       <el-button class="orange-btn" type="primary" @click="openAddDialog">
@@ -14,9 +14,8 @@
       v-loading="listLoading" :data="processList"
       border highlight-current-row
       style="width: 100%">
-      <el-table-column prop="kmsCustomerCode" label="KMS编码" align="center"></el-table-column>
       <el-table-column prop="processIdentity" label="标识" align="center"></el-table-column>
-     
+      <el-table-column prop="kmsCustomerCode" label="KMS编码" align="center"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="danger" size="mini" @click="deleteProcess(scope.row.id)">删除</el-button>
@@ -27,7 +26,7 @@
     <el-pagination
       v-show="total>0"
       class="common-pagination"
-      @size-change="getWhitelistList"
+      @size-change="getProcessList"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
       :page-sizes="[10, 20, 30, 50]"
@@ -52,23 +51,21 @@ export default {
   directive: {},
   data() {
     return {
+      listLoading: false,
       filter: {
-        kmsCustomerCode: '', // KMS编码
         processIdentity: '', // 标识
         page: 1,
         pageSize: 20
       },
-      processList: [
-        {
-          kmsCustomerCode: '3213',
-          processIdentity: '假数据'
-        }
-      ]
+      processList: [],
+      total: 0,
     }
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.getProcessList()
+  },
   beforeMount() {},
   mounted() {},
   beforeDestroy() {},
@@ -81,8 +78,10 @@ export default {
     getProcessList() {
       this.listLoading = true
       getProcessList(this.filter).then(res => {
+        const resData = res.data.data
         this.processList = resData.rows
-        this.total = resData.totalRecord
+        // this.total = resData.totalRecord
+        this.total = this.processList.length
         this.listLoading = false
       }).catch(() => {
         this.listLoading = false
@@ -94,7 +93,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delteProcess({id}).then(res => {
+        deleteProcess({id}).then(res => {
           this.$message.success('删除标识成功')
           this.getProcessList()
         })

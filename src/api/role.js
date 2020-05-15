@@ -1,61 +1,49 @@
 import request from '@/utils/request'
 
-export function fetchList(data) {
+/* 获取角色列表 */
+export function getRoleList(params) {
   return request({
-    url: '/role/list',
-    method: 'post',
-    data
-  })
-}
-//删除角色
-export function deleteRole(data) {
-  return request({
-    url: '/role/delRole',
-    // url: '/staff/queryStaff',
-    method: 'post',
-    data
-
-  })
-}
-
-
-//获取菜单列表
-export function getMenus(data) {
-  return request({
-    url: '/menu/action',
+    url: '/role',
     method: 'get',
-    data
-
+    params
   })
 }
+
 //新增角色
 export function addRole(data) {
   return request({
-    url: '/role/addRole',
+    url: '/role',
     method: 'post',
     data
-
   })
 }
+
 //获取角色详情
-
-export function getRoleDetail(data) {
+export function getRoleDetails(roleId) {
   return request({
-    url: '/role/selectDetail',
-    method: 'post',
-    data
-
+    url: `/role/${roleId}`,
+    method: 'get',
   })
 }
+
 //修改角色
-export function updateRole(data) {
+export function updateRole(roleId, data) {
   return request({
-    url: '/role/updateRole',
-    method: 'post',
+    url: `/role/${roleId}`,
+    method: 'put',
     data
-
   })
 }
+
+
+// 获取角色下的菜单树
+export function getMenus() {
+  return request({
+    url: '/role/tree',
+    method: 'get',
+  })
+}
+
 
 
 

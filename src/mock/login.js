@@ -4,7 +4,6 @@ const userMap = {
   admin: {
     code:200,
     roles: ['admin'],
-    userType:99,
     phone:'13720407904',
     token: 'admin',
     introduction: '我是超级管理员',

@@ -6,11 +6,11 @@
     custom-class="common-dialog"
     @close="closeDialog">
     <el-form ref="form" :rules="rules" :model="formData" class="common-form" label-width="120px">
-      <el-form-item label="KMS编码" prop="kmsCustomerCode">
-        <el-input v-model="formData.kmsCustomerCode"></el-input>
-      </el-form-item>
-       <el-form-item label="标识" prop="processIdentity">
+      <el-form-item label="标识" prop="processIdentity">
         <el-input v-model="formData.processIdentity"></el-input>
+      </el-form-item>
+        <el-form-item label="KMS编号" prop="kmsCustomerCode">
+        <el-input v-model="formData.kmsCustomerCode"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">

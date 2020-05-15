@@ -187,7 +187,6 @@ export default {
           const blob = new Blob([res.data])
           const link = document.createElement('a')
           link.href = URL.createObjectURL(blob)
-          const url = URL.createObjectURL(blob)
           link.download = `${workOrderNumber}.xlsx`
           link.style.display = 'none';
           document.body.appendChild(link);

@@ -76,7 +76,7 @@
   import DialogDetails from './components/dialog_details' //详情
   import DialogFreeze from './components/dialog_freeze' // 冻结、激活
   import ResetPassword from './components/reset_password' //重置密码
-  import { getUserList, getUserDetails, getAllFactory } from '@/api/user'
+  import { getUserList, getUserDetails } from '@/api/user'
   import { mapGetters } from 'vuex'
   export default {
     name: 'report',
@@ -123,9 +123,7 @@
         return Arr[state];
       }
     },
-    computed: {
-      ...mapGetters(['userType'])
-    },
+    computed: {},
     created(){
       this.getUserList();
     },

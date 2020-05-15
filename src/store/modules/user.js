@@ -7,7 +7,6 @@ const user = {
     name: '',
     accountNum: '',
     roles: [],
-    userType:'',
     avatar: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
     phone: ''
   },
@@ -23,9 +22,6 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles;
-    },
-    SET_USERTYPE: (state, userType) => {
-      state.userType = userType;
     },
     // 存储当前账号
     SET_ACCOUNT: (state, phone) => {
@@ -52,7 +48,7 @@ const user = {
       })
     },
 
-    // 保存SSO的token信息
+    // 保存token信息
     SaveLoginInfo({commit}, token) {
       return new Promise((resolve, reject) => {
         commit('SET_TOKEN', token);
@@ -61,7 +57,7 @@ const user = {
       })
     },
 
-    // 获取用户信息
+    // 获取用户信息，并且保存当前用户所属权限
     GetUserInfo({commit, state}) {
       return new Promise((resolve, reject) => {
         getUserInfo().then(response => {
@@ -74,21 +70,13 @@ const user = {
           }else {
             commit('SET_ACCOUNT', data.email);
           }
-          if (data.roleType != null && data.roleType != undefined) {
-            let tempRoles = (data.roleType == 1 ? ["admin"] : ["editor"]);
-            commit('SET_USERTYPE', data.roleType);
-            commit('SET_ROLES', tempRoles);
-          } else {
-            reject('getInfo: userType must be a non-null array !');
-          }
+          commit('SET_ROLES', ['admin']);
           resolve(response);
         }).catch(error => {
           reject(error);
         })
       })
     },
-
-
   }
 }
 

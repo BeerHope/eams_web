@@ -1,4 +1,4 @@
-import {  constantRouterMap, operateMenu, otherPermission, customerMenu, superManMenu} from '@/router'
+import { constantRouter, asyncRoutes } from '@/router'
 /**
  * 通过meta.role判断是否与当前用户权限匹配
  * @param roles
@@ -11,27 +11,6 @@ function hasPermission(roles, route) {
     return true
   }
 }
-
-/**
- * 递归过滤异步路由表，返回符合用户角色权限的路由表
- * @param routes asyncRouterMap
- * @param roles
- */
-// function filterAsyncRouter(routes, roles) {
-//   const res = []
-//
-//   routes.forEach(route => {
-//     const tmp = { ...route }
-//     if (hasPermission(roles, tmp)) {
-//       if (tmp.children) {
-//         tmp.children = filterAsyncRouter(tmp.children, roles)
-//       }
-//       res.push(tmp)
-//     }
-//   })
-//
-//   return res
-// }
 
 /**
  * { path: '*', redirect: '/404', hidden: true }
@@ -49,17 +28,6 @@ function filterAsyncMenus(menuList, menus){
           const tmp = { ...children }
           const mm=findMenuObject(menuList,tmp.url);
           childrenArr.push(mm);
-           //查询并行菜单权限
-          // otherPermission.forEach(m=>{
-          //   const menuTemp = { ...m }
-          //      if(menuTemp.path===tmp.url){
-          //         const MenusSon= menuTemp.menus;
-          //         MenusSon.forEach(Son=>{
-          //           const ms=findMenuObject(menuList,Son);
-          //           childrenArr.push(ms);
-          //         })
-          //      }
-          // })
         })
         m.children=childrenArr;
       }
@@ -72,57 +40,133 @@ function filterAsyncMenus(menuList, menus){
 function findMenuObject(menuList,path){
       let menuObject={};
       menuList.forEach(menu=>{
-            if(menu.path===path){
-               menuObject=menu.content;
-            }
+        if(menu.path===path){
+            menuObject=menu.content;
+        }
       })
     return menuObject;
 }
+/* 菜单权限数据mock */
+/*
+type: 1,2 => 页面，按钮 
 
+ 先获取第一层级
+*/
+const routesMap = [
+  {
+    id: '11',
+    checked: true,
+    name: '用户管理',
+    className: 'user',
+    type: 1,
+    child: [
+      {
+        id: '111',
+        checked: true,
+        name: '用户列表',
+        className: 'user.list',
+        type: 1,
+        child: [],
+      },
+      {
+        id: '112',
+        checked: true,
+        name: '新增用户',
+        className: 'user.list.add',
+        child: [],
+        type: 2,
+      }
+    ]
+  },
+  {
+    id: '13',
+    checked: true,
+    name: '角色管理',
+    className: 'role',
+    type: 1,
+    child: [
+      {
+        id: '131',
+        checked: true,
+        name: '角色列表',
+        className: 'role.list',
+        child: [],
+        type: 1,
+      },
+      {
+        id: '132',
+        checked: true,
+        name: '新增工厂',
+        className: 'role.list.add',
+        child: [],
+        type: 2
+      }
+    ]
+  },
+  {
+    id: '12',
+    checked: true,
+    name: '工厂管理',
+    className: 'factory',
+    type: 1,
+    child: [
+      {
+        id: '121',
+        checked: true,
+        name: '工厂列表',
+        className: 'factory.list',
+        child: [],
+        type: 1,
+      },
+      {
+        id: '122',
+        checked: true,
+        name: '新增工厂',
+        className: 'factory.list.add',
+        child: [],
+        type: 2
+      }
+    ]
+  }
+]
+/* 动态菜单(待完善)*/
+function filterAsyncRouter(asyncRoutes, accessRoutes) {
+  return _.filter(asyncRoutes, (item) => {
+    return _.find(accessRoutes, {className: _.lowerCase(item.name)})
+  })
+}
+/* 动态按钮 */
+function filterAsyncButtons(accessRoutes) {
+  return _.filter(_.concat([], ..._.map(accessRoutes, (item) => {
+    return _.concat([], item, ...filterAsyncButtons(item.child))
+  })), {type: 2})
+}
 const permission = {
   state: {
-    routers: constantRouterMap,
-    addRouters: []
+    routers: constantRouter,
+    addRouters: [],
+    permissionButtons: [],
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers;
-      state.routers = constantRouterMap.concat(routers);
+      state.routers = _.concat(constantRouter, routers)
+    },
+    SET_BUTTONS: (state, permissionButtons) => {
+      state.permissionButtons = permissionButtons
     }
   },
   actions: {
-    // GenerateRoutes({ commit }, data) {
-    //
-    //   console.log(data);
-    //   return new Promise(resolve => {
-    //     const { roles } = data
-    //     let accessedRouters
-    //     if (roles.includes('admin')) {
-    //       accessedRouters = asyncRouterMap;
-    //     } else {
-    //       accessedRouters = filterAsyncRouter(asyncRouterMap, roles);
-    //     }
-    //     commit('SET_ROUTERS', accessedRouters)
-    //     resolve()
-    //   })
-    // },
-    GenerateRoutes1({ commit }, data){
-      //组装路由菜单
+    /* 存储动态权限（菜单、按钮） */
+    GenerateRoutes({ commit }, accessRoutes){
       return new Promise(resolve => {
-        let accessedRouters;
-        //根据用户的角色加载不同类型
-        if(data.roleType==1){  //1：运营 2：研发 3：客户
-          accessedRouters=operateMenu;
-        }else if(data.roleType==2){
-          accessedRouters=superManMenu;
-        }else{
-          accessedRouters=customerMenu;
-        }
-        commit('SET_ROUTERS', accessedRouters)
+        const permissionRoutes = filterAsyncRouter(asyncRoutes, routesMap)
+        const permissionButtons = filterAsyncButtons(routesMap)
+        commit('SET_ROUTERS', asyncRoutes)
+        commit('SET_BUTTONS', permissionButtons)
         resolve()
       })
-    }
-
+    },
   }
 }
 

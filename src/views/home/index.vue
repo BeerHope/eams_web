@@ -26,7 +26,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-// $color_1DC9BB: #1dc9bb;
 .home{
   position: absolute;
   height: 100%;

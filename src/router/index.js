@@ -21,7 +21,7 @@ import Layout from '@/views/layout/Layout';
   }
 **/
 
-export const constantRouterMap = [
+export const constantRouter = [
   {
     path: '/redirect',
     component: Layout,
@@ -63,6 +63,7 @@ export const constantRouterMap = [
     component: () => import('@/views/errorPage/401'),
     hidden: true
   },
+  /* 首页 */
   {
     path: '/',
     component: Layout,
@@ -75,7 +76,19 @@ export const constantRouterMap = [
         meta: { title: '首页', icon: 'home', noCache: true, affix: true}
       }
     ]
-  },
+  }
+]
+
+export default new Router({
+  mode: 'history', // require service support
+  base: '/',
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouter
+})
+
+/* 权限菜单 */
+export const asyncRoutes = [
+  /* 用户管理 */
   {
     path: '/user',
     component: Layout,
@@ -97,12 +110,34 @@ export const constantRouterMap = [
       }
     ]
   },
-  // 渠道商管理
+  /* 角色管理 */
+  {
+    path: '/role',
+    component: Layout,
+    redirect: '/role/list',
+    name: 'role',
+    meta: {
+      title: '',
+      icon: ''
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/role/list'),
+        name: 'RoleList',
+        meta: {
+          title: '角色管理',
+          icon: 'user'
+        }
+      }
+    ]
+  },
+  /* 渠道商管理 */
   {
     path: '/factory',
     component: Layout,
     redirect: '/factory/list',
-    name: '',
+    name: 'Factory',
     meta: {
       title: '',
       icon: ''
@@ -118,7 +153,7 @@ export const constantRouterMap = [
       }
     ]
   },
-  // 工单管理
+  /* 工单管理 */
   {
     path: '/order',
     component: Layout,
@@ -144,6 +179,7 @@ export const constantRouterMap = [
       }
     ]
   },
+  /* 设备管理 */
   {
     path: '/device',
     component: Layout,
@@ -158,6 +194,7 @@ export const constantRouterMap = [
       }
     ]
   },
+  /* 生产记录 */
   {
     path: '/log',
     component: Layout,
@@ -183,6 +220,7 @@ export const constantRouterMap = [
       }
     ]
   },
+  /* 解绑记录 */
   {
     path: '/unbind',
     component: Layout,
@@ -201,7 +239,7 @@ export const constantRouterMap = [
       }
     ]
   },
-  /* 白名单管理(工具授权) */
+  /* 白名单管理 */
   {
     path: '/whitelist',
     component: Layout,
@@ -220,8 +258,8 @@ export const constantRouterMap = [
       }
     ]
   },
-   /* 标识管理 */
-   {
+  /* 标识管理 */
+  {
     path: '/process',
     component: Layout,
     redirect: '/process/list',
@@ -240,22 +278,3 @@ export const constantRouterMap = [
     ]
   }
 ]
-
-export default new Router({
-  mode: 'history', // require service support
-  base: '/',
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-})
-
-// 其他账号权限
-export const otherPermission=[];
-
-//运营人员
-export const operateMenu = []
-
-//客户
-export const customerMenu = []
-
-//超级管理员 --研发人员
-export const superManMenu = []
