@@ -33,8 +33,19 @@
       highlight-current-row
       style="width: 100%;">
       <el-table-column prop="username" label="用户名" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="contactName" label="联系人" min-width="120px" align="center"></el-table-column>
+
+
       <el-table-column prop="contactPhone" label="联系手机号" min-width="120px" align="center"></el-table-column>
-<!--      <el-table-column prop="factoryName" label="工厂名称" min-width="120px"  align="center"></el-table-column>-->
+      <el-table-column prop="roles" label="角色" min-width="120px" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.roles|ShowRoles}}</span>
+        </template>
+
+      </el-table-column>
+
+
+      <!--      <el-table-column prop="factoryName" label="工厂名称" min-width="120px"  align="center"></el-table-column>-->
       <el-table-column prop="state" label="状态" width="120px"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.state|ShowState }}</span>
@@ -45,6 +56,7 @@
         <template slot-scope="scope">
           <span>
             <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
+                   <el-button type="primary" class="green-btn" @click="updateUser(scope.row)" size="mini">修改</el-button>
             <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
             <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
             <!-- 管理员权限——重设密码权限 -->
@@ -65,8 +77,8 @@
       @current-change="getUserList"
       :current-page.sync="filter.page"
     ></el-pagination>
-    <DialogAddUser ref="addUser" @refresh="getUserList"></DialogAddUser>
-    <DialogDetails ref="Details" :Details="Details"></DialogDetails>
+    <DialogAddUser ref="addUser" @refresh="getUserList" :rolelist="rolelist"></DialogAddUser>
+    <DialogDetails ref="Details" :Details="Details" :rolelist="rolelist"></DialogDetails>
     <DialogFreeze ref="Freeze" :cause="cause" @refresh="getUserList"></DialogFreeze>
     <reset-password ref="resetPass" @refresh="getUserList"></reset-password>
   </div>
@@ -76,7 +88,7 @@
   import DialogDetails from './components/dialog_details' //详情
   import DialogFreeze from './components/dialog_freeze' // 冻结、激活
   import ResetPassword from './components/reset_password' //重置密码
-  import {  SysUserDetails ,sysUserlist } from '@/api/user'
+  import {  SysUserDetails ,sysUserlist ,select4System } from '@/api/user'
   import { mapGetters } from 'vuex'
   export default {
     name: 'report',
@@ -103,6 +115,7 @@
         },
         total: 0,
         list:[],
+        rolelist:[],
         options: [
           {
             value: null,
@@ -121,10 +134,20 @@
       ShowState(state){
         const Arr={1:'激活',2:'禁用'};
         return Arr[state];
+      },
+      ShowRoles(roles){
+        var role=""
+         roles.forEach(item=>{
+            role=role+item+" 、"
+
+         })
+
+        return role.substring(0,role.length-1);
       }
     },
     computed: {},
     created(){
+      this.select4System();
       this.getUserList();
     },
     methods: {
@@ -135,6 +158,24 @@
           return ''
         }
       },
+      //修改操作
+      updateUser(row){
+        this.$refs.addUser.dialogVisible=true
+        SysUserDetails(row.id).then(response=>{
+          const addUser = this.$refs.addUser
+          const form=response.data.data;
+           form.roles=response.data.data.roleIds;
+          _.assign(addUser,{
+            form:form,
+            action:'update'
+          })
+
+        })
+
+
+
+      },
+
       openResetPassDialog(dialogVisible, userId) {
         const resetPass = this.$refs.resetPass
         _.assign(resetPass, {
@@ -143,8 +184,28 @@
         })
       },
       addUser(){
-       this.$refs.addUser.dialogVisible=true
+       // this.$refs.addUser.dialogVisible=true
+        const addUser=this.$refs.addUser
+
+        _.assign(addUser,{
+          dialogVisible:true,
+          action:'add',
+          form:{
+            contactName:'',
+            contactPhone:'',
+            username:'',
+            password: '',
+            roles:[],
+            username: '',
+          }
+        })
       },
+      select4System(){
+        select4System().then(response=>{
+          this.rolelist=response.data.data;
+        })
+      },
+
       getUserList(){
         this.listLoading = true
         sysUserlist(this.filter).then(res=>{
@@ -159,8 +220,25 @@
       },
       details(row){
         this.$refs.Details.dialogDetails=true;
+        // console.log("########1111")
+        // console.log(this.rolelist)
         SysUserDetails(row.id).then(response=>{
           this.Details=response.data.data;
+          this.Details.roleName=""
+          if(this.Details.roleIds.length>0){
+            // const role=this.Details.roleIds.join(",")+",";
+            //   console.log(role)
+            this.rolelist.forEach(item=>{
+              if(_.indexOf( this.Details.roleIds, item.id)>-1){
+                this.Details.roleName= this.Details.roleName+item.name+"、"
+              }
+            })
+
+
+
+          }
+
+
         })
       },
       freeze(row){ //冻结

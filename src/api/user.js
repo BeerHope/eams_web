@@ -107,8 +107,9 @@ export function SysfreezeUser(data) {
 
 //系统用户详情
 export function SysUserDetails(data) {
+  // console.log(data)
   return request({
-    url: '/user/system/detail/'+data.id,
+    url: '/user/system/detail/'+data,
     method: 'GET'
   })
 }
@@ -116,6 +117,24 @@ export function SysUserDetails(data) {
 export function SysResetPwd(data) {
   return request({
     url: '/user/system/resetPwd',
+    method: 'POST',
+    data
+  })
+}
+
+//获取系统角色列表
+export function select4System() {
+  return request({
+    url: '/role/select4System',
+    method: 'GET'
+  })
+}
+
+
+//修改用户
+export function updateSysUser(data) {
+  return request({
+    url: '/user/system/update',
     method: 'POST',
     data
   })
