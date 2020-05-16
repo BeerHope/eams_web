@@ -46,7 +46,6 @@
               @check="changeCheck"
             ></el-tree>
           </div>
-          <!-- <div class="form-item__error">请填写角色名称</div> -->
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input type="textarea" v-model="formData.remark"></el-input>

@@ -6,7 +6,7 @@
         <span v-if="cause.state==2">是否激活<strong>{{cause.contactPhone}}</strong> ，激活后，该客户可正常开展业务？</span>
       </el-form-item>
       <el-form-item label="备注" prop="stateDesc" >
-        <el-input type="textarea"   placeholder="请输入备注" v-model="form.stateDesc"></el-input>
+        <el-input type="textarea" placeholder="请输入备注" v-model="form.stateDesc"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">

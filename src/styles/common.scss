@@ -265,3 +265,8 @@ $hoverOpacity: 0.78;
 .el-checkbox__inner:hover{
   border-color: $color_1DC9BB;
 }
+
+/* 多选下拉框样式 */
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected{
+  color: $color_1DC9BB;
+}

@@ -20,10 +20,10 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width: 310px; line-height: 20px; font-size: 16px" @click="onSubmit">确定</el-button>
-        <!--<el-button @click="Tologin">返回登录</el-button>-->
+        <!--<el-button @click="Tologin">返回登陆</el-button>-->
       </el-form-item>
     </el-form>
-    <div class="dologin">已有账号，前往<router-link style="color: #409EFF; font-size: 18px;" to="/">登陆</router-link></div>
+    <div class="dologin">已有账号，前往<router-link style="color: #409EFF; font-size: 18px;" to="/">登录</router-link></div>
   </div>
 </template>
 <style>
@@ -114,10 +114,10 @@ import { redirectToLogin } from '@/api/login'
           const datas = response.data.data
           console.log(datas);
 
-           if(datas.disable===true){   //已经注册，前去登陆
+           if(datas.disable===true){   //已经注册，前去登录
              // this.$notify({
              //   title: '错误',
-             //   message: '已经注册，前去登陆！',
+             //   message: '已经注册，前去登录！',
              //   type: 'error',
              //   duration: 2000
              // })

@@ -19,7 +19,7 @@ export default {
     closeAll: '关闭所有'
   },
   navbar: {
-    logOut: '退出登录',
+    logOut: '退出登陆',
     dashboard: '首页',
     github: '项目地址',
     screenfull: '全屏',

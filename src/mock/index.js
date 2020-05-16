@@ -12,7 +12,7 @@ import staffAPI from './staff'
 //   timeout: '350-600'
 // })
 
-// 登录相关
+// 登陆相关
 // Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
 // Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)
 // Mock.mock(/\/user\/info/, 'get', loginAPI.getUserInfo)

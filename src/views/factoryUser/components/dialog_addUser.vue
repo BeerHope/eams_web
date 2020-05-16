@@ -16,7 +16,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="角色:" prop="roles">
-        <el-select v-model="form.roles" multiple placeholder="请选择角色">
+        <el-select v-model="form.roles" :multiple-limit="5" multiple placeholder="请选择角色">
           <el-option
             v-for="item in factoryRoles"
             :key="item.id"
@@ -29,7 +29,13 @@
         <el-input v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item label="登录密码:" prop="password">
-        <el-input v-model="form.password"></el-input>
+        <el-input v-model="form.password" :type="paswwordVisible ? 'text': 'password'">
+          <svg-icon 
+            class="cur-pointer" slot="suffix" 
+            :icon-class="paswwordVisible ? 'eye-open' : 'eye-close'" 
+            @click.stop.native="paswwordVisible = !paswwordVisible">
+          </svg-icon>
+        </el-input>
       </el-form-item>
       <el-form-item label="联系人姓名:" prop="contactName">
         <el-input v-model="form.contactName"></el-input>
@@ -56,7 +62,7 @@
     name: "addUser",
     data(){
       const checkPhone = (rule, value, callback) => {
-        if (!validatePhone(value)) {
+        if (value && !validatePhone(value)) {
           callback(new Error('请输入正确的手机号码！'))
         } else {
           callback()
@@ -72,6 +78,7 @@
       return{
         factoryList:[],
         factoryRoles: [],
+        paswwordVisible: false,
         form:{
           factoryId:'',
           roles: [],
@@ -93,7 +100,6 @@
             { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
           ],
           contactPhone: [
-            { required: true, message: '请输入联系人手机号', trigger: 'blur' },
             { validator: checkPhone, trigger: 'blur' }
           ],
           username: [
@@ -145,7 +151,7 @@
       },
       openDialog() {
         this.form.username = this.phone
-      }
+      },
     }
   }
 </script>
