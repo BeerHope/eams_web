@@ -22,7 +22,7 @@
         </el-option>
       </el-select>
       <el-button type="primary" class="green-btn" icon="el-icon-search" @click="getUserList">搜索</el-button>
-      <el-button type="primary" class="orange-btn" icon="el-icon-plus"  @click="addUser()">新增</el-button>
+      <el-button type="primary" v-if="$checkBtnPermission('user.system.add')" class="orange-btn" icon="el-icon-plus"  @click="addUser()">新增</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -55,12 +55,14 @@
       <el-table-column label="操作" min-width="240px" align="center">
         <template slot-scope="scope">
           <span>
-            <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
-                   <el-button type="primary" class="green-btn" @click="updateUser(scope.row)" size="mini">修改</el-button>
-            <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
-            <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
-            <!-- 管理员权限——重设密码权限 -->
-            <el-button type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
+            <el-button type="primary" v-if="$checkBtnPermission('user.system.detail')" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
+                   <el-button type="primary" v-if="$checkBtnPermission('user.system.edit')" class="green-btn" @click="updateUser(scope.row)" size="mini">修改</el-button>
+             <span v-if="$checkBtnPermission('user.system.activate_freeze')">
+                  <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
+                  <el-button type="primary"  v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+             </span>
+          <!-- 管理员权限——重设密码权限 -->
+            <el-button v-if="$checkBtnPermission('user.system.resetpassword')"  type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
           </span>
         </template>
       </el-table-column>
