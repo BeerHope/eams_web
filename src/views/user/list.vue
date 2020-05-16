@@ -2,17 +2,17 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input
-        placeholder="工厂名称"
-        v-model.trim="filter.factoryName"
+        placeholder="用户名/手机号/联系人"
+        v-model.trim="filter.keyword"
         class="filter-item"
         style="width: 200px;"
         clearable />
-      <el-input
-        placeholder="联系手机号"
-        v-model.trim="filter.contactPhone"
-        class="filter-item"
-        style="width: 200px;"
-        clearable />
+<!--      <el-input-->
+<!--        placeholder="联系手机号"-->
+<!--        v-model.trim="filter.contactPhone"-->
+<!--        class="filter-item"-->
+<!--        style="width: 200px;"-->
+<!--        clearable />-->
       <el-select v-model="filter.state" placeholder="请选择状态"  class="filter-item" clearable>
         <el-option
           v-for="item in options"
@@ -109,9 +109,7 @@
         totalRecord:1,
         filter:{
           page: 1,
-          factoryCode:'',
-          factoryName:'',
-          contactPhone:'',
+          keyword:'',
           state:'',
           pageSize: 20
         },
@@ -163,21 +161,16 @@
       //修改操作
       updateUser(row){
         this.$refs.addUser.dialogVisible=true
+        this.$refs.addUser.action='update'
         SysUserDetails(row.id).then(response=>{
           const addUser = this.$refs.addUser
           const form=response.data.data;
            form.roles=response.data.data.roleIds;
           _.assign(addUser,{
-            form:form,
-            action:'update'
+            form:form
           })
-
         })
-
-
-
       },
-
       openResetPassDialog(dialogVisible, userId) {
         const resetPass = this.$refs.resetPass
         _.assign(resetPass, {
