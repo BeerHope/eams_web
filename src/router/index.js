@@ -104,18 +104,16 @@ export const asyncRoutes = [
         component: () => import('@/views/user/list'),
         meta: {
           title: '系统用户',
-          // icon: 'user'
         },
         name: 'UserList'
       },
       {
         path: 'factory',
-        component: () => import('@/views/user/list'),
+        component: () => import('@/views/factoryUser/list'),
         meta: {
           title: '外协厂用户',
-          // icon: 'user'
         },
-        name: 'UserList1'
+        name: 'factoryUserList'
       }
     ]
   },

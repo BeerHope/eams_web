@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-/* 获取用户列表 */
+/* 获取外协厂用户列表 */
 export function getUserList(params) {
   return request({
     url: '/user/list',
@@ -9,7 +9,7 @@ export function getUserList(params) {
   })
 }
 
-/* 新增用户 */
+/* 新增外协厂用户 */
 export function addUser(data) {
   return request({
     url: '/user/add',
@@ -17,7 +17,14 @@ export function addUser(data) {
     data
   })
 }
-
+/* 编辑外协厂用户 */
+export function updateUser(data) {
+  return request({
+    url: '/user/factory/update',
+    method: 'post',
+    data
+  })
+}
 /* 用户详情 */
 export function getUserDetails(userId) {
   return request({

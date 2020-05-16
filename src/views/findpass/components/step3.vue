@@ -5,7 +5,7 @@
     <el-form :model="findForm"  ref="ruleForm2"  class="findPass">
       <div style="text-align: center; line-height: 25px; font-size: 16px;">
         <svg-icon class="btn-face" icon-class="face" />
-        <div class="success">登陆密码重置成功！</div>
+        <div class="success">登录密码重置成功！</div>
 
 
 
@@ -13,7 +13,7 @@
 
 
       <el-form-item>
-        <el-button type="primary" class="submit_1" @click="doLogin()">返回登陆首页</el-button>
+        <el-button type="primary" class="submit_1" @click="doLogin()">返回登录首页</el-button>
 
       </el-form-item>
     </el-form>

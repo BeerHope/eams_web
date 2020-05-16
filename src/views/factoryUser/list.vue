@@ -8,8 +8,8 @@
         style="width: 200px;"
         clearable />
       <el-input
-        placeholder="联系手机号"
-        v-model.trim="filter.contactPhone"
+        placeholder="用户名"
+        v-model.trim="filter.username"
         class="filter-item"
         style="width: 200px;"
         clearable />
@@ -33,8 +33,10 @@
       highlight-current-row
       style="width: 100%;">
       <el-table-column prop="username" label="用户名" min-width="120px" align="center"></el-table-column>
-      <el-table-column prop="contactPhone" label="联系手机号" min-width="120px" align="center"></el-table-column>
-      <el-table-column prop="factoryName" label="工厂名称" min-width="120px"  align="center"></el-table-column>
+      <el-table-column prop="contactPhone" label="归属角色" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="factoryName" label="归属工厂" min-width="120px"  align="center">
+
+      </el-table-column>
       <el-table-column prop="state" label="状态" width="120px"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.state|ShowState }}</span>
@@ -45,9 +47,9 @@
         <template slot-scope="scope">
           <span>
             <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
+            <el-button type="primary" class="orange-btn" @click="updateUser(scope.row)" size="mini">编辑</el-button>
             <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
             <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
-            <!-- 管理员权限——重设密码权限 -->
             <el-button type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
           </span>
         </template>
@@ -76,7 +78,8 @@
   import DialogDetails from './components/dialog_details' //详情
   import DialogFreeze from './components/dialog_freeze' // 冻结、激活
   import ResetPassword from './components/reset_password' //重置密码
-  import { getUserList, getUserDetails } from '@/api/user'
+  import { getUserList, getUserDetails, updateUser } from '@/api/user'
+  import { getFactoryRoles } from '@/api/role'
   import { mapGetters } from 'vuex'
   export default {
     name: 'report',
@@ -88,16 +91,15 @@
     },
     data() {
       return {
-        value4:'',
         cause:{},
         Details:{},
         listLoading:true,
         totalRecord:1,
+        roleList: [],
         filter:{
           page: 1,
-          factoryCode:'',
           factoryName:'',
-          contactPhone:'',
+          username:'',
           state:'',
           pageSize: 20
         },
@@ -125,9 +127,14 @@
     },
     computed: {},
     created(){
+      this.getFactoryRoles()
       this.getUserList();
     },
     methods: {
+      async getFactoryRoles() {
+        const resData = await getFactoryRoles()
+        console.log(resData, 'resData')
+      },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
           return 'background:#EFEFEF'
@@ -163,10 +170,15 @@
           this.Details=response.data.data;
         })
       },
+      updateUser() {
+        console.log('编辑用户')
+      },
       freeze(row){ //冻结
         this.cause=row;
         this.$refs.Freeze.dialogFreeze=true;
-        // this.flag = row.state
+      },
+      /* 转换角色 */
+      convertRoles(roles) {
 
       }
     }

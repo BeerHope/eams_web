@@ -28,7 +28,7 @@
         <el-input v-model="form.contactPhone"></el-input>
       </el-form-item>
 
-      <!-- <el-form-item label="登陆账号:" >
+      <!-- <el-form-item label="登录账号:" >
         <el-input v-model="form.username" disabled></el-input>
       </el-form-item> -->
     </el-form>

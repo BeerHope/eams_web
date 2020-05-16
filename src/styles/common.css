@@ -1491,3 +1491,8 @@
 .el-checkbox__inner:hover {
   border-color: #1DC9BB;
 }
+
+/* 多选下拉框样式 */
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
+  color: #1DC9BB;
+}

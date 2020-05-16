@@ -2,7 +2,7 @@
   <div class="login">
     <div class="webName">外协组包一体管理系统</div>
     <div class="loginFrom">
-        <h2> 用户登录</h2>
+        <h2> 用户登陆</h2>
       <el-form :model="loginFrom" status-icon  ref="loginFrom" :rules="rules"    label-width="60px" class="demo-ruleForm">
         <el-form-item  prop="username">
           <el-input type="text" placeholder="手机号码"  class="Input_box" v-model="loginFrom.username" ></el-input>
