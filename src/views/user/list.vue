@@ -2,17 +2,17 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input
-        placeholder="工厂名称"
-        v-model.trim="filter.factoryName"
+        placeholder="用户名/手机号/联系人"
+        v-model.trim="filter.keyword"
         class="filter-item"
         style="width: 200px;"
         clearable />
-      <el-input
-        placeholder="联系手机号"
-        v-model.trim="filter.contactPhone"
-        class="filter-item"
-        style="width: 200px;"
-        clearable />
+<!--      <el-input-->
+<!--        placeholder="联系手机号"-->
+<!--        v-model.trim="filter.contactPhone"-->
+<!--        class="filter-item"-->
+<!--        style="width: 200px;"-->
+<!--        clearable />-->
       <el-select v-model="filter.state" placeholder="请选择状态"  class="filter-item" clearable>
         <el-option
           v-for="item in options"
@@ -22,7 +22,7 @@
         </el-option>
       </el-select>
       <el-button type="primary" class="green-btn" icon="el-icon-search" @click="getUserList">搜索</el-button>
-      <el-button type="primary" class="orange-btn" icon="el-icon-plus"  @click="addUser()">新增</el-button>
+      <el-button type="primary" v-if="$checkBtnPermission('user.system.add')" class="orange-btn" icon="el-icon-plus"  @click="addUser()">新增</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -52,14 +52,18 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" min-width="120px" align="center"></el-table-column>
-      <el-table-column label="操作" width="340px" align="center">
+      <el-table-column label="操作" min-width="240px" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" class="green-btn" @click="updateUser(scope.row)" size="mini">编辑</el-button>
-          <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
-          <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
-          <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+          <span>
+            <el-button type="primary" v-if="$checkBtnPermission('user.system.detail')" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
+                   <el-button type="primary" v-if="$checkBtnPermission('user.system.edit')" class="green-btn" @click="updateUser(scope.row)" size="mini">修改</el-button>
+             <span v-if="$checkBtnPermission('user.system.activate_freeze')">
+                  <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
+                  <el-button type="primary"  v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+             </span>
           <!-- 管理员权限——重设密码权限 -->
-          <el-button type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
+            <el-button v-if="$checkBtnPermission('user.system.resetpassword')"  type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
+          </span>
         </template>
       </el-table-column>
     </el-table>
@@ -105,8 +109,7 @@
         totalRecord:1,
         filter:{
           page: 1,
-          factoryName:'',
-          contactPhone:'',
+          keyword:'',
           state:'',
           pageSize: 20
         },
@@ -158,21 +161,16 @@
       //修改操作
       updateUser(row){
         this.$refs.addUser.dialogVisible=true
+        this.$refs.addUser.action='update'
         SysUserDetails(row.id).then(response=>{
           const addUser = this.$refs.addUser
           const form=response.data.data;
            form.roles=response.data.data.roleIds;
           _.assign(addUser,{
-            form:form,
-            action:'update'
+            form:form
           })
-
         })
-
-
-
       },
-
       openResetPassDialog(dialogVisible, userId) {
         const resetPass = this.$refs.resetPass
         _.assign(resetPass, {
