@@ -65,6 +65,9 @@
     .el-submenu {
       overflow: hidden;
       &>.el-submenu__title {
+        i {
+          color: #fff;
+        }
         padding-left: 10px !important;
         .el-submenu__icon-arrow {
           display: none;
@@ -119,4 +122,8 @@
       transition: none;
     }
   }
+}
+
+.el-submenu__title i{
+  color: #fff;
 }
