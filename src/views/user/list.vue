@@ -52,16 +52,14 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" min-width="120px" align="center"></el-table-column>
-      <el-table-column label="操作" min-width="240px" align="center">
+      <el-table-column label="操作" width="340px" align="center">
         <template slot-scope="scope">
-          <span>
-            <el-button type="primary" class="green-btn" @click="updateUser(scope.row)" size="mini">编辑</el-button>
-            <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
-            <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
-            <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
-            <!-- 管理员权限——重设密码权限 -->
-            <el-button type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
-          </span>
+          <el-button type="primary" class="green-btn" @click="updateUser(scope.row)" size="mini">编辑</el-button>
+          <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
+          <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
+          <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+          <!-- 管理员权限——重设密码权限 -->
+          <el-button type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
         </template>
       </el-table-column>
     </el-table>
