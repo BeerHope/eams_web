@@ -4,12 +4,12 @@
       <div class="detail">
         <el-row>
           <el-col :md="12" :sm="24">
-            <span>工厂编号：</span> 
-            <span>{{Details.factoryCode}} </span>
+            <span>归属工厂：</span>
+            <span>{{Details.factoryName}}</span>
           </el-col>
           <el-col :md="12" :sm="24">
-            <span>工厂名称：</span>
-            <span>{{Details.factoryName}}</span>
+            <span>归属角色：</span> 
+            <span>{{Details.roles}} </span>
           </el-col>
         </el-row>
         <el-row>
@@ -24,7 +24,7 @@
         </el-row>
         <el-row>
           <el-col :md="12" :sm="24">
-            <span>登陆账号：</span>
+            <span>登录账号：</span>
             <span>{{Details.username}}</span>
           </el-col>
           <el-col :md="12" :sm="24">
@@ -63,7 +63,7 @@
     },
     data(){
       return{
-        dialogDetails:false
+        dialogDetails: false
       }
     },
     filters:{

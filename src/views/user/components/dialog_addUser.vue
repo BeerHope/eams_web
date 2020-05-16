@@ -20,7 +20,7 @@
 
 
 
-      <el-form-item   label="登陆账号:" prop="username">
+      <el-form-item   label="登录账号:" prop="username">
         <el-input  :readonly="action=='update'?true:false"  v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item v-if="action=='add'" label="登录密码:" prop="password">
@@ -44,7 +44,7 @@
         <el-input v-model="form.contactPhone"></el-input>
       </el-form-item>
 
-      <!-- <el-form-item label="登陆账号:" >
+      <!-- <el-form-item label="登录账号:" >
         <el-input v-model="form.username" disabled></el-input>
       </el-form-item> -->
     </el-form>

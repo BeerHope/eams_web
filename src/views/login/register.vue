@@ -20,7 +20,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width: 310px; line-height: 20px; font-size: 16px" @click="onSubmit">确定</el-button>
-        <!--<el-button @click="Tologin">返回登陆</el-button>-->
+        <!--<el-button @click="Tologin">返回登录</el-button>-->
       </el-form-item>
     </el-form>
     <div class="dologin">已有账号，前往<router-link style="color: #409EFF; font-size: 18px;" to="/">登录</router-link></div>

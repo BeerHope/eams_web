@@ -22,7 +22,7 @@
         </el-option>
       </el-select>
       <el-button type="primary" class="green-btn" icon="el-icon-search" @click="getUserList">搜索</el-button>
-      <el-button type="primary" class="orange-btn" icon="el-icon-plus"  @click="addUser()">新增</el-button>
+      <el-button v-if="$checkBtnPermission('user.factotry.add')" type="primary" class="orange-btn" icon="el-icon-plus"  @click="openUserDialog(true, -1)">新增</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -33,9 +33,12 @@
       highlight-current-row
       style="width: 100%;">
       <el-table-column prop="username" label="用户名" min-width="120px" align="center"></el-table-column>
-      <el-table-column prop="contactPhone" label="归属角色" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="roles" label="归属角色" min-width="120px" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.roles.join('、')}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="factoryName" label="归属工厂" min-width="120px"  align="center">
-
       </el-table-column>
       <el-table-column prop="state" label="状态" width="120px"  align="center">
         <template slot-scope="scope">
@@ -45,13 +48,11 @@
       <el-table-column prop="createTime" label="创建时间" min-width="120px" align="center"></el-table-column>
       <el-table-column label="操作" min-width="240px" align="center">
         <template slot-scope="scope">
-          <span>
-            <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
-            <el-button type="primary" class="orange-btn" @click="updateUser(scope.row)" size="mini">编辑</el-button>
-            <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
-            <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
-            <el-button type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
-          </span>
+          <el-button v-if="$checkBtnPermission('user.factotry.edit')" type="primary" class="green-btn" @click="openUserDialog(true, scope.row.id)" size="mini">编辑</el-button>
+          <el-button v-if="$checkBtnPermission('user.factotry.details')" type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
+          <el-button v-if="scope.row.state==1 && $checkBtnPermission('user.factotry.activate_freeze')" type="danger" @click="freeze(scope.row)" size="mini">冻结</el-button>
+          <el-button v-if="scope.row.state==2 && $checkBtnPermission('user.factotry.activate_freeze')" type="primary"  class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+          <el-button v-if="$checkBtnPermission('user.factotry.resetpassword')" type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -67,14 +68,15 @@
       @current-change="getUserList"
       :current-page.sync="filter.page"
     ></el-pagination>
-    <DialogAddUser ref="addUser" @refresh="getUserList"></DialogAddUser>
+    <!-- <DialogAddUser ref="addUser" @refresh="getUserList"></DialogAddUser> -->
+    <user-dialog ref="userDialog" @refresh="getUserList"></user-dialog>
     <DialogDetails ref="Details" :Details="Details"></DialogDetails>
     <DialogFreeze ref="Freeze" :cause="cause" @refresh="getUserList"></DialogFreeze>
     <reset-password ref="resetPass" @refresh="getUserList"></reset-password>
   </div>
 </template>
 <script>
-  import DialogAddUser from './components/dialog_addUser' //新建用户模块
+  import UserDialog from './components/UserDialog' //新建用户模块
   import DialogDetails from './components/dialog_details' //详情
   import DialogFreeze from './components/dialog_freeze' // 冻结、激活
   import ResetPassword from './components/reset_password' //重置密码
@@ -84,7 +86,7 @@
   export default {
     name: 'report',
     components:{
-      DialogAddUser,
+      UserDialog,
       DialogDetails,
       DialogFreeze,
       ResetPassword
@@ -95,12 +97,12 @@
         Details:{},
         listLoading:true,
         totalRecord:1,
-        roleList: [],
+        factoryRoles: [],
         filter:{
-          page: 1,
           factoryName:'',
           username:'',
           state:'',
+          page: 1,
           pageSize: 20
         },
         total: 0,
@@ -127,13 +129,14 @@
     },
     computed: {},
     created(){
-      this.getFactoryRoles()
+      this.getFactoryRoles();
       this.getUserList();
     },
     methods: {
-      async getFactoryRoles() {
-        const resData = await getFactoryRoles()
-        console.log(resData, 'resData')
+      getFactoryRoles() {
+        getFactoryRoles().then(res => {
+          this.factoryRoles = res.data.data
+        })
       },
       getRowClass({ row, column, rowIndex, columnIndex }) {
         if (rowIndex == 0) {
@@ -149,8 +152,13 @@
           userId
         })
       },
-      addUser(){
-       this.$refs.addUser.dialogVisible=true
+      /* flagId:标识(-1:新增, !-1: 编辑) */
+      openUserDialog(dialogVisible, userId){
+        const userDialog = this.$refs.userDialog
+        _.assign(userDialog, {
+          dialogVisible,
+          userId
+        })
       },
       getUserList(){
         this.listLoading = true
@@ -160,7 +168,6 @@
           this.total = resData.totalRecord
           this.listLoading = false
         }).catch(err => {
-          console.log(err, '用户列表')
           this.listLoading = false
         })
       },
@@ -168,18 +175,27 @@
         this.$refs.Details.dialogDetails=true;
         getUserDetails(row.id).then(response=>{
           this.Details=response.data.data;
+          this.Details.roles = this.convertRolesName(this.Details.roles)
+          console.log(this.Details.roles, 'this.Details.roles!!!')
         })
-      },
-      updateUser() {
-        console.log('编辑用户')
       },
       freeze(row){ //冻结
         this.cause=row;
         this.$refs.Freeze.dialogFreeze=true;
       },
       /* 转换角色 */
-      convertRoles(roles) {
-
+      convertRolesName(roleIds) {
+        let roleNames = ''
+         _.forEach(this.factoryRoles, (item, index) => {
+          if (_.includes(roleIds, item.id)) {
+            if (index === this.factoryRoles.length -1) {
+              roleNames += item.name
+            } else {
+              roleNames += `${item.name}|`
+            }
+          }
+        })
+        return roleNames
       }
     }
   }

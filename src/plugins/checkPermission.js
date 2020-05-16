@@ -6,7 +6,6 @@ export default {
     /* 校验按钮权限 */
     Vue.prototype.$checkBtnPermission = function (btnClassName) {
       const permissionButtons = store.getters.permissionButtons
-      console.log(permissionButtons[btnClassName])
       return permissionButtons[btnClassName] !== undefined
     }
   }

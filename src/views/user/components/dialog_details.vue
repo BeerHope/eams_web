@@ -15,7 +15,7 @@
         </el-row>
         <el-row>
           <el-col :md="12" :sm="24">
-            <span>登陆账号：</span>
+            <span>登录账号：</span>
             <span>{{Details.username}}</span>
           </el-col>
           <el-col :md="12" :sm="24">

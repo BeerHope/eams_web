@@ -10,7 +10,7 @@ export function getUserList(params) {
 }
 
 /* 新增外协厂用户 */
-export function addUser(data) {
+export function addFactoryUser(data) {
   return request({
     url: '/user/add',
     method: 'put',
@@ -18,14 +18,14 @@ export function addUser(data) {
   })
 }
 /* 编辑外协厂用户 */
-export function updateUser(data) {
+export function updateFactoryUser(data) {
   return request({
     url: '/user/factory/update',
     method: 'post',
     data
   })
 }
-/* 用户详情 */
+/* 获取外协厂用户详情 */
 export function getUserDetails(userId) {
   return request({
     url: `/user/detail/${userId}`,

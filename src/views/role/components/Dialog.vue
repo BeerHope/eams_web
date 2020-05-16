@@ -173,7 +173,8 @@ export default {
     },
     // 新增角色
     addRole() {
-      this.formData.menus = this.$refs.authTree.getCheckedKeys()
+      const authTree = this.$refs.authTree
+      this.formData.menus = [...authTree.getCheckedKeys(), ...authTree.getHalfCheckedKeys()]
       this.$refs.form.validate((valid) => {
         if (valid) {
           addRole(this.formData).then(res => {
@@ -188,7 +189,8 @@ export default {
     updateRole() {
       const { roleId } = this
       const reqData = _.cloneDeep(this.formData)
-      reqData.menus = this.$refs.authTree.getCheckedKeys()
+      const authTree = this.$refs.authTree
+      reqData.menus = [...authTree.getCheckedKeys(), ...authTree.getHalfCheckedKeys()]
       updateRole(roleId, reqData).then(res => {
         this.$emit('refresh')
         this.dialogVisible = false

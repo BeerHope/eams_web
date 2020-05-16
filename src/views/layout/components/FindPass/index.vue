@@ -110,7 +110,7 @@ export default {
           updatePassword(reqData).then(res => {
             this.$message.success('密码更新成功')
             this.dialogVisible = false
-            // 退出登陆
+            // 退出登录
             setTimeout(() => {
               this.$store.dispatch('LogOut').then(() => {
                 location.reload();

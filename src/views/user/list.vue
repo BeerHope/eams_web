@@ -55,8 +55,8 @@
       <el-table-column label="操作" min-width="240px" align="center">
         <template slot-scope="scope">
           <span>
+            <el-button type="primary" class="green-btn" @click="updateUser(scope.row)" size="mini">编辑</el-button>
             <el-button type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
-                   <el-button type="primary" class="green-btn" @click="updateUser(scope.row)" size="mini">修改</el-button>
             <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
             <el-button type="primary" v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
             <!-- 管理员权限——重设密码权限 -->
@@ -107,7 +107,6 @@
         totalRecord:1,
         filter:{
           page: 1,
-          factoryCode:'',
           factoryName:'',
           contactPhone:'',
           state:'',

@@ -1,13 +1,14 @@
 <template>
   <el-dialog
     custom-class="common-dialog"
-    title="新增用户" 
+    :title="dialogTitle" 
     width="36%" 
     @close="closeDialog"
+    @open="openDialog"
     :visible.sync="dialogVisible">
-    <el-form class="common-form" ref="form" :model="form" :rules="rules" label-width="140px">
+    <el-form v-loading="loading" class="common-form" ref="form" :model="form" :rules="rules" label-width="140px">
       <el-form-item label="归属工厂:" prop="factoryId">
-        <el-select v-model="form.factoryId" placeholder="请选择工厂">
+        <el-select :disabled="userId!==-1"  v-model="form.factoryId" placeholder="请选择工厂">
           <el-option v-for="item in factoryList"
             :key="item.value"
             :label="item.label"
@@ -15,7 +16,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="角色:" prop="roles">
+      <el-form-item label="归属角色:" prop="roles">
         <el-select v-model="form.roles" :multiple-limit="5" multiple placeholder="请选择角色">
           <el-option
             v-for="item in factoryRoles"
@@ -25,10 +26,10 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="登陆账号:" prop="username">
+      <el-form-item :disabled="userId!==-1" label="登录账号:" prop="username">
         <el-input v-model="form.username"></el-input>
       </el-form-item>
-      <el-form-item label="登录密码:" prop="password">
+      <el-form-item v-if="userId===-1" label="登录密码:" prop="password">
         <el-input v-model="form.password" :type="paswwordVisible ? 'text': 'password'">
           <svg-icon 
             class="cur-pointer" slot="suffix" 
@@ -46,7 +47,8 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible=false">取消</el-button>
-      <el-button type="primary" class="green-btn" @click="onSubmit">新增</el-button>
+      <el-button v-if="userId===-1" type="primary" class="green-btn" @click="addFactoryUser">新增</el-button>
+      <el-button v-else type="primary" class="green-btn" @click="updateFactoryUser">保存</el-button>
     </span>
   </el-dialog>
 </template>
@@ -54,7 +56,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import { getAllFactory } from '@/api/factory'
-  import { addUser } from '@/api/user'
+  import { addFactoryUser, updateFactoryUser, getUserDetails } from '@/api/user'
   import { getFactoryRoles } from '@/api/role'
   import { validatePhone, validatePassword } from '@/utils/validate'
   import { getEncryptText } from '@/utils/encryption'
@@ -76,6 +78,7 @@
         }
       }
       return{
+        loading: false,
         factoryList:[],
         factoryRoles: [],
         paswwordVisible: false,
@@ -88,12 +91,13 @@
           username: '', // 当前账号,存在store中
         },
         dialogVisible:false,
+        userId: -1,
         rules:{
           factoryId: [
-            { required: true, message: '请选择工厂', trigger: 'blur' }
+            { required: true, message: '请选择归属工厂', trigger: 'blur' }
           ],
           roles: [
-            { required: true, message: '请选择角色', trigger: 'blur' }
+            { required: true, message: '请选择归属角色', trigger: 'blur' }
           ],
           contactName: [
             { required: true, message: '请输入联系人姓名', trigger: 'blur' },
@@ -118,7 +122,10 @@
       this.getAllFactory();
     },
     computed: {
-      ...mapGetters(['phone'])
+      ...mapGetters(['phone']),
+      dialogTitle(){
+        return this.userId === -1 ? '新增外协厂用户':'编辑外协厂用户'
+      }
     },
     methods:{
       getAllFactory(){
@@ -129,18 +136,30 @@
       getFactoryRoles() {
         getFactoryRoles().then(res => {
           this.factoryRoles = res.data.data
-          console.log(this.factoryRoles, 'roles!!!!!')
         })
       },
-      onSubmit(){
+      addFactoryUser(){
         this.$refs.form.validate((valid) => {
           if (valid) {
             // 处理提交输出
             const reqData = _.omit(this.form, ['password'])
             reqData.password = getEncryptText(this.form.password)
-            addUser(reqData).then(res=>{
+            addFactoryUser(reqData).then(res=>{
               this.dialogVisible=false;
-              this.$message.success('新增用户成功');
+              this.$message.success('新增外协厂用户成功');
+              this.$emit('refresh');
+            })
+          }
+        })
+      },
+      updateFactoryUser() {
+        this.$refs.form.validate((valid) => {
+          if (valid) {
+            // 编辑时只需要传如下几个参数
+            const reqData = _.pick(this.form, ['id','contactName', 'contactPhone','roles'])
+            updateFactoryUser(reqData).then(res=>{
+              this.dialogVisible=false;
+              this.$message.success('编辑外协厂用户成功');
               this.$emit('refresh')
             })
           }
@@ -150,7 +169,14 @@
         this.$refs.form.resetFields()
       },
       openDialog() {
-        this.form.username = this.phone
+        /* 如果是编辑，则获取详情 */
+        if(this.userId !== -1) {
+          this.loading = true
+          getUserDetails(this.userId).then(res => {
+            this.form = res.data.data
+            this.loading = false
+          })
+        }
       },
     }
   }
