@@ -159,6 +159,7 @@ export default {
           this.formData = _.cloneDeep(res.data.data)
           this.$refs.authTree.setCheckedKeys(this.formData.menus)
           setTimeout(() => {
+            this.loading = false
           }, 150)
         }).catch(() => {
           this.loading = false
@@ -206,7 +207,7 @@ export default {
 .role-dialog{
   .tree-wrapper{
     .el-form-item__content>div:first-child{
-      height: 200px !important;
+      height: 220px !important;
       border: 1px solid #DCDFE6;
       border-radius: 4px;
       padding: 12px;
