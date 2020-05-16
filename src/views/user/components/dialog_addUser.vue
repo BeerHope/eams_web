@@ -6,20 +6,36 @@
     @close="closeDialog"
     :visible.sync="dialogVisible">
     <el-form class="common-form" ref="form" :model="form" :rules="rules" label-width="140px">
-      <el-form-item label="归属工厂:" prop="factoryId">
-        <el-select v-model="form.factoryId" placeholder="请选择客户">
-          <el-option v-for="item in factoryList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+<!--      <el-form-item label="归属工厂:" prop="factoryId">-->
+<!--        <el-select v-model="form.factoryId" placeholder="请选择客户">-->
+<!--          <el-option v-for="item in factoryList"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
+
+
+
+
+
+      <el-form-item   label="登陆账号:" prop="username">
+        <el-input  :readonly="action=='update'?true:false"  v-model="form.username"></el-input>
+      </el-form-item>
+      <el-form-item v-if="action=='add'" label="登录密码:" prop="password">
+        <el-input v-model="form.password" type="password"></el-input>
+      </el-form-item>
+
+      <el-form-item label="角色" prop="role">
+        <el-select v-model="form.roles" multiple placeholder="请选择">
+          <el-option
+            v-for="item in rolelist"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="登陆账号:" prop="username">
-        <el-input v-model="form.username"></el-input>
-      </el-form-item>
-      <el-form-item label="登录密码:" prop="password">
-        <el-input v-model="form.password"></el-input>
       </el-form-item>
       <el-form-item label="联系人姓名:" prop="contactName">
         <el-input v-model="form.contactName"></el-input>
@@ -34,15 +50,15 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible=false">取消</el-button>
-      <el-button type="primary" class="green-btn" @click="onSubmit">新增</el-button>
+      <el-button type="primary" class="green-btn" @click="onSubmit">{{action=='add'?'新增':'修改'}} </el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  import { getAllFactory } from '@/api/factory'
-  import { addSysUser } from '@/api/user'
+  // import { getAllFactory } from '@/api/factory'
+  import { addSysUser ,updateSysUser} from '@/api/user'
   import { validatePhone, validatePassword } from '@/utils/validate'
   import { getEncryptText } from '@/utils/encryption'
   export default {
@@ -63,12 +79,14 @@
         }
       }
       return{
-        factoryList:[],
+        // rolelist: [],
+        'action':'add',  //add 新增 update 更新
         form:{
-          factoryId:'',
+
           contactName:'',
           contactPhone:'',
           password: '',
+          roles:[],
           username: '', // 当前账号,存在store中
         },
         dialogVisible:false,
@@ -95,29 +113,38 @@
         }
       }
     },
+    props:['rolelist'],
     created(){
-      this.getAllFactory();
+
     },
     computed: {
       ...mapGetters(['phone'])
     },
     methods:{
-      getAllFactory(){
-        getAllFactory().then(response=>{
-          this.factoryList=response.data.data;
-        })
-      },
+
       onSubmit(){
         this.$refs.form.validate((valid) => {
           if (valid) {
             // 处理提交输出
-            const reqData = _.omit(this.form, ['password'])
-            reqData.password = getEncryptText(this.form.password)
-            addSysUser(reqData).then(res=>{
-              this.dialogVisible=false;
-              this.$message.success('新增用户成功');
-              this.$emit('refresh')
-            })
+             if(this.action==='add'){
+               const reqData = _.omit(this.form, ['password'])
+               reqData.password = getEncryptText(this.form.password)
+               addSysUser(reqData).then(res=>{
+                 this.dialogVisible=false;
+                 this.$message.success('新增用户成功');
+                 this.$emit('refresh')
+               })
+
+             }else{ //修改
+               updateSysUser(this.form).then(response=>{
+                 this.dialogVisible=false;
+                 this.$message.success('修改成功');
+                 this.$emit('refresh')
+
+               })
+
+             }
+
           }
         })
       },
