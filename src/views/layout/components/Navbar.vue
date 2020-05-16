@@ -8,7 +8,7 @@
           <screenfull class="screenfull right-menu-item"/>
         </el-tooltip>
       </template>
-      <span style="line-height: 55px; position:relative">{{phone}} </span>
+      <span style="line-height: 55px; position:relative">{{username}} </span>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
           <span>{{name}}</span>
@@ -24,7 +24,7 @@
             <span style="display:block;" @click="updatePassword">修改密码</span>
           </el-dropdown-item>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">退出登录</span>
+            <span style="display:block;" @click="logout">退出登陆</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -66,7 +66,7 @@
         'name',
         'avatar',
         'device',
-        'phone'
+        'username'
       ])
     },
     created(){

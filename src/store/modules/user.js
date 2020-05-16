@@ -8,7 +8,7 @@ const user = {
     accountNum: '',
     roles: [],
     avatar: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
-    phone: ''
+    username: ''
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -24,8 +24,8 @@ const user = {
       state.roles = roles;
     },
     // 存储当前账号
-    SET_ACCOUNT: (state, phone) => {
-      state.phone = phone;
+    SET_ACCOUNT: (state, username) => {
+      state.username = username;
     },
   },
 
@@ -58,19 +58,14 @@ const user = {
     },
 
     // 获取用户信息，并且保存当前用户所属权限
-    GetUserInfo({commit, state}) {
+    GetUserInfo({commit}) {
       return new Promise((resolve, reject) => {
         getUserInfo().then(response => {
-
           if (response.data.code !== 200) {
             reject('error');
           }
           const data = response.data.data;
-          if(data.contactPhone!=""){
-             commit('SET_ACCOUNT', data.contactPhone);
-          }else {
-            commit('SET_ACCOUNT', data.email);
-          }
+          commit('SET_ACCOUNT', data.username);
           commit('SET_ROLES', ['admin']);
           resolve(response);
         }).catch(error => {

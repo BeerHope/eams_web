@@ -34,34 +34,27 @@
       style="width: 100%;">
       <el-table-column prop="username" label="用户名" min-width="120px" align="center"></el-table-column>
       <el-table-column prop="contactName" label="联系人" min-width="120px" align="center"></el-table-column>
-
-
       <el-table-column prop="contactPhone" label="联系手机号" min-width="120px" align="center"></el-table-column>
-      <el-table-column prop="roles" label="角色" min-width="120px" align="center">
+      <el-table-column prop="roles" label="归属角色" min-width="120px" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.roles|ShowRoles}}</span>
         </template>
-
       </el-table-column>
-
-
-      <!--      <el-table-column prop="factoryName" label="工厂名称" min-width="120px"  align="center"></el-table-column>-->
       <el-table-column prop="state" label="状态" width="120px"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.state|ShowState }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" min-width="120px" align="center"></el-table-column>
-      <el-table-column label="操作" min-width="240px" align="center">
+      <el-table-column label="操作" width="340px" align="center">
         <template slot-scope="scope">
           <span>
-            <el-button type="primary" v-if="$checkBtnPermission('user.system.detail')" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
-                   <el-button type="primary" v-if="$checkBtnPermission('user.system.edit')" class="green-btn" @click="updateUser(scope.row)" size="mini">修改</el-button>
-             <span v-if="$checkBtnPermission('user.system.activate_freeze')">
-                  <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
-                  <el-button type="primary"  v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
-             </span>
-          <!-- 管理员权限——重设密码权限 -->
+            <el-button type="primary" v-if="$checkBtnPermission('user.system.edit')" class="green-btn" @click="updateUser(scope.row)" size="mini">编辑</el-button>
+            <el-button type="primary" v-if="$checkBtnPermission('user.system.details')" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
+            <template v-if="$checkBtnPermission('user.system.activate_freeze')">
+              <el-button type="danger" v-if="scope.row.state==1" @click="freeze(scope.row)" size="mini">冻结</el-button>
+              <el-button type="primary"  v-else class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+            </template>
             <el-button v-if="$checkBtnPermission('user.system.resetpassword')"  type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
           </span>
         </template>
@@ -118,7 +111,7 @@
         rolelist:[],
         options: [
           {
-            value: null,
+            value: '',
             label: '全部状态'
           }, {
             value: '1',

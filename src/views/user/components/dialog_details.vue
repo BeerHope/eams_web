@@ -35,7 +35,7 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <span>角色：</span>
+            <span>归属角色：</span>
             <span> {{Details.roleName}}</span>
           </el-col>
         </el-row>

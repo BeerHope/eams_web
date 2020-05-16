@@ -2,7 +2,7 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input
-        placeholder="工厂名称"
+        placeholder="归属工厂"
         v-model.trim="filter.factoryName"
         class="filter-item"
         style="width: 200px;"
@@ -46,12 +46,14 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" min-width="120px" align="center"></el-table-column>
-      <el-table-column label="操作" min-width="240px" align="center">
+      <el-table-column label="操作" width="340px" align="center">
         <template slot-scope="scope">
           <el-button v-if="$checkBtnPermission('user.factory.edit')" type="primary" class="green-btn" @click="openUserDialog(true, scope.row.id)" size="mini">编辑</el-button>
           <el-button v-if="$checkBtnPermission('user.factory.details')" type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
-          <el-button v-if="scope.row.state==1 && $checkBtnPermission('user.factory.activate_freeze')" type="danger" @click="freeze(scope.row)" size="mini">冻结</el-button>
-          <el-button v-if="scope.row.state==2 && $checkBtnPermission('user.factory.activate_freeze')" type="primary"  class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+          <template v-if="$checkBtnPermission('user.factory.activate_freeze')">
+            <el-button v-if="scope.row.state==1" type="danger" @click="freeze(scope.row)" size="mini">冻结</el-button>
+          <el-button v-else type="primary"  class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+          </template>
           <el-button v-if="$checkBtnPermission('user.factory.resetpassword')" type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
         </template>
       </el-table-column>
@@ -109,7 +111,7 @@
         list:[],
         options: [
           {
-            value: null,
+            value: '',
             label: '全部状态'
           }, {
             value: '1',

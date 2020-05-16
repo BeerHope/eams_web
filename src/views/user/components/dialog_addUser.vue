@@ -1,33 +1,18 @@
 <template>
   <el-dialog
     custom-class="common-dialog"
-    title="新增用户"
+    :title="dialogTitle"
     width="36%"
     @close="closeDialog"
     :visible.sync="dialogVisible">
     <el-form class="common-form" ref="form" :model="form" :rules="rules" label-width="140px">
-<!--      <el-form-item label="归属工厂:" prop="factoryId">-->
-<!--        <el-select v-model="form.factoryId" placeholder="请选择客户">-->
-<!--          <el-option v-for="item in factoryList"-->
-<!--            :key="item.value"-->
-<!--            :label="item.label"-->
-<!--            :value="item.value">-->
-<!--          </el-option>-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
-
-
-
-
-
-      <el-form-item   label="登录账号:" prop="username">
-        <el-input  :readonly="action=='update'?true:false"  v-model="form.username"></el-input>
+      <el-form-item label="登录账号:" prop="username">
+        <el-input :disabled="action==='update'"  v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item v-if="action=='add'" label="登录密码:" prop="password">
         <el-input v-model="form.password" type="password"></el-input>
       </el-form-item>
-
-      <el-form-item label="角色" prop="roles">
+      <el-form-item label="归属角色:" prop="roles">
         <el-select v-model="form.roles" multiple placeholder="请选择">
           <el-option
             v-for="item in rolelist"
@@ -43,21 +28,16 @@
       <el-form-item label="联系手机号:" prop="contactPhone">
         <el-input v-model="form.contactPhone"></el-input>
       </el-form-item>
-
-      <!-- <el-form-item label="登录账号:" >
-        <el-input v-model="form.username" disabled></el-input>
-      </el-form-item> -->
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible=false">取消</el-button>
-      <el-button type="primary" class="green-btn" @click="onSubmit">{{action=='add'?'新增':'修改'}} </el-button>
+      <el-button type="primary" class="green-btn" @click="onSubmit">{{action=='add'?'新增':'保存'}} </el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  // import { getAllFactory } from '@/api/factory'
   import { addSysUser ,updateSysUser} from '@/api/user'
   import { validatePhone, validatePassword } from '@/utils/validate'
   import { getEncryptText } from '@/utils/encryption'
@@ -65,7 +45,7 @@
     name: "addUser",
     data(){
       const checkPhone = (rule, value, callback) => {
-        if (!validatePhone(value)) {
+        if (value && !validatePhone(value)) {
           callback(new Error('请输入正确的手机号码！'))
         } else {
           callback()
@@ -79,10 +59,8 @@
         }
       }
       return{
-        // rolelist: [],
-        'action':'add',  //add 新增 update 更新
+        action:'add',  //add 新增 update 更新
         form:{
-
           contactName:'',
           contactPhone:'',
           password: '',
@@ -91,9 +69,6 @@
         },
         dialogVisible:false,
         rules:{
-          // factoryId: [
-          //   { required: true, message: '请选择客户', trigger: 'blur' }
-          // ],
           roles:[
             { required: true, message: '请选择角色', trigger: 'blur' }
           ],
@@ -102,7 +77,6 @@
             { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
           ],
           contactPhone: [
-            { required: true, message: '请输入联系人手机号', trigger: 'blur' },
             { validator: checkPhone, trigger: 'blur' }
           ],
           username: [
@@ -117,11 +91,23 @@
       }
     },
     props:['rolelist'],
-    created(){
-
-    },
+    created(){},
     computed: {
-      ...mapGetters(['phone'])
+      ...mapGetters(['phone']),
+      dialogTitle() {
+        let dialogTitle = '新增用户'
+        switch (this.action) {
+          case 'add': 
+           dialogTitle = '新增用户'
+          break;
+          case 'update':
+            dialogTitle = '编辑用户'
+          break
+          default: 
+          break
+        }
+        return dialogTitle
+      }
     },
     methods:{
 
@@ -137,17 +123,13 @@
                  this.$message.success('新增用户成功');
                  this.$emit('refresh')
                })
-
              }else{ //修改
                updateSysUser(this.form).then(response=>{
                  this.dialogVisible=false;
-                 this.$message.success('修改成功');
+                 this.$message.success('编辑用户成功');
                  this.$emit('refresh')
-
                })
-
              }
-
           }
         })
       },
