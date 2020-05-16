@@ -175,6 +175,8 @@
           getUserDetails(this.userId).then(res => {
             this.form = res.data.data
             this.loading = false
+          }).catch(() => {
+            this.loading = false
           })
         }
       },

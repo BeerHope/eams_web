@@ -159,8 +159,9 @@ export default {
           this.formData = _.cloneDeep(res.data.data)
           this.$refs.authTree.setCheckedKeys(this.formData.menus)
           setTimeout(() => {
-            this.loading = false
           }, 150)
+        }).catch(() => {
+          this.loading = false
         })
       }
     },
