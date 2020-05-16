@@ -110,7 +110,7 @@ export const asyncRoutes = [
       },
       {
         path: 'factory',
-        component: () => import('@/views/user/list'),
+        component: () => import('@/views/factoryUser/list'),
         meta: {
           title: '外协厂用户',
           // icon: 'user'

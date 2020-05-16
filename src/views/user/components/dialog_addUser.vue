@@ -27,7 +27,7 @@
         <el-input v-model="form.password" type="password"></el-input>
       </el-form-item>
 
-      <el-form-item label="角色" prop="role">
+      <el-form-item label="角色" prop="roles">
         <el-select v-model="form.roles" multiple placeholder="请选择">
           <el-option
             v-for="item in rolelist"
@@ -91,8 +91,11 @@
         },
         dialogVisible:false,
         rules:{
-          factoryId: [
-            { required: true, message: '请选择客户', trigger: 'blur' }
+          // factoryId: [
+          //   { required: true, message: '请选择客户', trigger: 'blur' }
+          // ],
+          roles:[
+            { required: true, message: '请选择角色', trigger: 'blur' }
           ],
           contactName: [
             { required: true, message: '请输入联系人姓名', trigger: 'blur' },
