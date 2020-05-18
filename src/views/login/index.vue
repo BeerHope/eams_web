@@ -36,7 +36,6 @@
         </el-form>
       </div>
     </div>
-    
     <div class="bottomInfo">Copyright © 2020 深圳市新国都支付技术有限公司</div>
   </div>
 </template>
@@ -68,7 +67,11 @@ export default {
       }
     };
   },
-  computed: {},
+  computed: {
+    sidebar() {
+      return this.$store.state.app.sidebar
+    },
+  },
   watch: {},
   created() {
     this.loginForm.username = this.getCookie("username");

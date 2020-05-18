@@ -136,3 +136,10 @@
 #app .withoutAnimation .sidebar-container {
   transition: none;
 }
+
+#app .app-wrapper.hideSidebar .system-title {
+  transition: all .3s;
+  text-align: center;
+  padding: 0 6px;
+  width: auto;
+}

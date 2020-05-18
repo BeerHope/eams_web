@@ -11,7 +11,7 @@
     >
       <div class="system-title">
         <svg-icon icon-class="logo"></svg-icon>
-        <span>外协组包一体</span>
+        <span v-if="sidebar.opened">外协组包一体</span>
       </div>
       <sidebar-item v-for="route in permission_routers" :key="route.name" :item="route" :base-path="route.path"/>
     </el-menu>
@@ -55,6 +55,7 @@ export default {
     padding: 0 20px;
     background-color: $color_6570E3;
     color: $white;
+    transition: width .3s;
     .svg-icon{
       font-size: 24px;
       margin-right: 10px;
