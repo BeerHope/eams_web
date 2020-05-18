@@ -30,11 +30,11 @@
         <el-input v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item v-if="userId===-1" label="登录密码:" prop="password">
-        <el-input v-model="form.password" :type="paswwordVisible ? 'text': 'password'">
+        <el-input v-model="form.password" :type="passwordVisible ? 'text': 'password'">
           <svg-icon 
             class="cur-pointer" slot="suffix" 
-            :icon-class="paswwordVisible ? 'eye-open' : 'eye-close'" 
-            @click.stop.native="paswwordVisible = !paswwordVisible">
+            :icon-class="passwordVisible ? 'eye-open' : 'eye-close'" 
+            @click.stop.native="passwordVisible = !passwordVisible">
           </svg-icon>
         </el-input>
       </el-form-item>
@@ -81,7 +81,7 @@
         loading: false,
         factoryList:[],
         factoryRoles: [],
-        paswwordVisible: false,
+        passwordVisible: false,
         form:{
           factoryId:'',
           roles: [],
@@ -167,6 +167,7 @@
       },
       closeDialog() {
         this.$refs.form.resetFields()
+        this.passwordVisible = false
       },
       openDialog() {
         /* 如果是编辑，则获取详情 */

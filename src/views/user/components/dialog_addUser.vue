@@ -10,7 +10,13 @@
         <el-input :disabled="action==='update'"  v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item v-if="action=='add'" label="登录密码:" prop="password">
-        <el-input v-model="form.password" type="password"></el-input>
+        <el-input v-model="form.password" :type="passwordVisible ? 'text': 'password'">
+          <svg-icon 
+            class="cur-pointer" slot="suffix" 
+            :icon-class="passwordVisible ? 'eye-open' : 'eye-close'" 
+            @click.stop.native="passwordVisible = !passwordVisible">
+          </svg-icon>
+        </el-input>
       </el-form-item>
       <el-form-item label="归属角色:" prop="roles">
         <el-select v-model="form.roles" multiple placeholder="请选择">
@@ -59,6 +65,7 @@
         }
       }
       return{
+        passwordVisible: false,
         action:'add',  //add 新增 update 更新
         form:{
           contactName:'',
@@ -135,6 +142,7 @@
       },
       closeDialog() {
         this.$refs.form.resetFields()
+        this.passwordVisible = false
       },
       openDialog() {
         this.form.username = this.phone

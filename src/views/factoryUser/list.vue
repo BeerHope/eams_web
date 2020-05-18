@@ -38,7 +38,7 @@
           <span>{{scope.row.roles.join('、')}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="factoryName" label="归属工厂" min-width="120px"  align="center">
+      <el-table-column prop="factoryName" label="归属工厂" min-width="120px" align="center">
       </el-table-column>
       <el-table-column prop="state" label="状态" width="120px"  align="center">
         <template slot-scope="scope">
