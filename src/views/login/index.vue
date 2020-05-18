@@ -205,6 +205,10 @@ export default {
 .el-button.submit{
   background-color: $color_6B77ED;
   border-color: $color_6B77ED;
+  &:hover{
+    background-color: $color_606ad6;
+    border-color: $color_606ad6;
+  }
 }
 .login .el-input__inner:focus {
   border-color: $color_6B77ED;

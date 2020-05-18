@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* 按钮悬停色 */
 /* size of margin/border/padding */
 .m-0 {
   margin: 0px !important;
@@ -1433,10 +1434,22 @@
   border-color: #36cff6;
 }
 
+.el-button.el-button--primary.blue-btn:hover {
+  background-color: #51cae9;
+  color: #fff;
+  border-color: #51cae9;
+}
+
 .el-button.el-button--primary.orange-btn {
   background-color: #f3ad62;
   color: #fff;
   border-color: #f3ad62;
+}
+
+.el-button.el-button--primary.orange-btn:hover {
+  background-color: #e9a65e;
+  color: #fff;
+  border-color: #e9a65e;
 }
 
 .el-button.el-button--primary.green-btn {
@@ -1445,10 +1458,22 @@
   border-color: #6671e0;
 }
 
+.el-button.el-button--primary.green-btn:hover {
+  background-color: #606ad6;
+  color: #fff;
+  border-color: #606ad6;
+}
+
 .el-button.el-button--primary.cancel {
   background-color: #fff;
   color: #6570E3;
   border-color: #6570E3;
+}
+
+.el-button.el-button--danger:hover {
+  background-color: #ea6a6a;
+  color: #fff;
+  border-color: #ea6a6a;
 }
 
 .el-button.line-type.green-btn {
