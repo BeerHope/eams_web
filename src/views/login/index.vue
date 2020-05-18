@@ -1,37 +1,39 @@
 <template>
   <div class="login">
     <div class="webName">外协组包一体管理系统</div>
-    <div class="loginFrom">
-      <h2>用户登录</h2>
-      <el-form
-        :model="loginFrom"
-        status-icon
-        ref="loginFrom"
-        :rules="rules"
-        label-width="60px"
-        class="demo-ruleForm"
-      >
-        <el-form-item prop="username">
-          <el-input type="text" placeholder="手机号码" class="Input_box" v-model="loginFrom.username"></el-input>
-          <svg-icon class="btn-scan" icon-class="username" />
-        </el-form-item>
-        <el-form-item prop="passwords">
-          <el-input
-            type="password"
-            v-model="loginFrom.passwords"
-            class="Input_box"
-            placeholder="密码"
-          ></el-input>
-          <svg-icon class="btn-scan" icon-class="password" />
-        </el-form-item>
-        <div class="remember">
-          <el-checkbox label="记住密码" name="ispass" v-model="remember"></el-checkbox>
-        </div>
-        <el-form-item>
-          <el-button type="primary" class="submit" :loading="loading" @click="submitForm()">登录</el-button>
-        </el-form-item>
-      </el-form>
+    <div class="login-form-wrapper">
+      <div class="loginForm">
+        <h2>登录</h2>
+        <el-form
+          :model="loginForm"
+          status-icon
+          ref="loginForm"
+          :rules="rules"
+          label-width="60px"
+          class="demo-ruleForm">
+          <el-form-item prop="username">
+            <el-input type="text" placeholder="用户名" class="Input_box" v-model="loginForm.username"></el-input>
+            <svg-icon class="btn-scan username" icon-class="username" />
+          </el-form-item>
+          <el-form-item prop="passwords">
+            <el-input
+              type="password"
+              v-model="loginForm.passwords"
+              class="Input_box"
+              placeholder="密码"
+            ></el-input>
+            <svg-icon class="btn-scan password" icon-class="password" />
+          </el-form-item>
+          <div class="remember">
+            <el-checkbox label="记住密码" name="ispass" v-model="remember"></el-checkbox>
+          </div>
+          <el-form-item>
+            <el-button type="primary" class="submit" :loading="loading" @click="submitForm()">登录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
+    
     <div class="bottomInfo">Copyright © 2020 深圳市新国都支付技术有限公司</div>
   </div>
 </template>
@@ -47,7 +49,7 @@ export default {
   data() {
     return {
       remember: false,
-      loginFrom: {
+      loginForm: {
         username: "",
         passwords: "",
         password: ""
@@ -66,9 +68,9 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.loginFrom.username = this.getCookie("username");
-    this.loginFrom.passwords = this.getCookie("passwords");
-    if (this.loginFrom.username && this.loginFrom.passwords) {
+    this.loginForm.username = this.getCookie("username");
+    this.loginForm.passwords = this.getCookie("passwords");
+    if (this.loginForm.username && this.loginForm.passwords) {
       this.remember = true;
     }
     this.keyupSubmit();
@@ -87,18 +89,18 @@ export default {
       };
     },
     submitForm() {
-      this.$refs.loginFrom.validate(valid => {
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.loginFrom.password = getEncryptText(this.loginFrom.passwords);
-          doLogin(_.pick(this.loginFrom, ["password", "username"]))
+          this.loginForm.password = getEncryptText(this.loginForm.passwords);
+          doLogin(_.pick(this.loginForm, ["password", "username"]))
             .then(response => {
               // 登录成功获取用户信息并保存在vuex中（todo:后期修改）
               this.loading = true;
               if (this.remember) {
                 //记住密码
-                this.setCookie("username", this.loginFrom.username);
-                this.setCookie("passwords", this.loginFrom.passwords);
+                this.setCookie("username", this.loginForm.username);
+                this.setCookie("passwords", this.loginForm.passwords);
               } else {
                 this.setCookie("username", "");
                 this.setCookie("passwords", "");
@@ -147,36 +149,41 @@ export default {
 </script>
 
 <style lang="scss">
-$color_4350D8: #4350d8;
+@import '@/styles/variables.scss';
 .login {
-  background: url("~@/assets/images/login_bg1.jpg") 0px -50px no-repeat;
+  background: url("~@/assets/images/login_bg1.jpg") 0px -100px no-repeat;
   height: 100%;
   width: 100%;
   overflow-y: hidden;
   background-size: 100%;
 }
 .login .btn-scan {
-  font-size: 23px;
+  font-size: 18px;
   float: right;
-  margin-left: 5px;
   cursor: pointer;
   position: absolute;
-  left: 1px;
-  top: 9px;
+  left: 6px;
+  &.password{
+    top: 10px;
+  }
+  &.username{
+    top: 12px;
+  }
 }
 .remember {
-  height: 35px !important;
   margin-left: 260px;
-  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  top: -16px;
 }
 .webName {
+  position: absolute;
   color: $color_4350D8;
-  font-family: SourceHanSansCN-Regular;
-  font-weight: Regular;
+  font-family: Source Han Sans CN;
   font-size: 32px;
   line-height: 40px;
   padding-left: 3%;
-  padding-top: 3%;
+  padding-top: 2%;
   letter-spacing: 2px;
 }
 .dologin {
@@ -202,20 +209,25 @@ $color_4350D8: #4350d8;
   background-color: $color_4350D8;
   border-color: $color_4350D8;
 }
-.loginFrom {
+.login-form-wrapper{
+  height: calc(100% - 40px);
+  width: 46%;
+  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginForm {
   width: 402px;
   height: 432px;
-  float: right;
   background: white;
-  margin-right: 15%;
-  margin-top: 10%;
 }
-.loginFrom h2 {
-  padding-left: 60px;
-  font-size: 27px;
+.loginForm h2 {
+  text-align: center;
+  font-size: 24px;
   font-weight: normal;
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding: 20px 0;
+  margin: 32px auto;
 }
 .Input_box {
   width: 280px;
@@ -228,7 +240,7 @@ $color_4350D8: #4350d8;
 }
 .submit {
   width: 100%;
-  background: $color_4350D8;
+  background: $color_6B77ED;
   width: 280px;
 }
 .login input:-webkit-autofill,
@@ -248,5 +260,12 @@ $color_4350D8: #4350d8;
   width: 100%;
   background-color: rgba(255,255,255,.8);
   
+}
+
+/* 适配 */
+@media screen and (max-width: 1366px){
+  .login{
+    background-position-y: 0;
+  }
 }
 </style>

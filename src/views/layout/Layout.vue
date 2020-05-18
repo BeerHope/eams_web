@@ -50,32 +50,26 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
+  @import "@/styles/variables.scss";
   .btn-icon{ margin-right: 5px;}
-  .el-message-box  .el-button--primary{  background: #1DC9BB !important;border-color: #1DC9BB !important;}
-  .el-select .el-input.is-focus .el-input__inner {border-color: #1DC9BB;}
-  .el-select-dropdown__item.selected{ color: #1DC9BB;  }
-  .el-select .el-input__inner:focus{ color: #1DC9BB;}
-  .el-input.is-active .el-input__inner, .el-input__inner:focus{border-color: #1DC9BB; }
-  .el-select .el-input__inner:focus{border-color: #1DC9BB; }
+  .el-message-box  .el-button--primary{  background: $color_6B77ED !important;border-color: $color_6B77ED !important;}
+  .el-select .el-input.is-focus .el-input__inner {border-color: $color_6B77ED;}
+  .el-select-dropdown__item.selected{ color: $color_6B77ED;  }
+  .el-select .el-input__inner:focus{ color: $color_6B77ED;}
+  .el-input.is-active .el-input__inner, .el-input__inner:focus{border-color: $color_6B77ED; }
+  .el-select .el-input__inner:focus{border-color: $color_6B77ED; }
   .el-message-box__btns{ text-align: center  !important;}
-  .el-pagination__sizes .el-input .el-input__inner:hover{ border-color: #1DC9BB;}
+  .el-pagination__sizes .el-input .el-input__inner:hover{ border-color: $color_6B77ED;}
 
   .el-message-box  .el-button:hover {
     border-color: #c6e2ff ;
     background-color: #ecf5ff ;
   }
   .el-message-box .el-message-box__btns{  text-align: center;}
-
-  .el-pager li.active{ background: #01beae !important; color: white !important; }
-  .el-menu-item.is-active{ background: #01beae !important;}
-  .tags-view-container .tags-view-wrapper .tags-view-item.active{
-    background-color:  #01beae !important;
-    color: #fff;
-    border-color: rgb(29, 201, 187) !important;
-  }
+  .el-pager li.active{ background: $color_6B77ED !important; color: white !important; }
   .menu-wrapper li.el-menu-item.submenu-title-noDropdown:hover {
-    background: #01beae !important ;
+    background: #E2E4E9 !important ;
   }
 </style>
 <style rel="stylesheet/scss" lang="scss" scoped>
@@ -99,5 +93,4 @@ export default {
     position: absolute;
     z-index: 999;
   }
-
 </style>

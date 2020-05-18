@@ -22,7 +22,7 @@ module.exports = {
     // if you want dev by ip, please set host: '0.0.0.0'
     // host: '10.150.133.23',
     host: '10.150.149.130',
-    port: 9530, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 9532, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: false,

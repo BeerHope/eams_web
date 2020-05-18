@@ -1345,7 +1345,7 @@
 }
 
 .common-dialog .el-dialog__headerbtn:hover .el-dialog__close:hover {
-  color: #1DC9BB;
+  color: #6570E3;
 }
 
 .common-dialog .el-input.is-disabled .el-input__inner {
@@ -1372,7 +1372,9 @@
 
 /* 统一设置列表表头样式 */
 .el-table__header-wrapper th {
-  background-color: #efefef;
+  background-color: #E2E4E9;
+  color: #172B4D;
+  border-right: none;
 }
 
 .el-upload:focus .el-upload-dragger {
@@ -1384,13 +1386,12 @@
 }
 
 .el-upload-dragger .el-upload__text em {
-  color: #1DC9BB;
+  color: #6570E3;
 }
 
 .el-dropdown-menu__item:focus,
 .el-dropdown-menu__item:not(.is-disabled):hover {
-  background-color: rgba(29, 201, 187, 0.1);
-  color: #1DC9BB;
+  color: #6570E3;
 }
 
 .el-textarea.is-disabled .el-textarea__inner,
@@ -1411,8 +1412,8 @@
 
 .el-button.el-button--default {
   background-color: #fff;
-  color: #1DC9BB;
-  border-color: #1DC9BB;
+  color: #6570E3;
+  border-color: #6570E3;
 }
 
 .el-button.el-button--primary {
@@ -1422,21 +1423,21 @@
 }
 
 .el-button.el-button--primary.orange-btn {
-  background-color: #FCA84C;
+  background-color: #36cff6;
   color: #fff;
-  border-color: #FCA84C;
+  border-color: #36cff6;
 }
 
 .el-button.el-button--primary.green-btn {
-  background-color: #1DC9BB;
+  background-color: #6671e0;
   color: #fff;
-  border-color: #1DC9BB;
+  border-color: #6671e0;
 }
 
 .el-button.el-button--primary.cancel {
   background-color: #fff;
-  color: #1DC9BB;
-  border-color: #1DC9BB;
+  color: #6570E3;
+  border-color: #6570E3;
 }
 
 .el-button.line-type.blue-btn {
@@ -1447,8 +1448,8 @@
 
 .el-button.line-type.green-btn {
   background-color: #fff;
-  color: #1DC9BB;
-  border-color: #1DC9BB;
+  color: #6570E3;
+  border-color: #6570E3;
 }
 
 .el-button.line-type.orange-btn {
@@ -1458,17 +1459,17 @@
 }
 
 .el-button.el-button--text {
-  color: #1DC9BB;
+  color: #6570E3;
 }
 
 .el-checkbox__input:focus .el-checkbox__inner, .el-checkbox__input:active .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner, .el-checkbox__input.is-checked .el-checkbox__inner {
-  background-color: #1DC9BB;
-  border-color: #1DC9BB;
+  background-color: #6570E3;
+  border-color: #6570E3;
 }
 
 /* 输入框公共样式设置 */
 .el-textarea__inner:focus {
-  border-color: #1DC9BB;
+  border-color: #6570E3;
 }
 
 .el-dialog__footer {
@@ -1477,22 +1478,22 @@
 
 /* 日期插件 */
 .el-date-table td.today span, .el-date-table td.available:hover {
-  color: #1DC9BB;
+  color: #6570E3;
 }
 
 .el-date-table td.current:not(.disabled) span {
-  background-color: #1DC9BB;
+  background-color: #6570E3;
 }
 
 .el-picker-panel__icon-btn:hover {
-  color: #1DC9BB;
+  color: #6570E3;
 }
 
 .el-checkbox__inner:hover {
-  border-color: #1DC9BB;
+  border-color: #6570E3;
 }
 
 /* 多选下拉框样式 */
 .el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
-  color: #1DC9BB;
+  color: #6570E3;
 }

@@ -1,3 +1,6 @@
+$color_F4F5F7: #F4F5F7;
+$color_E2E4E9: #E2E4E9;
+$color_6772e4: #6772e4;
 #app {
   // 主体区域
   .main-container {
@@ -91,15 +94,26 @@
   .sidebar-container .nest-menu .el-submenu>.el-submenu__title,
   .sidebar-container .el-submenu .el-menu-item {
     min-width: 180px;
-    background-color: $subMenuBg !important;
     &:hover, &.is-active{
-      background-color: $menuHover !important;
+      background-color: $color_E2E4E9 !important;
     }
   }
   .el-menu--collapse .el-menu .el-submenu {
     min-width: 180px !important;
   }
 
+  .el-submenu__title{
+    &:hover{
+      background-color: $color_E2E4E9 !important;
+    }
+  }
+  .el-submenu{
+    &.is-active{
+      .el-submenu__title{
+        color: $color_6772e4 !important;
+      }
+    }
+  }
   //适配移动端
   .mobile {
     .main-container {
@@ -122,8 +136,4 @@
       transition: none;
     }
   }
-}
-
-.el-submenu__title i{
-  color: #fff;
 }

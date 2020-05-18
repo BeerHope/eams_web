@@ -1,6 +1,14 @@
 <template>
   <div class="home">
-    <div class="title">欢迎使用外协组包一体管理系统</div>
+    <div class="content">
+      <div class="home-bg">
+        <img src="@/assets/images/home_bg.png" alt="首页背景图">
+      </div>
+      <div class="desc">
+        <div>欢迎使用</div>
+        <span>welcome</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,15 +41,31 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  .title{
-    font-size: 48px;
-    height: 160px;
-    line-height: 160px;  
-    letter-spacing: 4px;
-    width: calc(100% - 28px);
-    text-align: center;
-    color: #fff;
-    background-color: rgba(29, 201, 187, 0.88);
+  .content{
+    text-align:center;
+    margin-top: -40px;
+    margin-left: -40px;
+    .home-bg{
+      img{
+        width: 66%;
+      }
+    }
+    .desc{
+      padding-left: 44px;
+      >div{
+        font-size: 34px;
+        color: #333;
+        letter-spacing: 1px;
+      }
+      span{
+        color: #666666;
+        font-size: 24px;
+        letter-spacing: 2px;
+        display: inline-block;
+        margin-top: 10px;
+      }
+    }
   }
+  
 }
 </style>

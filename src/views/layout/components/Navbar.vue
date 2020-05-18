@@ -110,13 +110,12 @@
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   .navbar {
-    height: 50px;
-    line-height: 50px;
+    height: 70px;
+    line-height: 70px;
     border-radius: 0px !important;
-
     .hamburger-container {
-      line-height: 58px;
-      height: 50px;
+      line-height: 78px;
+      height: 70px;
       float: left;
       padding: 0 10px;
     }
@@ -143,9 +142,8 @@
         display: inline-block;
         margin: 0 8px;
       }
-
       .screenfull {
-        height: 20px;
+        height: 40px;
       }
       .avatar-container {
         height: 50px;
@@ -193,4 +191,5 @@
     }
   }
 .el-icon-caret-bottom{ font-size: 23px !important; top: 15px !important;}
+.el-dropdown-menu__item--divided{ margin-top:0; }
 </style>

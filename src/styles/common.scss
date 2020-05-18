@@ -1,6 +1,5 @@
 $color_497cd4: #497cd4;
 $color_5087E5: #5087E5;
-$color_1DC9BB: #1DC9BB;
 $color_FCA84C: #FCA84C;
 $color_28DBCD: #28DBCD;
 $color_FDA7A7: #FDA7A7;
@@ -10,6 +9,9 @@ $white: #fff;
 $color_999: #999;
 $color_7e7e7e: #7e7e7e;
 $color_ccc: #ccc;
+
+@import './variables.scss';
+
 
 /* size of margin/border/padding */
 $size: 0;
@@ -131,7 +133,7 @@ $align in(c, center),
   }
   .el-dialog__headerbtn:hover .el-dialog__close{
     &:hover{
-      color: $color_1DC9BB;
+      color: $color_6570E3;
     }
   }
   .el-input.is-disabled .el-input__inner{
@@ -160,7 +162,9 @@ $align in(c, center),
 /* 统一设置列表表头样式 */
 .el-table__header-wrapper{
   th{
-    background-color: #efefef;
+    background-color: $color_E2E4E9;
+    color: $color_172B4D;
+    border-right: none;
   }
 }
 .el-upload:focus{
@@ -174,12 +178,12 @@ $align in(c, center),
   }
 }
 .el-upload-dragger .el-upload__text em{
-  color: $color_1DC9BB;
+  color: $color_6570E3;
 }
 .el-dropdown-menu__item:focus,
 .el-dropdown-menu__item:not(.is-disabled):hover{
-  background-color: rgba(29, 201, 187, 0.1);
-  color: $color_1DC9BB;
+  // background-color: rgba（
+  color: $color_6570E3;
 }
 .el-textarea.is-disabled .el-textarea__inner,
 .el-input.is-disabled .el-input__inner{
@@ -202,18 +206,18 @@ $hoverOpacity: 0.78;
     border-color: $color_ccc !important;
   }
   &.el-button--default {
-    @include bg_text_border-color($white, $color_1DC9BB, $color_1DC9BB);
+    @include bg_text_border-color($white, $color_6570E3, $color_6570E3);
   }
   &.el-button--primary {
     @include bg_text_border-color($color_5087E5, $white, $color_497cd4);
     &.orange-btn {
-      @include bg_text_border-color($color_FCA84C, $white, $color_FCA84C);
+      @include bg_text_border-color($color_36cff6, $white, $color_36cff6);
     }
     &.green-btn {
-      @include bg_text_border-color($color_1DC9BB, $white, $color_1DC9BB);
+      @include bg_text_border-color($color_6671e0, $white, $color_6671e0);
     }
     &.cancel {
-      @include bg_text_border-color($white, $color_1DC9BB, $color_1DC9BB);
+      @include bg_text_border-color($white, $color_6570E3, $color_6570E3);
     }
   }
   &.line-type{
@@ -221,22 +225,22 @@ $hoverOpacity: 0.78;
       @include bg_text_border-color($white, $color_5087E5, $color_5087E5);
     }
     &.green-btn {
-      @include bg_text_border-color($white, $color_1DC9BB, $color_1DC9BB);
+      @include bg_text_border-color($white, $color_6570E3, $color_6570E3);
     }
     &.orange-btn{
       @include bg_text_border-color($white, $color_FCA84C, $color_FCA84C);
     }
   }
   &.el-button--text{
-    color: $color_1DC9BB;
+    color: $color_6570E3;
   }
 }
 
 .el-checkbox__input{
   &:focus,&:active,&.is-indeterminate,&.is-checked{
     .el-checkbox__inner{
-      background-color: $color_1DC9BB;
-      border-color: $color_1DC9BB;
+      background-color: $color_6570E3;
+      border-color: $color_6570E3;
     }
   }
 }
@@ -244,7 +248,7 @@ $hoverOpacity: 0.78;
 /* 输入框公共样式设置 */
 .el-textarea__inner{
   &:focus{
-    border-color:$color_1DC9BB;
+    border-color:$color_6570E3;
   }
 }
 .el-dialog__footer{
@@ -253,20 +257,20 @@ $hoverOpacity: 0.78;
 /* 日期插件 */
 .el-date-table {
   td.today span, td.available:hover{
-    color: $color_1DC9BB;
+    color: $color_6570E3;
   }
   td.current:not(.disabled) span{
-    background-color:$color_1DC9BB;
+    background-color:$color_6570E3;
   }
 }
 .el-picker-panel__icon-btn:hover{
-  color: $color_1DC9BB;
+  color: $color_6570E3;
 }
 .el-checkbox__inner:hover{
-  border-color: $color_1DC9BB;
+  border-color: $color_6570E3;
 }
 
 /* 多选下拉框样式 */
 .el-select-dropdown.is-multiple .el-select-dropdown__item.selected{
-  color: $color_1DC9BB;
+  color: $color_6570E3;
 }

@@ -5,10 +5,14 @@
       :default-active="$route.meta.active || $route.path"
       :collapse="isCollapse"
       mode="vertical"
-      background-color="#1DC9BB"
-      text-color="#FFFFFF"
-      active-text-color="#FFFFFF"
+      background-color="#F4F5F7"
+      text-color="#172B4D"
+      active-text-color="#6772E4"
     >
+      <div class="system-title">
+        <svg-icon icon-class="logo"></svg-icon>
+        <span>外协组包一体</span>
+      </div>
       <sidebar-item v-for="route in permission_routers" :key="route.name" :item="route" :base-path="route.path"/>
     </el-menu>
   </el-scrollbar>
@@ -40,3 +44,21 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@import '@/styles/variables.scss';
+#app {
+  .system-title{
+    width: 220px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 22px;
+    padding: 0 20px;
+    background-color: $color_6570E3;
+    color: $white;
+    .svg-icon{
+      font-size: 24px;
+      margin-right: 10px;
+    }
+  }
+}
+</style>
