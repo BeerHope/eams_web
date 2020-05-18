@@ -148,8 +148,8 @@ $align in(c, center),
 }
 .common-pagination {
   width: 100%;
-  text-align: center;
-  margin-top: 20px;
+  text-align: right;
+  margin-top: 30px;
   margin-bottom: 20px;
 }
 .el-form{
@@ -167,14 +167,17 @@ $align in(c, center),
     border-right: none;
   }
 }
+.el-table--border td{
+  border-right: none;
+}
 .el-upload:focus{
   .el-upload-dragger{
-    border-color: $color_28DBCD;
+    border-color: $color_6B77ED;
   }
 }
 .el-upload-dragger{
   &:hover{
-    border-color:$color_28DBCD;
+    border-color:$color_6B77ED;
   }
 }
 .el-upload-dragger .el-upload__text em{
@@ -182,7 +185,7 @@ $align in(c, center),
 }
 .el-dropdown-menu__item:focus,
 .el-dropdown-menu__item:not(.is-disabled):hover{
-  // background-color: rgba（
+  background-color: rgba(101, 112, 227, .1);
   color: $color_6570E3;
 }
 .el-textarea.is-disabled .el-textarea__inner,
@@ -210,8 +213,11 @@ $hoverOpacity: 0.78;
   }
   &.el-button--primary {
     @include bg_text_border-color($color_5087E5, $white, $color_497cd4);
-    &.orange-btn {
+    &.blue-btn {
       @include bg_text_border-color($color_36cff6, $white, $color_36cff6);
+    }
+    &.orange-btn {
+      @include bg_text_border-color($color_f3ad62, $white, $color_f3ad62);
     }
     &.green-btn {
       @include bg_text_border-color($color_6671e0, $white, $color_6671e0);
@@ -221,14 +227,12 @@ $hoverOpacity: 0.78;
     }
   }
   &.line-type{
-    &.blue-btn{
-      @include bg_text_border-color($white, $color_5087E5, $color_5087E5);
-    }
+    
     &.green-btn {
       @include bg_text_border-color($white, $color_6570E3, $color_6570E3);
     }
     &.orange-btn{
-      @include bg_text_border-color($white, $color_FCA84C, $color_FCA84C);
+      @include bg_text_border-color($white, $color_f3ad62, $color_f3ad62);
     }
   }
   &.el-button--text{

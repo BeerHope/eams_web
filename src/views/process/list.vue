@@ -6,7 +6,7 @@
       <el-button class="green-btn" type="primary" @click="getProcessList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
-      <el-button v-if="$checkBtnPermission('process.add')" class="orange-btn" type="primary" @click="openAddDialog">
+      <el-button v-if="$checkBtnPermission('process.add')" class="blue-btn" type="primary" @click="openAddDialog">
         <i class="el-icon-plus m-r-4"></i>新增
       </el-button>
     </div>

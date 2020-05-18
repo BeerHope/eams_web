@@ -7,12 +7,6 @@
         class="filter-item"
         style="width: 200px;"
         clearable />
-<!--      <el-input-->
-<!--        placeholder="联系手机号"-->
-<!--        v-model.trim="filter.contactPhone"-->
-<!--        class="filter-item"-->
-<!--        style="width: 200px;"-->
-<!--        clearable />-->
       <el-select v-model="filter.state" placeholder="请选择状态"  class="filter-item" clearable>
         <el-option
           v-for="item in options"
@@ -22,7 +16,7 @@
         </el-option>
       </el-select>
       <el-button type="primary" class="green-btn" icon="el-icon-search" @click="getUserList">搜索</el-button>
-      <el-button type="primary" v-if="$checkBtnPermission('user.system.add')" class="orange-btn" icon="el-icon-plus"  @click="addUser()">新增</el-button>
+      <el-button type="primary" v-if="$checkBtnPermission('user.system.add')" class="blue-btn" icon="el-icon-plus"  @click="addUser()">新增</el-button>
     </div>
     <el-table
       v-loading="listLoading"

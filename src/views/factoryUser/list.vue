@@ -22,12 +22,11 @@
         </el-option>
       </el-select>
       <el-button type="primary" class="green-btn" icon="el-icon-search" @click="getUserList">搜索</el-button>
-      <el-button v-if="$checkBtnPermission('user.factory.add')" type="primary" class="orange-btn" icon="el-icon-plus"  @click="openUserDialog(true, -1)">新增</el-button>
+      <el-button v-if="$checkBtnPermission('user.factory.add')" type="primary" class="blue-btn" icon="el-icon-plus"  @click="openUserDialog(true, -1)">新增</el-button>
     </div>
     <el-table
       v-loading="listLoading"
       :data="list"
-      :header-cell-style="getRowClass"
       border
       fit
       highlight-current-row
@@ -139,13 +138,6 @@
         getFactoryRoles().then(res => {
           this.factoryRoles = res.data.data
         })
-      },
-      getRowClass({ row, column, rowIndex, columnIndex }) {
-        if (rowIndex == 0) {
-          return 'background:#EFEFEF'
-        } else {
-          return ''
-        }
       },
       openResetPassDialog(dialogVisible, userId) {
         const resetPass = this.$refs.resetPass

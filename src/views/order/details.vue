@@ -330,8 +330,7 @@ export default {
 }
 </style>
 <style lang='scss' scoped>
-$color_f8f8f8: #f8f8f8;
-$color_1DC9BB: #1DC9BB;
+@import "@/styles/variables.scss";
 .work-order-details{
   background-color: $color_f8f8f8;
   .order-card{
@@ -350,7 +349,7 @@ $color_1DC9BB: #1DC9BB;
   .title{
     .desc{
       padding-left: 10px;
-      border-left: 4px solid $color_1DC9BB;
+      border-left: 4px solid $color_6B77ED;
     }
   }
 }

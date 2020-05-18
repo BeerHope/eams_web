@@ -21,7 +21,7 @@
         </el-option>
       </el-select>
       <el-button type="primary" class="green-btn" icon="el-icon-search" @click="getRoleList">搜索</el-button>
-      <el-button v-if="$checkBtnPermission('role.add')"  type="primary" class="orange-btn" icon="el-icon-plus"  @click="openDialog(true, -1)">新增</el-button>
+      <el-button v-if="$checkBtnPermission('role.add')"  type="primary" class="blue-btn" icon="el-icon-plus"  @click="openDialog(true, -1)">新增</el-button>
     </div>
     <el-table
       v-loading="listLoading"

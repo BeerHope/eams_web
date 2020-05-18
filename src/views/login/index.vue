@@ -1,6 +1,9 @@
 <template>
   <div class="login">
-    <div class="webName">外协组包一体管理系统</div>
+    <div class="webName">
+      <svg-icon icon-class="logo"></svg-icon>
+      <span>外协组包一体管理系统</span>
+    </div>
     <div class="login-form-wrapper">
       <div class="loginForm">
         <h2>登录</h2>
@@ -151,11 +154,11 @@ export default {
 <style lang="scss">
 @import '@/styles/variables.scss';
 .login {
-  background: url("~@/assets/images/login_bg1.jpg") 0px -100px no-repeat;
+  background: url("~@/assets/images/login_bg1.jpg") 0px 0px no-repeat;
   height: 100%;
   width: 100%;
   overflow-y: hidden;
-  background-size: 100%;
+  background-size: 100% 100%;
 }
 .login .btn-scan {
   font-size: 18px;
@@ -181,33 +184,30 @@ export default {
   color: $color_4350D8;
   font-family: Source Han Sans CN;
   font-size: 32px;
-  line-height: 40px;
   padding-left: 3%;
   padding-top: 2%;
-  letter-spacing: 2px;
+  .svg-icon{
+    font-size: 38px;
+    margin-right: 8px;
+  }
 }
 .dologin {
   text-align: center;
 }
 .login .el-checkbox__input.is-checked + .el-checkbox__label {
-  color: $color_4350D8;
+  color: $color_6B77ED;
 }
 .login .el-checkbox__input.is-checked .el-checkbox__inner,
 .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: $color_4350D8;
-  border-color: $color_4350D8;
+  background-color: $color_6B77ED;
+  border-color: $color_6B77ED;
 }
-.login .el-button--primary {
-  background-color: $color_4350D8;
-  border-color: $color_4350D8;
+.el-button.submit{
+  background-color: $color_6B77ED;
+  border-color: $color_6B77ED;
 }
 .login .el-input__inner:focus {
-  border-color: $color_4350D8;
-}
-.el-button--primary:focus,
-.el-button--primary:hover {
-  background-color: $color_4350D8;
-  border-color: $color_4350D8;
+  border-color: $color_6B77ED;
 }
 .login-form-wrapper{
   height: calc(100% - 40px);
@@ -259,13 +259,5 @@ export default {
   line-height: 50px;
   width: 100%;
   background-color: rgba(255,255,255,.8);
-  
-}
-
-/* 适配 */
-@media screen and (max-width: 1366px){
-  .login{
-    background-position-y: 0;
-  }
 }
 </style>
