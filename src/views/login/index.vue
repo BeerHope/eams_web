@@ -126,9 +126,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+$color_4350D8: #4350D8;
 .login{
-  background: url('~@/assets/images/login_bg.jpg') 0px -50px no-repeat ;
+  background: url('~@/assets/images/login_bg1.jpg') 0px -50px no-repeat ;
   height: 100%;
   width: 100%;
   overflow-y: hidden;
@@ -149,7 +150,7 @@ export default {
     margin-top: 20px;
   }
   .webName{
-    color: white;
+    color: $color_4350D8;
     font-family: SourceHanSansCN-Regular;
     font-weight: Regular;
     font-size: 32px;
@@ -159,22 +160,22 @@ export default {
     letter-spacing: 2px;}
   .dologin{ text-align: center;}
  .login .el-checkbox__input.is-checked+.el-checkbox__label{
-    color: #1DC9BB;
+    color: $color_4350D8;
   }
  .login .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-    background-color: #1DC9BB;
-    border-color: #1DC9BB;
+    background-color: $color_4350D8;
+    border-color: $color_4350D8;
   }
   .login  .el-button--primary{
-    background-color: #1DC9BB;
-    border-color: #1DC9BB;
+    background-color: $color_4350D8;
+    border-color: $color_4350D8;
   }
   .login .el-input__inner:focus{
-    border-color: #1DC9BB;
+    border-color: $color_4350D8;
   }
   .el-button--primary:focus, .el-button--primary:hover{
-    background-color: #1DC9BB;
-    border-color: #1DC9BB;
+    background-color: $color_4350D8;
+    border-color: $color_4350D8;
   }
   .loginFrom{
     width: 402px;
@@ -194,7 +195,7 @@ export default {
   .Input_box{ width: 280px; }
   .login .el-form-item{ margin-bottom: 30px;}
   .Input_box input{ padding-left: 40px !important; }
-  .submit{ width: 100%; background: #1DC9BB; width: 280px;}
+  .submit{ width: 100%; background: $color_4350D8; width: 280px;}
  .login input:-webkit-autofill,
  .login input:-webkit-autofill:hover,
  .login input:-webkit-autofill:focus,
@@ -202,6 +203,6 @@ export default {
     -webkit-transition-delay: 99999s;
     -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
   }
-  .bottomInfo{ bottom: 25px; text-align: center; position: absolute; color: white; font-size: 14px; line-height: 30px; width: 100%; margin: 0 auto; margin-bottom: 5px; }
+  .bottomInfo{ bottom: 25px; text-align: center; position: absolute; color: $color_4350D8; font-size: 14px; line-height: 30px; width: 100%; margin: 0 auto; margin-bottom: 5px; }
   .bottomInfo .version{ width: 400px; margin: 0 auto;}
 </style>
