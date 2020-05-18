@@ -6,7 +6,7 @@
       <el-form :model="loginFrom" status-icon  ref="loginFrom" :rules="rules"    label-width="60px" class="demo-ruleForm">
         <el-form-item  prop="username">
           <el-input type="text" placeholder="手机号码"  class="Input_box" v-model="loginFrom.username" ></el-input>
-          <svg-icon class="btn-scan" icon-class="phone" />
+          <svg-icon class="btn-scan" icon-class="username" />
         </el-form-item>
         <el-form-item  prop="passwords">
           <el-input type="password" v-model="loginFrom.passwords"  class="Input_box" placeholder="密码" ></el-input>
@@ -141,7 +141,7 @@ export default {
     cursor: pointer;
     position: absolute;
     left: 1px;
-    top: 7px;
+    top: 9px;
   }
   .remember{
     height: 35px !important;
