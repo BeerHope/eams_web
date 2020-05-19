@@ -171,7 +171,6 @@ export default {
       } else {
         this.menuId = obj.id
         this.menuType = obj.type
-        console.log(this.menuType, 'menuType！！！！！！！！')
       }
     },
     openAddDialog() {
