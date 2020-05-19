@@ -44,16 +44,6 @@ export const constantRouter = [
     hidden: true
   },
   {
-    path: '/findpass',
-    component: () => import('@/views/findpass/index'),
-    hidden: true
-  },
-  {
-    path: '/auth-redirect',
-    component: () => import('@/views/login/authredirect'),
-    hidden: true
-  },
-  {
     path: '/404',
     component: () => import('@/views/errorPage/404'),
     hidden: true
@@ -88,6 +78,27 @@ export default new Router({
 
 /* 权限菜单 */
 export const asyncRoutes = [
+  /* 菜单管理 */
+  {
+    path: '/menu',
+    component:Layout,
+    redirect: '/menu/list',
+    name: 'Menu',
+    meta: {
+      title: ''
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/menu/list'),
+        name: 'MenuList',
+        meta: {
+          title: '菜单管理',
+          icon: 'menu'
+        },
+      },
+    ]
+  },
   /* 用户管理 */
   {
     path: '/user',

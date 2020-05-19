@@ -127,7 +127,7 @@
   .header {
     position: relative;
     .title {
-      color: #606266;
+      color: #172B4D;
       font-size: 24px;
       margin-top: 20px;
       margin-bottom: 20px;

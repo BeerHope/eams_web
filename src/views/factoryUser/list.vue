@@ -21,7 +21,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-button type="primary" class="green-btn" icon="el-icon-search" @click="getUserList">搜索</el-button>
+      <el-button type="primary" class="purple-btn" icon="el-icon-search" @click="getUserList">搜索</el-button>
       <el-button v-if="$checkBtnPermission('user.factory.add')" type="primary" class="blue-btn" icon="el-icon-plus"  @click="openUserDialog(true, -1)">新增</el-button>
     </div>
     <el-table
@@ -44,14 +44,14 @@
           <span>{{scope.row.state|ShowState }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="150px" align="center"></el-table-column>
       <el-table-column label="操作" width="340px" align="center">
         <template slot-scope="scope">
-          <el-button v-if="$checkBtnPermission('user.factory.edit')" type="primary" class="green-btn" @click="openUserDialog(true, scope.row.id)" size="mini">编辑</el-button>
+          <el-button v-if="$checkBtnPermission('user.factory.edit')" type="primary" class="purple-btn" @click="openUserDialog(true, scope.row.id)" size="mini">编辑</el-button>
           <el-button v-if="$checkBtnPermission('user.factory.details')" type="primary" class="orange-btn" @click="details(scope.row)" size="mini">详情</el-button>
           <template v-if="$checkBtnPermission('user.factory.activate_freeze')">
             <el-button v-if="scope.row.state==1" type="danger" @click="freeze(scope.row)" size="mini">冻结</el-button>
-          <el-button v-else type="primary"  class="green-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
+          <el-button v-else type="primary"  class="purple-btn"  @click="freeze(scope.row)" size="mini">激活</el-button>
           </template>
           <el-button v-if="$checkBtnPermission('user.factory.resetpassword')" type="danger" @click="openResetPassDialog(true, scope.row.id)"  size="mini">重置密码</el-button>
         </template>

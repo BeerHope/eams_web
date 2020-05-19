@@ -5,7 +5,7 @@
         <el-option v-for="item in factoryList" :key="item.value" :value="item.value" :label="item.label"></el-option>
       </el-select>
       <el-input class="filter-item" v-model="filter.ip" placeholder="工位IP" clearable></el-input>
-      <el-button class="green-btn" type="primary" @click="getWhitelistList">
+      <el-button class="purple-btn" type="primary" @click="getWhitelistList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
       <el-button v-if="$checkBtnPermission('whitelist.add')" class="blue-btn" type="primary" @click="openDialog">

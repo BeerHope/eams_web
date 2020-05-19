@@ -167,6 +167,9 @@ $align in(c, center),
     border-right: none;
   }
 }
+.el-table cell{
+  color: $color_172B4D;
+}
 .el-table--border td{
   border-right: none;
 }
@@ -192,8 +195,25 @@ $align in(c, center),
 .el-input.is-disabled .el-input__inner{
   color: $color_7e7e7e;
 }
-
-
+.el-input-number__decrease, .el-input-number__increase{
+  &:hover{
+    color: $color_6B77ED;
+    &:not(.is-disabled){
+      &~.el-input{
+        .el-input__inner:not(.is-disabled){
+          border-color: $color_6B77ED;
+        }
+      }
+    }
+  }
+}
+.el-dialog__headerbtn{
+  &:hover, &:focus{
+    .el-dialog__close{
+      color: $color_6B77ED;
+    }
+  }
+}
 /* set color of background,text and border */
 @mixin bg_text_border-color($bgColor, $textColor, $borderColor) {
   background-color: $bgColor;
@@ -225,7 +245,7 @@ $hoverOpacity: 0.78;
         @include bg_text_border-color($color_e9a65e, $white, $color_e9a65e);
       }
     }
-    &.green-btn {
+    &.purple-btn {
       @include bg_text_border-color($color_6671e0, $white, $color_6671e0);
       &:hover{
         @include bg_text_border-color($color_606ad6, $white, $color_606ad6);

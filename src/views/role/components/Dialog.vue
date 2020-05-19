@@ -53,8 +53,8 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" class="cancel" @click="dialogVisible = false">取消</el-button>
-        <el-button v-if="roleId === -1" type="primary" class="green-btn" @click="addRole">新增</el-button>
-        <el-button v-else type="primary" class="green-btn" @click="updateRole">保存</el-button>
+        <el-button v-if="roleId === -1" type="primary" class="purple-btn" @click="addRole">新增</el-button>
+        <el-button v-else type="primary" class="purple-btn" @click="updateRole">保存</el-button>
       </span>
     </el-dialog>
   </div>

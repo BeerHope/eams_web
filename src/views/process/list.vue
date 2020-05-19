@@ -3,7 +3,7 @@
     <div class="filter-box m-t-20 m-b-20">
       <!-- <el-input class="filter-item" v-model="filter.kmsCustomerCode" placeholder="KMS编码" clearable></el-input> -->
       <el-input class="filter-item" v-model="filter.processIdentity" placeholder="标识" clearable></el-input>
-      <el-button class="green-btn" type="primary" @click="getProcessList">
+      <el-button class="purple-btn" type="primary" @click="getProcessList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
       <el-button v-if="$checkBtnPermission('process.add')" class="blue-btn" type="primary" @click="openAddDialog">

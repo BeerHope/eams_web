@@ -11,7 +11,7 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogFreeze=false">取消</el-button>
-        <el-button class="green-btn" type="primary" @click="onSubmit">{{cause.state==1?'冻结':'激活' }}  </el-button>
+        <el-button class="purple-btn" type="primary" @click="onSubmit">{{cause.state==1?'冻结':'激活' }}  </el-button>
     </span>
   </el-dialog>
 </template>

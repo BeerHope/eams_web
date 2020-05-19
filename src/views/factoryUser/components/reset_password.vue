@@ -13,7 +13,7 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button type="primary" class="cancel" @click="dialogVisible=false">取消</el-button>
-      <el-button type="primary" class="green-btn" @click="resetPassword">重置</el-button>
+      <el-button type="primary" class="purple-btn" @click="resetPassword">重置</el-button>
     </span>
   </el-dialog>
 </template>

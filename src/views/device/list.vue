@@ -8,7 +8,7 @@
           :value="item.value" :label="item.label">
         </el-option>
       </el-select>
-      <el-button class="green-btn" type="primary" @click="getDeviceList">
+      <el-button class="purple-btn" type="primary" @click="getDeviceList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
     </div>
@@ -22,11 +22,11 @@
       <el-table-column prop="state" label="状态" align="center">
         <template slot-scope="scope"><span>{{scope.row.state|filterState(bindStates)}}</span></template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" align="center" width="150"></el-table-column>
       <el-table-column label="操作" align="center">
         <!-- 限制重复解绑点击 -->
         <template slot-scope="scope">
-          <el-button v-if="$checkBtnPermisstion('device.unbind')" type="primary" size="mini" :disabled="scope.row.state==2" class="green-btn" @click="unbindDevice(scope.row)">解绑</el-button>
+          <el-button v-if="$checkBtnPermisstion('device.unbind')" type="primary" size="mini" :disabled="scope.row.state==2" class="purple-btn" @click="unbindDevice(scope.row)">解绑</el-button>
         </template>
       </el-table-column>
     </el-table>

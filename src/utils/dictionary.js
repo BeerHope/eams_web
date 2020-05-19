@@ -45,18 +45,6 @@ export const orderStates = [
   }
 ]
 
-/* 国内外标识，区分是否下载21号文 */
-export const marksFor21 = [
-  {
-    value: 0, // 默认值(是)
-    label: '国内'
-  },
-  {
-    value: 1, // 否
-    label: '国外'
-  }
-]
-
 /* 生产状态: 成功、失败 */
 export const logTypes = [
   {
@@ -85,18 +73,6 @@ export const simStates = [
   }
 ]
 
-/* 注册秘钥标识 */
-export const registerKeyStates = [
-  {
-    value: 0,
-    label: '未注册'
-  },
-  {
-    value: 1,
-    label: '已注册'
-  }
-]
-
 /* 角色状态 */
 export const roleStates = [
   {
@@ -117,5 +93,33 @@ export const roleTypes = [
   {
     value: 2,
     label: '外协厂角色'
+  }
+]
+
+/* 菜单状态 */
+export const menuStates = [
+  {
+    value: 1,
+    label: '启用'
+  },
+  {
+    value: 2,
+    label: '禁用'
+  }
+]
+
+/* 菜单类型 */
+export const menuTypes = [
+  {
+    value: 1,
+    label: '目录'
+  },
+  {
+    value: 2,
+    label: '菜单'
+  },
+  {
+    value: 3,
+    label: '功能'
   }
 ]

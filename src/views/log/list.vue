@@ -8,7 +8,7 @@
           :value="item.value" :label="item.label">
         </el-option>
       </el-select>
-      <el-button class="green-btn" type="primary" @click="getLogList">
+      <el-button class="purple-btn" type="primary" @click="getLogList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
     </div>
@@ -22,7 +22,7 @@
       <el-table-column prop="type" label="状态" align="center">
         <template slot-scope="scope"><span>{{scope.row.type|filterState(logTypes)}}</span></template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" align="center" min-width="150"></el-table-column>
       <el-table-column label="操作" align="center" width="120">
         <template slot-scope="scope">
           <el-button

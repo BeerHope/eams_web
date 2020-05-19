@@ -2,7 +2,7 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input class="filter-item" v-model="filter.sn" placeholder="机身号" clearable></el-input>
-      <el-button class="green-btn" type="primary" @click="getUnbindDeviceList">
+      <el-button class="purple-btn" type="primary" @click="getUnbindDeviceList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
     </div>

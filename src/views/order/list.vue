@@ -11,7 +11,7 @@
           :label="item.label">
         </el-option>
       </el-select>
-      <el-button class="green-btn" type="primary" @click="getOrderList">
+      <el-button class="purple-btn" type="primary" @click="getOrderList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
       <el-button v-if="$checkBtnPermission('order.import')" class="blue-btn" @click="openOrderUpload" type="primary">
@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column width="400" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="green-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
+          <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="purple-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
            <el-button v-if="$checkBtnPermission('order.export')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="blue-btn" @click="exportOrder(scope.row)">导出</el-button>
           <el-button v-if="$checkBtnPermission('order.details')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
           <!-- 屏蔽废弃功能 -->

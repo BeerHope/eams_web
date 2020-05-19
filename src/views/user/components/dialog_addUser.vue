@@ -37,7 +37,7 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible=false">取消</el-button>
-      <el-button type="primary" class="green-btn" @click="onSubmit">{{action=='add'?'新增':'保存'}} </el-button>
+      <el-button type="primary" class="purple-btn" @click="onSubmit">{{action=='add'?'新增':'保存'}} </el-button>
     </span>
   </el-dialog>
 </template>

@@ -3,7 +3,7 @@
     <div class="filter-box m-t-20 m-b-20">
       <el-input class="filter-item" v-model="filter.factoryName" placeholder="工厂名称" clearable></el-input>
       <el-input class="filter-item" v-model="filter.customerName" placeholder="线别" clearable></el-input>
-      <el-button class="green-btn" type="primary" @click="getFactoryList">
+      <el-button class="purple-btn" type="primary" @click="getFactoryList">
         <i class="el-icon-search m-r-4"></i>搜索
       </el-button>
       <el-button v-if="$checkBtnPermission('factory.add')" class="blue-btn" type="primary" @click="openDialog">

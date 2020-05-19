@@ -47,8 +47,8 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible=false">取消</el-button>
-      <el-button v-if="userId===-1" type="primary" class="green-btn" @click="addFactoryUser">新增</el-button>
-      <el-button v-else type="primary" class="green-btn" @click="updateFactoryUser">保存</el-button>
+      <el-button v-if="userId===-1" type="primary" class="purple-btn" @click="addFactoryUser">新增</el-button>
+      <el-button v-else type="primary" class="purple-btn" @click="updateFactoryUser">保存</el-button>
     </span>
   </el-dialog>
 </template>

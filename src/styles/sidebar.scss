@@ -9,6 +9,10 @@ $color_6772e4: #6772e4;
     margin-left: 220px;
     position: relative;
   }
+  .el-menu-item{
+    display: flex;
+    align-items: center;
+  }
   // 侧边栏
   .sidebar-container {
     transition: width 0.28s;
@@ -109,7 +113,7 @@ $color_6772e4: #6772e4;
   }
   .el-submenu{
     &.is-active{
-      .el-submenu__title{
+      .el-submenu__title, i{
         color: $color_6772e4 !important;
       }
     }

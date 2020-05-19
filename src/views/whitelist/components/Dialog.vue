@@ -22,7 +22,7 @@
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button class="cancel" @click="dialogVisible = false">取消</el-button>
-      <el-button type="primary" class="green-btn" @click="addWhitelist">新增</el-button>
+      <el-button type="primary" class="purple-btn" @click="addWhitelist">新增</el-button>
     </span>
   </el-dialog>
 </template>
