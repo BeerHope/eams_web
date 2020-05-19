@@ -1378,7 +1378,7 @@
   border-right: none;
 }
 
-.el-table cell {
+.el-table .cell {
   color: #172B4D;
 }
 
