@@ -208,7 +208,7 @@
             <el-input v-model="formData.orderRemark" disabled type="textarea" :autosize="{ minRows: 4, maxRows: 6}"></el-input>
           </el-form-item>
         </el-row>
-        <el-button v-if="orderState !== 5 && $checkBtnPermission('order.check')" type="primary" class="purple-btn" @click="checkOrder(orderId)">审核</el-button>
+        <el-button v-if="orderState === 5 && $checkBtnPermission('order.check')" type="primary" class="purple-btn" @click="checkOrder(orderId)">审核</el-button>
       </el-form>
     </el-card>
   </div>
@@ -220,18 +220,14 @@ import { getAllFactory } from '@/api/factory'
 export default {
   name: '',
   components: {},
-  props: {
-    orderState: {
-      type: Number|String,
-      default: () => ''
-    }
-  },
+  props: {},
   directive: {},
   data() {
     return {
       simStates,
       factoryList: [],
-      detailsLoading: false,      
+      detailsLoading: false,
+      orderState: 5,
       formData: {
         workOrderNumber: '', // 生产订单号
         orderCreateDate: '', // 发单时间
@@ -294,13 +290,16 @@ export default {
   },
   watch: {},
   created() {
+    this.orderState = _.toNumber(localStorage.getItem('orderState'))
     this.getOrderDetails()
     this.getAllFactory()
   },
   beforeMount() {},
   mounted() {},
   beforeDestroy() {},
-  destroyed() {},
+  destroyed() {
+    localStorage.removeItem('orderState')
+  },
   methods: {
     getAllFactory() {
       getAllFactory().then(res => {

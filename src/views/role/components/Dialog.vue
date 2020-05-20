@@ -35,7 +35,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="角色菜单" prop="menus" :class="['tree-wrapper']">
-          <el-input v-model="filterText" placeholder="请输入关键字过滤"></el-input>
+          <el-input v-model="filterText" placeholder="输入菜单名称过滤">
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          </el-input>
           <div class="custom-tree">
             <el-tree
               show-checkbox
@@ -45,6 +47,7 @@
               :default-expand-all="true"
               :props="defaultProps"
               @check="changeCheck"
+              :filter-node-method="filterNode"
             ></el-tree>
           </div>
         </el-form-item>
@@ -126,7 +129,11 @@ export default {
       return this.roleId === -1 ? '新增角色' : '编辑角色'
     }
   },
-  watch: {},
+  watch: {
+    filterText(val) {
+      this.$refs.authTree.filter(val);
+    }
+  },
   created() {
     this.getMenus()
   },
@@ -138,6 +145,10 @@ export default {
     async getMenus() {
       const res = await getMenus()
       this.menuList = res && res.data ? [res.data.data] : []
+    },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
     },
     handleClose() {
       this.$refs.form.resetFields()
@@ -200,12 +211,13 @@ export default {
 .role-dialog{
   .tree-wrapper{
     .el-form-item__content {
-      .custom{
+      .custom-tree{
         height: 220px !important;
         border: 1px solid #DCDFE6;
         border-radius: 4px;
         padding: 12px;
         overflow: auto;
+        margin-top: 4px;
       }
     }
   }

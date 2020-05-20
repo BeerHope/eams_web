@@ -39,7 +39,7 @@
         <template slot-scope="scope">
           <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="purple-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
           <el-button v-if="$checkBtnPermission('order.export')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="blue-btn" @click="exportOrder(scope.row)">导出</el-button>
-          <el-button v-if="$checkBtnPermission('order.details')" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
+          <el-button v-if="$checkBtnPermission('order.details')" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row)">详情</el-button>
           <el-button v-if="$checkBtnPermission('order.abandon')" :disabled="scope.row.orderState === 4" type="danger" size="mini" @click="abandonOrder(scope.row)">废弃</el-button>
         </template>
       </el-table-column>
@@ -127,8 +127,9 @@ export default {
       })
     },
     /* 跳转详情页 */
-    toDetailsPage(id) {
+    toDetailsPage({id, orderState}) {
       this.$router.push(`./details/${id}`)
+      localStorage.setItem('orderState', orderState)
     },
     /* 注册密钥 */
     registerKey(orderId) {
