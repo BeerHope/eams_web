@@ -208,18 +208,24 @@
             <el-input v-model="formData.orderRemark" disabled type="textarea" :autosize="{ minRows: 4, maxRows: 6}"></el-input>
           </el-form-item>
         </el-row>
+        <el-button v-if="orderState !== 5 && $checkBtnPermission('order.check')" type="primary" class="purple-btn" @click="checkOrder(orderId)">审核</el-button>
       </el-form>
     </el-card>
   </div>
 </template>
 <script>
 import { simStates } from '@/utils/dictionary'
-import { getOrderDetails } from '@/api/order'
+import { getOrderDetails, checkOrder } from '@/api/order'
 import { getAllFactory } from '@/api/factory'
 export default {
   name: '',
   components: {},
-  props: {},
+  props: {
+    orderState: {
+      type: Number|String,
+      default: () => ''
+    }
+  },
   directive: {},
   data() {
     return {
@@ -311,6 +317,14 @@ export default {
         this.detailsLoading = false
       })
     },
+    checkOrder(id) {
+      checkOrder({id}).then(res => {
+        this.getOrderList()
+        this.$message.success('订单审核通过')
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
     handleCancel() {
       this.$store.dispatch('delView', this.$route)
       this.$router.push('../list')
@@ -340,6 +354,7 @@ export default {
     width: 96%;
     margin: auto;
     padding: 30px 50px;
+    text-align: center;
   }
   .title{
     .desc{

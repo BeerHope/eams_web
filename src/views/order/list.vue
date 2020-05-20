@@ -37,9 +37,8 @@
       </el-table-column>
       <el-table-column width="400" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="$checkBtnPermission('order.check')" :disabled="scope.row.orderState !== 5" type="primary" size="mini" class="purple-btn" @click="checkOrder(scope.row.id)">审核</el-button>
           <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="purple-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
-           <el-button v-if="$checkBtnPermission('order.export')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="blue-btn" @click="exportOrder(scope.row)">导出</el-button>
+          <el-button v-if="$checkBtnPermission('order.export')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="blue-btn" @click="exportOrder(scope.row)">导出</el-button>
           <el-button v-if="$checkBtnPermission('order.details')" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
           <el-button v-if="$checkBtnPermission('order.abandon')" :disabled="scope.row.orderState === 4" type="danger" size="mini" @click="abandonOrder(scope.row)">废弃</el-button>
         </template>
@@ -69,7 +68,7 @@ import OrderUpload from './components/OrderUpload'
 import IniUpload from './components/IniUpload'
 import { orderStates, orderIcons } from '@/utils/dictionary'
 import { filterState } from '@/filters'
-import { getOrderList, register21Key, abandonOrder, exportOrder, checkOrder } from '@/api/order'
+import { getOrderList, register21Key, abandonOrder, exportOrder } from '@/api/order'
 export default {
   name: 'WorkOrderList',
   components: {
@@ -119,14 +118,6 @@ export default {
     },
     openOrderUpload() {
       this.$refs.uploadDialog.dialogVisible = true
-    },
-    checkOrder(id) {
-      checkOrder({id}).then(res => {
-        this.getOrderList()
-        this.$message.success('订单审核通过')
-      }).catch((err) => {
-        console.log(err)
-      })
     },
     openIniUpload(orderId) {
       const iniUpload = this.$refs.iniUpload

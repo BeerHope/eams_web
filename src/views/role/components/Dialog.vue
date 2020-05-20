@@ -35,7 +35,8 @@
           </el-select>
         </el-form-item>
         <el-form-item label="角色菜单" prop="menus" :class="['tree-wrapper']">
-          <div>
+          <el-input v-model="filterText" placeholder="请输入关键字过滤"></el-input>
+          <div class="custom-tree">
             <el-tree
               show-checkbox
               node-key="id"
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-import { roleTypes } from '@/utils/dictionary'
+import { roleTypes, roleStates } from '@/utils/dictionary'
 import { getMenus, addRole, getRoleDetails, updateRole } from '@/api/role'
 export default {
   name: "",
@@ -116,16 +117,8 @@ export default {
         children: 'child',
         label: 'name'
       },
-      roleStates: [
-        {
-          value: 1,
-          label: '启用'
-        },
-        {
-          value: 2,
-          label: '禁用'
-        }
-      ]
+      roleStates,
+      filterText: ''
     };
   },
   computed: {
@@ -206,12 +199,14 @@ export default {
 <style lang="scss">
 .role-dialog{
   .tree-wrapper{
-    .el-form-item__content>div:first-child{
-      height: 220px !important;
-      border: 1px solid #DCDFE6;
-      border-radius: 4px;
-      padding: 12px;
-      overflow: auto;
+    .el-form-item__content {
+      .custom{
+        height: 220px !important;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+        padding: 12px;
+        overflow: auto;
+      }
     }
   }
 }
