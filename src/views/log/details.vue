@@ -13,7 +13,7 @@
           </el-col>
           <el-col :md="12">
             <el-form-item label="生产状态:">
-              <span>{{details.type|filterState(logTypes)}}</span>
+              <span>{{details.type|filterState(logStates)}}</span>
             </el-form-item>
           </el-col>
           <el-col :md="12">
@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import { logTypes} from '@/utils/dictionary'
+import { logStates} from '@/utils/dictionary'
 import { getLogDetails } from '@/api/log'
 import { filterState } from '@/filters'
 
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      logTypes,
+      logStates,
       detailsLoading: false,
       details: {
         sn: '',

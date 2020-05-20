@@ -123,7 +123,6 @@
       }
     },
     created(){
-      // this.getFactoryRoles();
       this.getAllFactory();
     },
     computed: {
@@ -135,12 +134,12 @@
     methods:{
       getAllFactory(){
         getAllFactory().then(response=>{
-          this.factoryList=response.data.data;
+          this.factoryList= response && response.data ? response.data.data : [];
         })
       },
       getFactoryRoles() {
         getFactoryRoles().then(res => {
-          this.factoryRoles = res.data.data
+          this.factoryRoles = res.data && res.data.data
         })
       },
       addFactoryUser(){

@@ -5,7 +5,7 @@
 export const bindStates = [
   {
     value: '',
-    label: '全部'
+    label: '全部状态'
   },
   {
     value: 1,
@@ -18,6 +18,9 @@ export const bindStates = [
 ]
 
 /* 工单状态 */
+/**
+ * 未审核->未生效->未开始->进行中->已完成->已废弃
+ */
 export const orderStates = [
   {
     value: '',
@@ -42,14 +45,46 @@ export const orderStates = [
   {
     value: 4,
     label: '已废弃'
+  },
+  {
+    value: 5,
+    label: '未审核'
+  }
+]
+
+/* 订单状态对应的icon */
+export const orderIcons = [
+  {
+    state: 0,
+    icon: 'order-invalid'
+  },
+  {
+    state: 1,
+    icon: 'order-not-begin'
+  },
+  {
+    state: 2,
+    icon: 'order-ongoing'
+  },
+  {
+    state: 3,
+    icon: 'order-accomplished'
+  },
+  {
+    state: 4,
+    icon: 'order-abandoned'
+  },
+  {
+    state: 5,
+    icon: 'order-unchecked'
   }
 ]
 
 /* 生产状态: 成功、失败 */
-export const logTypes = [
+export const logStates = [
   {
     value: '',
-    label: '全部'
+    label: '全部状态'
   },
   {
     value: 0,

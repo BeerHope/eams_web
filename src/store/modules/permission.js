@@ -1,4 +1,4 @@
-import { constantRouter, asyncRoutes } from '@/router'
+import { constantRoutes, asyncRoutes, errorRoutes } from '@/router'
 /**
  * 通过meta.role判断是否与当前用户权限匹配
  * @param roles
@@ -62,14 +62,14 @@ function array2Json(array, key) {
 
 const permission = {
   state: {
-    routers: constantRouter,
+    routers: constantRoutes,
     addRouters: [],
     permissionButtons: {},
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers;
-      state.routers = _.concat(constantRouter, routers)
+      state.routers = _.concat(constantRoutes, routers, errorRoutes)
     },
     SET_BUTTONS: (state, permissionButtons) => {
       state.permissionButtons = permissionButtons

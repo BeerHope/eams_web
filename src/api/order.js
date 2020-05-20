@@ -67,3 +67,12 @@ export function exportOrder(id) {
     responseType: 'blob'
   })
 }
+
+/* 审核订单 */
+export function checkOrder(data) {
+  return request({
+    url: '/order/check',
+    method: 'post',
+    data
+  })
+}

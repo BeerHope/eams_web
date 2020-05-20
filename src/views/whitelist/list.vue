@@ -75,7 +75,7 @@ export default {
     /* 工厂下拉列表 */
     getFactoryList() {
       getAllFactory().then(res => {
-        this.factoryList = res.data.data
+        this.factoryList = res.data ? res.data.data : []
       }).catch(err => {
         console.log(err, 'err!!!')
       })

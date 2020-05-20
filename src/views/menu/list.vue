@@ -125,7 +125,7 @@ export default {
     getMenuList() {
       const loading = Loading.service()
       getMenuList().then(res => {
-        this.menuList = [res.data.data]
+        this.menuList = res.data ? [res.data.data] : []
         loading.close()
         this.$nextTick(() => {
           if (this.isFirst) {

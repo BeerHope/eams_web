@@ -2,9 +2,11 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input class="filter-item" v-model="filter.sn" placeholder="机身号" clearable></el-input>
+      <!-- add 2020-05-20 -->
+      <el-input class="filter-item" v-model="filter.orderId" placeholder="生产订单号" clearable></el-input>
       <el-select class="filter-item" v-model="filter.type" placeholder="状态" clearable>
         <el-option 
-          v-for="item in logTypes" :key="item.value" 
+          v-for="item in logStates" :key="item.value" 
           :value="item.value" :label="item.label">
         </el-option>
       </el-select>
@@ -20,10 +22,10 @@
       <el-table-column prop="orderId" label="生产订单号" align="center"></el-table-column>
       <el-table-column prop="mac" label="工位MAC" align="center"></el-table-column>
       <el-table-column prop="type" label="状态" align="center">
-        <template slot-scope="scope"><span>{{scope.row.type|filterState(logTypes)}}</span></template>
+        <template slot-scope="scope"><span>{{scope.row.type|filterState(logStates)}}</span></template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center" min-width="150"></el-table-column>
-      <el-table-column label="操作" align="center" width="120">
+      <el-table-column prop="createTime" label="创建时间" align="center" width="150"></el-table-column>
+      <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
           <el-button
             v-if="$checkBtnPermission('log.details')"
@@ -50,7 +52,7 @@
 </template>
 
 <script>
-import { logTypes } from '@/utils/dictionary'
+import { logStates } from '@/utils/dictionary'
 import { filterState } from '@/filters'
 import { getLogList } from '@/api/log'
 
@@ -65,11 +67,12 @@ export default {
       listLoading: false,
       filter: {
         sn: '',
+        orderId: '', //
         type: '',
         page: 1,
         pageSize: 20
       },
-      logTypes,
+      logStates,
       logList: [],
       total: 0
     }

@@ -21,7 +21,7 @@ import Layout from '@/views/layout/Layout';
   }
 **/
 
-export const constantRouter = [
+export const constantRoutes = [
   {
     path: '/redirect',
     component: Layout,
@@ -73,7 +73,7 @@ export default new Router({
   mode: 'history', // require service support
   base: '/',
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouter
+  routes: constantRoutes
 })
 
 /* 权限菜单 */
@@ -190,7 +190,7 @@ export const asyncRoutes = [
       },
       {
         path: 'details/:orderId',
-        component: () => import('@/views/order/details1'),
+        component: () => import('@/views/order/details'),
         name: 'WorkOrderDetails',
         meta: { title: '订单详情', icon: '', active:'/order/list'},
         hidden: true
@@ -295,4 +295,10 @@ export const asyncRoutes = [
       }
     ]
   }
+]
+
+/* 404 page */
+export const errorRoutes = [
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]

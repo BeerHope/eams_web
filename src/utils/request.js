@@ -59,7 +59,6 @@ service.interceptors.response.use(
       return response
     }
     if(res.code == 401){
-      console.log(1111111, 'location!!!!!')
       if (store.getters.tokenExpired) {
         /* 不进行任何操作 */
         return

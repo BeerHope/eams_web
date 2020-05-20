@@ -144,7 +144,7 @@ export default {
   methods: {
     async getMenus() {
       const res = await getMenus()
-      this.menuList = [res.data.data]
+      this.menuList = res && res.data ? [res.data.data] : []
     },
     handleClose() {
       this.$refs.form.resetFields()

@@ -183,6 +183,8 @@
       select4System(){
         select4System().then(response=>{
           this.rolelist=response.data.data;
+        }).catch(() => {
+          console.log('接口异常 select4System')
         })
       },
       getUserList(){

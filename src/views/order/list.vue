@@ -37,11 +37,11 @@
       </el-table-column>
       <el-table-column width="400" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
+          <el-button v-if="$checkBtnPermission('order.check')" :disabled="scope.row.orderState !== 5" type="primary" size="mini" class="purple-btn" @click="checkOrder(scope.row.id)">审核</el-button>
           <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="purple-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
            <el-button v-if="$checkBtnPermission('order.export')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="blue-btn" @click="exportOrder(scope.row)">导出</el-button>
-          <el-button v-if="$checkBtnPermission('order.details')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
-          <!-- 屏蔽废弃功能 -->
-          <!-- <el-button v-if="$checkBtnPermission('order.abandon')" :disabled="scope.row.orderState === 4" type="danger" size="mini" @click="abandonOrder(scope.row.id)">废弃</el-button> -->
+          <el-button v-if="$checkBtnPermission('order.details')" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row.id)">详情</el-button>
+          <el-button v-if="$checkBtnPermission('order.abandon')" :disabled="scope.row.orderState === 4" type="danger" size="mini" @click="abandonOrder(scope.row)">废弃</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -67,9 +67,9 @@
  */
 import OrderUpload from './components/OrderUpload'
 import IniUpload from './components/IniUpload'
-import { orderStates } from '@/utils/dictionary'
+import { orderStates, orderIcons } from '@/utils/dictionary'
 import { filterState } from '@/filters'
-import { getOrderList, register21Key, abandonOrder, exportOrder } from '@/api/order'
+import { getOrderList, register21Key, abandonOrder, exportOrder, checkOrder } from '@/api/order'
 export default {
   name: 'WorkOrderList',
   components: {
@@ -92,28 +92,7 @@ export default {
       },
       orderList: [],
       total: 0,
-      orderIcons: [
-        {
-          state: 0,
-          icon: 'order-invalid'
-        },
-        {
-          state: 1,
-          icon: 'order-not-begin'
-        },
-        {
-          state: 2,
-          icon: 'order-ongoing'
-        },
-        {
-          state: 3,
-          icon: 'order-accomplished'
-        },
-        {
-          state: 4,
-          icon: 'order-abandoned'
-        }
-      ]
+      orderIcons
     }
   },
   created() {
@@ -141,6 +120,14 @@ export default {
     openOrderUpload() {
       this.$refs.uploadDialog.dialogVisible = true
     },
+    checkOrder(id) {
+      checkOrder({id}).then(res => {
+        this.getOrderList()
+        this.$message.success('订单审核通过')
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
     openIniUpload(orderId) {
       const iniUpload = this.$refs.iniUpload
        _.assign(iniUpload, {
@@ -163,8 +150,8 @@ export default {
       return _.find(this.orderIcons, {state: orderState}).icon
     },
     /* 废弃订单 */
-    abandonOrder(id) {
-      this.$confirm('此操作将废弃当前订单，是否继续?', '提示', {
+    abandonOrder({id, workOrderNumber}) {
+      this.$confirm(`此操作将废弃订单(${workOrderNumber})，是否继续?`, '提示', {
         confirmButtonText:'确定',
         cancelButtonText: '取消',
         type: 'warning'

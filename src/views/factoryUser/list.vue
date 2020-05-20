@@ -69,7 +69,6 @@
       @current-change="getUserList"
       :current-page.sync="filter.page"
     ></el-pagination>
-    <!-- <DialogAddUser ref="addUser" @refresh="getUserList"></DialogAddUser> -->
     <user-dialog ref="userDialog" @refresh="getUserList" :factory-roles="factoryRoles"></user-dialog>
     <DialogDetails ref="Details" :Details="Details"></DialogDetails>
     <DialogFreeze ref="Freeze" :cause="cause" @refresh="getUserList"></DialogFreeze>

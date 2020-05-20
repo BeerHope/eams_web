@@ -219,7 +219,7 @@ export default {
   methods: {
     getAllFactory() {
       getAllFactory().then(res => {
-        this.factoryList = res.data.data
+        this.factoryList = res.data && res.data.data
       })
     },  
     getOrderDetails() {

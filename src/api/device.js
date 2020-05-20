@@ -17,3 +17,12 @@ export function unbindDevice(data) {
     data
   })
 }
+
+/* 一键解绑某个生产订单号的设备 */
+export function batchUnbindDevice(data) {
+  return request({
+    url: '/device/batchUnbind',
+    method: 'post',
+    data
+  })
+}

@@ -52,11 +52,7 @@ export default {
     }
   },
   created() {
-    console.log('created')
     this.getUnbindDeviceList()
-  },
-  activated() {
-    console.log('activated!!!!')
   },
   methods: {
     /* 工单列表 */
@@ -71,7 +67,6 @@ export default {
         this.listLoading = false
         console.log(err, '解绑记录列表')
       })
-    
     },
     openEditDialog() {
       this.$refs.uploadDialog.dialogVisible = true
