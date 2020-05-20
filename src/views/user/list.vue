@@ -166,9 +166,7 @@
         })
       },
       addUser(){
-       // this.$refs.addUser.dialogVisible=true
         const addUser=this.$refs.addUser
-
         _.assign(addUser,{
           dialogVisible:true,
           action:'add',
@@ -187,7 +185,6 @@
           this.rolelist=response.data.data;
         })
       },
-
       getUserList(){
         this.listLoading = true
         sysUserlist(this.filter).then(res=>{
@@ -202,25 +199,16 @@
       },
       details(row){
         this.$refs.Details.dialogDetails=true;
-        // console.log("########1111")
-        // console.log(this.rolelist)
         SysUserDetails(row.id).then(response=>{
           this.Details=response.data.data;
           this.Details.roleName=""
           if(this.Details.roleIds.length>0){
-            // const role=this.Details.roleIds.join(",")+",";
-            //   console.log(role)
             this.rolelist.forEach(item=>{
               if(_.indexOf( this.Details.roleIds, item.id)>-1){
                 this.Details.roleName= this.Details.roleName+item.name+"、"
               }
             })
-
-
-
           }
-
-
         })
       },
       freeze(row){ //冻结

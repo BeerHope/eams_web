@@ -80,11 +80,6 @@
           <el-col :md="8" :sm="12">
             <el-form-item label="配置sim卡:">
               <el-input v-model="configureSim" disabled></el-input>
-              <!-- <el-select v-model="formData.configureSim" disabled>
-                <el-option 
-                  v-for="item in simStates" :key="item.value" 
-                :label="item.label" :value="item.value"></el-option>
-              </el-select> -->
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="12">

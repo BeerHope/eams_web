@@ -44,7 +44,7 @@
           <span>{{scope.row.state|ShowState }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="150px" align="center"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" min-width="150px" align="center"></el-table-column>
       <el-table-column label="操作" width="340px" align="center">
         <template slot-scope="scope">
           <el-button v-if="$checkBtnPermission('user.factory.edit')" type="primary" class="purple-btn" @click="openUserDialog(true, scope.row.id)" size="mini">编辑</el-button>
@@ -70,7 +70,7 @@
       :current-page.sync="filter.page"
     ></el-pagination>
     <!-- <DialogAddUser ref="addUser" @refresh="getUserList"></DialogAddUser> -->
-    <user-dialog ref="userDialog" @refresh="getUserList"></user-dialog>
+    <user-dialog ref="userDialog" @refresh="getUserList" :factory-roles="factoryRoles"></user-dialog>
     <DialogDetails ref="Details" :Details="Details"></DialogDetails>
     <DialogFreeze ref="Freeze" :cause="cause" @refresh="getUserList"></DialogFreeze>
     <reset-password ref="resetPass" @refresh="getUserList"></reset-password>
@@ -134,10 +134,9 @@
       this.getUserList();
     },
     methods: {
-      getFactoryRoles() {
-        getFactoryRoles().then(res => {
-          this.factoryRoles = res.data.data
-        })
+      async getFactoryRoles() {
+        const res = await getFactoryRoles()
+        this.factoryRoles = res.data.data
       },
       openResetPassDialog(dialogVisible, userId) {
         const resetPass = this.$refs.resetPass

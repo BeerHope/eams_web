@@ -8,7 +8,8 @@ const user = {
     accountNum: '',
     roles: [],
     avatar: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
-    username: ''
+    username: '',
+    tokenExpired: false,
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -23,10 +24,12 @@ const user = {
     SET_ROLES: (state, roles) => {
       state.roles = roles;
     },
-    // 存储当前账号
     SET_ACCOUNT: (state, username) => {
       state.username = username;
     },
+    SET_TOKEN_EXPIRED: (state, tokenExpired) => {
+      state.tokenExpired = tokenExpired
+    }
   },
 
   actions: {
@@ -38,7 +41,6 @@ const user = {
           resolve();
       })
     },
-
     //登录过期
     FedLogOut({commit}) {
       return new Promise(resolve => {

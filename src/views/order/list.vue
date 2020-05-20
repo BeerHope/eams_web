@@ -191,6 +191,8 @@ export default {
           document.body.appendChild(link);
           link.click();
           link.remove();
+      }).catch(err => {
+        console.log('export failed:', err)
       })
     }
   }

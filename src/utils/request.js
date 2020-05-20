@@ -59,6 +59,13 @@ service.interceptors.response.use(
       return response
     }
     if(res.code == 401){
+      console.log(1111111, 'location!!!!!')
+      if (store.getters.tokenExpired) {
+        /* 不进行任何操作 */
+        return
+      }
+      store.commit('SET_TOKEN_EXPIRED', true)
+      /* 判断路由是否改变 && 是否已经给出弹窗提示 */
       MessageBox.confirm('当前登录超时，您可以取消继续留在该页面，或者重新登录', '确定登出', {
         confirmButtonText: '重新登录',
         cancelButtonText: '取消',
@@ -67,6 +74,8 @@ service.interceptors.response.use(
         store.dispatch('FedLogOut').then(() => {
           location.reload(); // 为了重新实例化vue-router对象 避免bug
         })
+      }).catch(() => {
+        console.log('取消重新登录')
       })
     }
     if ( res.code != 200 && res.code!=0 && res.code!= 401) {

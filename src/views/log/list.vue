@@ -86,6 +86,8 @@ export default {
         this.logList = resData.rows
         this.total = resData.totalRecord
         this.listLoading = false
+      }).catch(() => {
+        this.listLoading = false
       })
     },
     openEditDialog() {

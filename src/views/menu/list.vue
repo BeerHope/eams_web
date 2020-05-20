@@ -14,8 +14,8 @@
     </el-col>
     <el-col :xl="20" :lg="19" class="edit-form">
       <div class="tool t-r">
-        <el-button v-if="menuType !== 3" type="primary" size="small" class="blue-btn m-r-20" @click="openAddDialog">
-          <i class="el-icon-plus"></i> 
+        <el-button v-if="menuType !== 3 && $checkBtnPermission('menu.add')" type="primary" size="small" class="blue-btn m-r-20" @click="openAddDialog">
+          <i class="el-icon-plus"></i>
           新增子菜单
         </el-button>
       </div>
@@ -57,7 +57,7 @@
             <el-input type="textarea" v-model="menuDetails.remark"></el-input>
           </el-form-item>
         </el-form>
-        <el-button class="m-l-50 m-t-20 purple-btn" type="primary" @click="updateMenu">修改</el-button>
+        <el-button v-if="$checkBtnPermission('menu.update')" class="m-l-50 m-t-20 purple-btn" type="primary" @click="updateMenu">修改</el-button>
       </div>
     </el-col>
     <add-menu ref="addMenu" :parent-menu="menuDetails" @refresh="getMenuList"></add-menu>

@@ -52,7 +52,11 @@ export default {
     }
   },
   created() {
+    console.log('created')
     this.getUnbindDeviceList()
+  },
+  activated() {
+    console.log('activated!!!!')
   },
   methods: {
     /* 工单列表 */

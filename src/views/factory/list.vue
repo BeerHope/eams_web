@@ -67,6 +67,7 @@ export default {
         this.total = resData.totalRecord
         this.listLoading = false
       }).catch(err => {
+        this.listLoading = false
         console.log(err, '工厂列表')
       })
     },

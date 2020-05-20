@@ -62,6 +62,12 @@
   import { getEncryptText } from '@/utils/encryption'
   export default {
     name: "addUser",
+    props: {
+      factoryRoles: {
+        type: Array,
+        default: () => []
+      }
+    },
     data(){
       const checkPhone = (rule, value, callback) => {
         if (value && !validatePhone(value)) {
@@ -80,7 +86,6 @@
       return{
         loading: false,
         factoryList:[],
-        factoryRoles: [],
         passwordVisible: false,
         form:{
           factoryId:'',
@@ -118,7 +123,7 @@
       }
     },
     created(){
-      this.getFactoryRoles();
+      // this.getFactoryRoles();
       this.getAllFactory();
     },
     computed: {

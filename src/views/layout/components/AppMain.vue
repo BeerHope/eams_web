@@ -1,11 +1,11 @@
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
-      <!-- 上面增加了缓存处理 -->
-      <!-- <keep-alive :include="cachedViews">
+      <!-- 缓存tab中打开的页面 -->
+      <keep-alive :include="cachedViews">
         <router-view :key="key"/>
-      </keep-alive> -->
-      <router-view :key="key"/>
+      </keep-alive>
+      <!-- <router-view :key="key"/> -->
     </transition>
   </section>
 </template>

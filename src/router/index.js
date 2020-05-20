@@ -190,7 +190,7 @@ export const asyncRoutes = [
       },
       {
         path: 'details/:orderId',
-        component: () => import('@/views/order/details'),
+        component: () => import('@/views/order/details1'),
         name: 'WorkOrderDetails',
         meta: { title: '订单详情', icon: '', active:'/order/list'},
         hidden: true
