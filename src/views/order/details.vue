@@ -345,7 +345,7 @@ export default {
 <style lang='scss' scoped>
 @import "@/styles/variables.scss";
 .work-order-details{
-  background-color: $color_f8f8f8;
+  background-color: $color_fdfdfd;
   .order-card{
     box-shadow: none;
     width: 80%;

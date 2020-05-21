@@ -116,7 +116,7 @@ export default {
 @import "@/styles/variables.scss";
 .log-details{
   // padding: 40px 20px;
-  background-color: $color_f8f8f8;
+  background-color: $color_fdfdfd;
   .title{
     .desc{
       padding-left: 10px;
