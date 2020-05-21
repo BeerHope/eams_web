@@ -52,7 +52,13 @@
           </el-col>
           <el-col :md="8" :sm="12">
             <el-form-item label="品名:">
-              <el-input v-model="formData.configCode" disabled></el-input>
+              <el-popover
+                placement="top-start"
+                width="240"
+                trigger="hover"
+                :content="formData.configCode">
+                <el-input slot="reference" v-model="formData.configCode" disabled></el-input>
+              </el-popover>
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="12">
@@ -64,7 +70,6 @@
                 :content="formData.productSpec">
                 <el-input slot="reference" v-model="formData.productSpec" disabled></el-input>
               </el-popover>
-            
             </el-form-item>
           </el-col>
             <el-col :md="8" :sm="12">

@@ -312,3 +312,12 @@ $hoverOpacity: 0.78;
 .el-select-dropdown.is-multiple .el-select-dropdown__item.selected{
   color: $color_6570E3;
 }
+
+/* 媒体查询 */
+@media screen and (max-width:1366px) {
+  .common-dialog{
+    .el-dialog__body{
+      padding: 16px !important;
+    }
+  }
+}
