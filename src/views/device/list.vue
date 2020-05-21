@@ -22,9 +22,9 @@
       style="width: 100%">
       <el-table-column prop="sn" label="机身号" align="center"></el-table-column>
       <el-table-column prop="orderId" label="生产订单号" align="center"></el-table-column>
-      <el-table-column prop="tusn" label="Tusn" align="center"></el-table-column>
+      <el-table-column prop="tusn" label="Tusn" min-width="120px" align="center"></el-table-column>
       <el-table-column prop="mac" label="工位MAC" align="center"></el-table-column>
-      <el-table-column prop="state" label="状态" align="center">
+      <el-table-column prop="state" label="状态" min-width="60" align="center">
         <template slot-scope="scope"><span>{{scope.row.state|filterState(bindStates)}}</span></template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" align="center" width="150"></el-table-column>

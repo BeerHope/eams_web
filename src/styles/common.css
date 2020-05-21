@@ -1,5 +1,6 @@
 @charset "UTF-8";
-/* 按钮悬停色 */
+/* 基础按钮色 */
+/* 悬停按钮色 */
 /* size of margin/border/padding */
 .m-0 {
   margin: 0px !important;
@@ -1338,7 +1339,7 @@
 
 .common-dialog {
   max-width: 800px;
-  min-width: 500px;
+  min-width: 550px;
 }
 
 .common-dialog .el-dialog__footer {

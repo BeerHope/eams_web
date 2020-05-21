@@ -25,8 +25,8 @@
       style="width: 100%">
       <el-table-column prop="workOrderNumber" label="生产订单号" align="center"></el-table-column>
       <el-table-column prop="deliveryOrderNumber" label="K/3单据编号" align="center"></el-table-column>
-      <el-table-column prop="customerName" label="客户名称" align="center"></el-table-column>
-      <el-table-column prop="orderState" label="订单状态" align="center">
+      <el-table-column prop="customerName" label="客户名称" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="orderState" label="订单状态" min-width="60px" align="center">
         <template slot-scope="scope">
           <!-- filterIcon(scope.row.orderState) -->
           <div class="order-state">

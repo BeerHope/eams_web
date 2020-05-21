@@ -18,13 +18,13 @@
       v-loading="listLoading" :data="logList"
       border highlight-current-row
       style="width: 100%">
-      <el-table-column prop="sn" label="机身号" align="center"></el-table-column>
-      <el-table-column prop="orderId" label="生产订单号" align="center"></el-table-column>
-      <el-table-column prop="mac" label="工位MAC" align="center"></el-table-column>
-      <el-table-column prop="type" label="状态" align="center">
+      <el-table-column prop="sn" label="机身号" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="orderId" label="生产订单号" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="mac" label="工位MAC" min-width="120px" align="center"></el-table-column>
+      <el-table-column prop="type" label="状态" min-width="60px" align="center">
         <template slot-scope="scope"><span>{{scope.row.type|filterState(logStates)}}</span></template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center" width="150"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" align="center" min-width="150"></el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template slot-scope="scope">
           <el-button

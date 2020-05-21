@@ -1,7 +1,6 @@
 <template>
-  <div class="role-dialog">
-    <el-dialog
-      custom-class="common-dialog"
+  <el-dialog
+      custom-class="common-dialog role-dialog"
       :title="dialogTitle"
       :visible.sync="dialogVisible"
       width="36%"
@@ -61,7 +60,6 @@
         <el-button v-else type="primary" class="purple-btn" @click="updateRole">保存</el-button>
       </span>
     </el-dialog>
-  </div>
 </template>
 
 <script>
@@ -220,6 +218,12 @@ export default {
         margin-top: 4px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .role-dialog{
+    margin-top: 10vh !important;
   }
 }
 </style>

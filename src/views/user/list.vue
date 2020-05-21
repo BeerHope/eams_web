@@ -34,7 +34,7 @@
           <span>{{scope.row.roles|ShowRoles}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="state" label="状态" width="120px"  align="center">
+      <el-table-column prop="state" label="状态" min-width="80px"  align="center">
         <template slot-scope="scope">
           <span>{{scope.row.state|ShowState }}</span>
         </template>

@@ -318,8 +318,8 @@ export default {
     },
     checkOrder(id) {
       checkOrder({id}).then(res => {
-        this.getOrderList()
         this.$message.success('订单审核通过')
+        this.$router.push('../list')
       }).catch((err) => {
         console.log(err)
       })
