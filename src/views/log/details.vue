@@ -137,7 +137,7 @@ export default {
     min-width: 600px;
     margin: auto;
     padding: 30px 50px;
-    min-height: calc(100vh - 188px);
+    min-height: calc(100vh - 208px);
   }
 }
 </style>

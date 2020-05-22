@@ -15,7 +15,7 @@
             <el-form-item label="发单时间:">
                <el-popover
                 placement="top-start"
-                width="240"
+                :width="contentWidth"
                 trigger="hover"
                 :content="formData.orderCreateDate">
                 <el-date-picker
@@ -52,7 +52,7 @@
             <el-form-item label="客户名称:">
                <el-popover
                 placement="top-start"
-                width="240"
+                :width="contentWidth"
                 trigger="hover"
                 :content="formData.customerName">
                 <el-input slot="reference" v-model="formData.customerName" disabled></el-input>
@@ -68,7 +68,7 @@
             <el-form-item label="品名:">
               <el-popover
                 placement="top-start"
-                width="240"
+                :width="contentWidth"
                 trigger="hover"
                 :content="formData.configCode">
                 <el-input slot="reference" v-model="formData.configCode" disabled></el-input>
@@ -79,7 +79,7 @@
             <el-form-item label="型号:">
               <el-popover
                 placement="top-start"
-                width="240"
+                :width="contentWidth"
                 trigger="hover"
                 :content="formData.productSpec">
                 <el-input slot="reference" v-model="formData.productSpec" disabled></el-input>
@@ -135,7 +135,7 @@
             <el-form-item label="发货时间:">
               <el-popover
                 placement="top-start"
-                width="240"
+                :width="contentWidth"
                 trigger="hover"
                 :content="formData.deliveryDate">
                 <el-date-picker 
@@ -171,7 +171,7 @@
             <el-form-item label="TUSN起始:">
               <el-popover
                 placement="top-start"
-                width="240"
+                :width="contentWidth"
                 trigger="hover"
                 :content="formData.tusnBegin">
                 <el-input slot="reference" v-model="formData.tusnBegin" disabled></el-input>
@@ -182,7 +182,7 @@
             <el-form-item label="TUSN结束:">
               <el-popover
                 placement="top-start"
-                width="240"
+                :width="contentWidth"
                 trigger="hover"
                 :content="formData.tusnEnd">
                 <el-input slot="reference" v-model="formData.tusnEnd" disabled></el-input>
@@ -259,6 +259,7 @@
 import { simStates } from '@/utils/dictionary'
 import { getOrderDetails, checkOrder } from '@/api/order'
 import { getAllFactory } from '@/api/factory'
+import { Sidebar } from '../layout/components'
 export default {
   name: '',
   components: {},
@@ -266,6 +267,7 @@ export default {
   directive: {},
   data() {
     return {
+      contentWidth: 240,
       simStates,
       factoryList: [],
       detailsLoading: false,
@@ -328,16 +330,28 @@ export default {
       } else {
         return '否'
       }
+    },
+    sidebarOpened() {
+      return this.$store.state.app.sidebar.opened
     }
   },
-  watch: {},
+  watch: {
+    // sidebarOpened() {
+    //   this.$nextTick(() => {
+    //     const contentDom = document.getElementsByClassName('el-form-item__content')[0]
+    //     this.contentWidth = contentDom.offsetWidth
+    //     console.log(contentDom.offsetWidth, '11 contentDom width!!!')
+    //   })
+    // }
+  },
   created() {
     this.orderState = _.toNumber(localStorage.getItem('orderState'))
     this.getOrderDetails()
     this.getAllFactory()
   },
   beforeMount() {},
-  mounted() {},
+  mounted() {
+},
   beforeDestroy() {},
   destroyed() {
     localStorage.removeItem('orderState')
