@@ -19,7 +19,6 @@ import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
   name: 'Layout',
-
   components: {
     Navbar,
     Sidebar,
@@ -70,6 +69,27 @@ export default {
   .el-pager li.active{ background: $color_6B77ED !important; color: white !important; }
   .menu-wrapper li.el-menu-item.submenu-title-noDropdown:hover {
     background: #E2E4E9 !important ;
+  }
+  .fix-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    .navbar{
+      background: #fff;
+    }
+  }
+  #app .app-wrapper{
+    &.openSidebar{
+      .fix-top{
+        width: calc(100% - 220px);
+      }
+    }
+    &.hideSidebar{
+      .fix-top{
+        width: calc(100% - 36px);
+      }
+    }
   }
 </style>
 <style rel="stylesheet/scss" lang="scss" scoped>

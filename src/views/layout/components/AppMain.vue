@@ -31,6 +31,7 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
+  padding-top: 104px;
   /* min-width: 1024px; */
 }
 </style>

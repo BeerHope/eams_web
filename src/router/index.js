@@ -66,7 +66,26 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'home', noCache: true, affix: true}
       }
     ]
-  }
+  },
+  /* 新增测试模块 */
+  // {
+  //   path: '/test',
+  //   component: Layout,
+  //   redirect: '/test/list',
+  //   name: 'Test',
+  //   meta: {
+  //     title: '',
+  //     icon: ''
+  //   },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/views/test/list'),
+  //       name: 'TestList',
+  //       meta: { title: '测试模块', icon: 'process' }
+  //     }
+  //   ]
+  // },
 ]
 
 export default new Router({

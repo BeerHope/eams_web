@@ -13,11 +13,19 @@
           </el-col>
           <el-col :md="8" :sm="12">
             <el-form-item label="发单时间:">
-              <el-date-picker
-                disabled
-                v-model="formData.orderCreateDate"
-                type="datetime">
-              </el-date-picker>
+               <el-popover
+                placement="top-start"
+                width="240"
+                trigger="hover"
+                :content="formData.orderCreateDate">
+                <el-date-picker
+                  disabled
+                  slot="reference"
+                  v-model="formData.orderCreateDate"
+                  type="datetime">
+                </el-date-picker>
+              </el-popover>
+              
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="12">
@@ -42,7 +50,13 @@
           </el-col>
           <el-col :md="8" :sm="12">
             <el-form-item label="客户名称:">
-              <el-input v-model="formData.customerName" disabled></el-input>
+               <el-popover
+                placement="top-start"
+                width="240"
+                trigger="hover"
+                :content="formData.customerName">
+                <el-input slot="reference" v-model="formData.customerName" disabled></el-input>
+              </el-popover>
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="12">
@@ -119,7 +133,18 @@
           </el-col>
           <el-col :md="8" :sm="12">
             <el-form-item label="发货时间:">
-              <el-input v-model="formData.deliveryDate" disabled></el-input>
+              <el-popover
+                placement="top-start"
+                width="240"
+                trigger="hover"
+                :content="formData.deliveryDate">
+                <el-date-picker 
+                  slot="reference" 
+                  type="datetime" 
+                  v-model="formData.deliveryDate" 
+                  disabled>
+                </el-date-picker>
+              </el-popover>
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="12">
@@ -144,12 +169,24 @@
           </el-col>
            <el-col :md="8" :sm="12">
             <el-form-item label="TUSN起始:">
-              <el-input v-model="formData.tusnBegin" disabled></el-input>
+              <el-popover
+                placement="top-start"
+                width="240"
+                trigger="hover"
+                :content="formData.tusnBegin">
+                <el-input slot="reference" v-model="formData.tusnBegin" disabled></el-input>
+              </el-popover>
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="12">
             <el-form-item label="TUSN结束:">
-              <el-input v-model="formData.tusnEnd" disabled></el-input>
+              <el-popover
+                placement="top-start"
+                width="240"
+                trigger="hover"
+                :content="formData.tusnEnd">
+                <el-input slot="reference" v-model="formData.tusnEnd" disabled></el-input>
+              </el-popover>
             </el-form-item>
           </el-col>
           <el-col :md="8" :sm="12">
@@ -316,10 +353,15 @@ export default {
       getOrderDetails(this.orderId).then(res => {
         const resData = res.data.data
         this.formData = resData
+        this.formData.orderCreateDate = this.formatTime(this.formData.orderCreateDate)
+        this.formData.deliveryDate = this.formatTime(this.formData.deliveryDate)
         this.detailsLoading = false
       }).catch(err => {
         this.detailsLoading = false
       })
+    },
+    formatTime(time) {
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     checkOrder(id) {
       checkOrder({id}).then(res => {

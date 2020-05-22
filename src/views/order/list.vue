@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column width="400" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
-          <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="purple-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
+          <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4 || scope.row.orderState === 5" type="primary" size="mini" class="purple-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
           <el-button v-if="$checkBtnPermission('order.export')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="blue-btn" @click="exportOrder(scope.row)">导出</el-button>
           <el-button v-if="$checkBtnPermission('order.details')" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row)">详情</el-button>
           <el-button v-if="$checkBtnPermission('order.abandon')" :disabled="scope.row.orderState === 4" type="danger" size="mini" @click="abandonOrder(scope.row)">废弃</el-button>
