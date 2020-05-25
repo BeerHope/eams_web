@@ -211,3 +211,9 @@ code {
 .el-tree, .el-tree-node__expand-icon{
   color: $color_172B4D;
 }
+
+/* 进度条颜色 */
+#nprogress .bar {  
+  background:$color_6B77ED !important;
+  border-color: $color_6B77ED !important;
+}

@@ -1,5 +1,6 @@
 @charset "UTF-8";
-/* 按钮悬停色 */
+/* 基础按钮色 */
+/* 悬停按钮色 */
 /*fade*/
 .fade-enter-active,
 .fade-leave-active {
@@ -162,7 +163,7 @@
 }
 
 #app .sidebar-container .svg-icon {
-  margin-right: 16px;
+  margin-right: 8px;
 }
 
 #app .sidebar-container .el-menu {
@@ -261,7 +262,8 @@
   width: auto;
 }
 
-/* 按钮悬停色 */
+/* 基础按钮色 */
+/* 悬停按钮色 */
 .blue-btn {
   background: #324157;
 }
@@ -610,4 +612,10 @@ code a:hover {
 /* 字体颜色 */
 .el-tree, .el-tree-node__expand-icon {
   color: #172B4D;
+}
+
+/* 进度条颜色 */
+#nprogress .bar {
+  background: #6B77ED !important;
+  border-color: #6B77ED !important;
 }
