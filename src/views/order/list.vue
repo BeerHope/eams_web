@@ -23,15 +23,20 @@
       v-loading="listLoading" :data="orderList"
       border highlight-current-row
       style="width: 100%">
-      <el-table-column prop="workOrderNumber" label="生产订单号" align="center"></el-table-column>
-      <el-table-column prop="deliveryOrderNumber" label="K/3单据编号" align="center"></el-table-column>
-      <el-table-column prop="customerName" label="客户名称" min-width="120px" align="center"></el-table-column>
-      <el-table-column prop="orderState" label="订单状态" min-width="60px" align="center">
+      <el-table-column prop="workOrderNumber" label="生产订单号" min-width="140px" align="center"></el-table-column>
+      <el-table-column prop="deliveryOrderNumber" label="K/3单据编号" min-width="140px" align="center"></el-table-column>
+      <el-table-column prop="customerName" label="客户名称" min-width="140px" align="center"></el-table-column>
+      <el-table-column prop="orderState" label="订单状态" min-width="100px" align="center">
         <template slot-scope="scope">
           <div class="order-state">
             <svg-icon :class="['order-icon', {'invalid': scope.row.orderState === 0}]" :icon-class="filterIcon(scope.row.orderState)"></svg-icon>
             <span>{{scope.row.orderState | filterState(orderStates)}}</span>
           </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createDate" label="创建时间" min-width="150px" align="center">
+        <template slot-scope="scope">
+          {{scope.row.createDate | filterTime}}
         </template>
       </el-table-column>
       <el-table-column width="400" align="center" prop="operation" label="操作">
@@ -75,7 +80,10 @@ export default {
     IniUpload
   },
   filters: {
-    filterState
+    filterState,
+    filterTime(time) {
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
+    }
   },
   data() {
     return {

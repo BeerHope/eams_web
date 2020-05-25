@@ -2,10 +2,9 @@
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
       <!-- 缓存tab中打开的页面 -->
-      <!-- <keep-alive :include="cachedViews">
-        <router-view :key="key"/>
-      </keep-alive> -->
-      <router-view :key="key"/>
+      <keep-alive :include="cachedViews">
+        <router-view :key="key" v-if="isRouterAlive"/>
+      </keep-alive>
     </transition>
   </section>
 </template>
@@ -19,6 +18,9 @@ export default {
     },
     key() {
       return this.$route.fullPath
+    },
+    isRouterAlive() {
+      return this.$store.state.leftNav.isRouterAlive
     }
   }
 }

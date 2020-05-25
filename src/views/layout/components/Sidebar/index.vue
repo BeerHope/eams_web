@@ -8,6 +8,8 @@
       background-color="#F4F5F7"
       text-color="#172B4D"
       active-text-color="#6772E4"
+      @select="selectLeftNav"
+      :router="true"
     >
       <div class="system-title">
         <svg-icon icon-class="logo"></svg-icon>
@@ -21,8 +23,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import SidebarItem from './SidebarItem'
+import store from '@/store'
 
 export default {
+  name: 'Layout',
   components: { SidebarItem },
   computed: {
     ...mapGetters([
@@ -40,6 +44,18 @@ export default {
         return meta.activeMenu
       }
       return path
+    }
+  },
+  methods: {
+    selectLeftNav(index) {
+      this.$nextTick(() => {
+        if (index === this.$route.path) {
+          store.commit('reload')
+        }
+        store.dispatch('delCachedView', this.$route).then(() => {
+          store.dispatch('addCachedView', this.$route)
+        })
+      })
     }
   }
 }

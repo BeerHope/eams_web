@@ -1,14 +1,13 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view></router-view>
   </div>
 </template>
 <script>
 import store from '@/store'
-export default{
+
+export default {
   name: 'App',
-  methods:{
-  },
   computed: {
     activeName: {
       get () {
@@ -23,6 +22,7 @@ export default{
     document.onclick = () => {
       store.commit('SET_TOKEN_EXPIRED', false)
     }
-  }
+  },
+  methods:{}
 }
 </script>

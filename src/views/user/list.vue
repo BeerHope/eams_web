@@ -80,7 +80,7 @@
   import {  SysUserDetails ,sysUserlist ,select4System } from '@/api/user'
   import { mapGetters } from 'vuex'
   export default {
-    name: 'report',
+    name: 'SystemUserList',
     components:{
       DialogAddUser,
       DialogDetails,

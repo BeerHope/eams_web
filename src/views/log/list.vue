@@ -57,7 +57,7 @@ import { filterState } from '@/filters'
 import { getLogList } from '@/api/log'
 
 export default {
-  name: 'RecordList',
+  name: 'LogList',
   components: {},
   filters: {
     filterState

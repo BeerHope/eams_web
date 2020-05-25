@@ -135,7 +135,7 @@ export const asyncRoutes = [
         meta: {
           title: '系统用户',
         },
-        name: 'UserList'
+        name: 'SystemUserList'
       },
       {
         path: 'factory',
@@ -143,7 +143,7 @@ export const asyncRoutes = [
         meta: {
           title: '外协厂用户',
         },
-        name: 'factoryUserList'
+        name: 'FactoryUserList'
       }
     ]
   },
@@ -169,7 +169,7 @@ export const asyncRoutes = [
       }
     ]
   },
-  /* 渠道商管理 */
+  /* 工厂管理 */
   {
     path: '/factory',
     component: Layout,
@@ -271,7 +271,7 @@ export const asyncRoutes = [
       {
         path: 'list',
         component: () => import('@/views/unbind/list'),
-        name: 'UnbindList',
+        name: 'UnbindDeviceList',
         meta: { title: '解绑记录', icon: 'unbind' }
       }
     ]

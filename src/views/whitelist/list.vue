@@ -49,7 +49,7 @@ import AddWhitelist from './components/Dialog'
 import { getAllFactory } from '@/api/factory'
 import { getWhitelistList, deleteWhitelist } from '@/api/whitelist'
 export default {
-  name: 'factoryList',
+  name: 'WhitelistList',
   components: {
     AddWhitelist
   },

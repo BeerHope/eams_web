@@ -76,7 +76,7 @@
   import { getRoleList } from '@/api/role'
   import { mapGetters } from 'vuex'
   export default {
-    name: 'report',
+    name: 'RoleList',
     components:{
       roleDialog
     },

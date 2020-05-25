@@ -43,7 +43,7 @@ import { getProcessList, deleteProcess } from '@/api/process'
 import addProcess from './components/Dialog'
 
 export default {
-  name: '',
+  name: 'ProcessList',
   components: {
     addProcess
   },

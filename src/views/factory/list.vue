@@ -37,7 +37,7 @@ import { getFactoryList } from '@/api/factory'
 import FactoryDialog from './components/Dialog'
 
 export default {
-  name: 'factoryList',
+  name: 'FactoryList',
   components: {
     FactoryDialog
   },

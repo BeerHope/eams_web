@@ -2,8 +2,8 @@
   <div v-if="!item.hidden&&item.children" class="menu-wrapper">
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <a :href="onlyOneChild.path"  target="_blank" @click="clickLink(onlyOneChild.path,$event)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item v-if="onlyOneChild.meta"  :icon="onlyOneChild.meta.icon||item.meta.icon" :title="onlyOneChild.meta.title" />
+        <el-menu-item :index="resolvePath(onlyOneChild.path)" :indexPath="item.name" :class="{'submenu-title-noDropdown':!isNest}">
+          <item v-if="onlyOneChild.meta" :icon="onlyOneChild.meta.icon||item.meta.icon" :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </a>
     </template>
@@ -21,7 +21,7 @@
             :base-path="resolvePath(child.path)"
             class="nest-menu" />
           <a v-else :href="child.path" :key="child.name" target="_blank" @click="clickLink(child.path,$event)">
-            <el-menu-item :index="resolvePath(child.path)">
+            <el-menu-item :index="resolvePath(child.path)" :indexPath="item.name">
               <item v-if="child.meta" :icon="child.meta.icon" :title="child.meta.title" />
             </el-menu-item>
           </a>
@@ -81,7 +81,6 @@ export default {
         this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
         return true
       }
-
       return false
     },
     resolvePath(routePath) {
@@ -91,7 +90,6 @@ export default {
       return validateURL(routePath)
     },
     clickLink(routePath, e) {
-
       if (!this.isExternalLink(routePath)) {
         e.preventDefault()
         const path = this.resolvePath(routePath)

@@ -2,7 +2,7 @@
    
   <div class="sideBar">
     <transition name="slide-fade">
-     <!-- 这里才是侧栏代码部分 -->
+     <!-- 这里侧栏代码部分 -->
       <div class="side-content" v-if="isShow">
         <div class="header">
            <div class="title">{{$t('workList.filter')}}</div>

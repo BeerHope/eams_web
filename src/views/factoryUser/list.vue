@@ -2,14 +2,14 @@
   <div class="app-container common-list">
     <div class="filter-box m-t-20 m-b-20">
       <el-input
-        placeholder="归属工厂"
-        v-model.trim="filter.factoryName"
+        placeholder="用户名"
+        v-model.trim="filter.username"
         class="filter-item"
         style="width: 200px;"
         clearable />
       <el-input
-        placeholder="用户名"
-        v-model.trim="filter.username"
+        placeholder="归属工厂"
+        v-model.trim="filter.factoryName"
         class="filter-item"
         style="width: 200px;"
         clearable />
@@ -84,7 +84,7 @@
   import { getFactoryRoles } from '@/api/role'
   import { mapGetters } from 'vuex'
   export default {
-    name: 'report',
+    name: 'FactoryUserList',
     components:{
       UserDialog,
       DialogDetails,
