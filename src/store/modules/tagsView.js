@@ -5,7 +5,6 @@ const tagsView = {
   },
   mutations: {
     ADD_VISITED_VIEW: (state, view) => {
-      /* 因详情不同会打开不同的详情窗口，将path改为name进行匹配 */
       if (state.visitedViews.some(v => v.name === view.name)) return
       state.visitedViews.push(
         Object.assign({}, view, {
@@ -37,7 +36,6 @@ const tagsView = {
         }
       }
     },
-
     DEL_OTHERS_VISITED_VIEWS: (state, view) => {
       for (const [i, v] of state.visitedViews.entries()) {
         if (v.path === view.path) {
@@ -86,7 +84,6 @@ const tagsView = {
     addCachedView({ commit }, view) {
       commit('ADD_CACHED_VIEW', view)
     },
-
     delView({ dispatch, state }, view) {
       return new Promise(resolve => {
         dispatch('delVisitedView', view)

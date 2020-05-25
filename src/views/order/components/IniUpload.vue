@@ -6,6 +6,7 @@
     custom-class="common-dialog upload"
     :visible.sync="dialogVisible">
     <el-upload
+      v-loading="loading"
       ref="upload"
       class="upload-demo t-c"
       drag
@@ -39,7 +40,8 @@ export default {
     return {
       dialogVisible: false,
       file: null,
-      orderId: ''
+      orderId: '',
+      loading: false
     }
   },
   computed: {
@@ -78,18 +80,25 @@ export default {
       this.$message.warning('上传文件数量超限, 只允许上传单个文件')
     },
     handleUpload() {
+      if (this.loading) {
+        this.$message.warning('文件正在上传,请耐心等待!')
+        return
+      }
       const upload = this.$refs.upload
       if (!upload.uploadFiles.length) {
         this.$message.warning('请先上传文件')
         return
       }
+      this.loading = true
       const formData = new FormData()
       formData.append('file', this.file.raw)
-      console.log(this.orderId, '订单Id！！！！')
       uploadIniFile(formData, {id: this.orderId}).then(res => {
+        this.loading = false
         this.$message.success('文件上传成功!')
         this.dialogVisible = false
         this.$emit('refresh')
+      }).catch(() => {
+        this.loading = false
       })
     },
     removeFile() {

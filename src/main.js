@@ -20,6 +20,7 @@ import JsonViewer from 'vue-json-viewer'
 import _ from 'lodash'
 import moment from 'moment'  //时间处理格式转换
 import checkPermission from '@/plugins/checkPermission'
+import localForage from 'localforage'
 
 Vue.use(JsonViewer)
 Vue.use(scroll)
@@ -41,6 +42,7 @@ Vue.use(VueAreaLinkage);
 _.assign(window, {
   _,
   moment,
+  localForage
 })
 new Vue({
   el: '#app',
