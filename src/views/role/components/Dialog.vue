@@ -158,11 +158,15 @@ export default {
       if (this.roleId !== -1) {
         this.loading = true
         getRoleDetails(this.roleId).then(res => {
-          this.formData = _.cloneDeep(res.data.data)
-          this.$refs.authTree.setCheckedKeys(this.formData.menus)
-          setTimeout(() => {
+          if (res.data.code ==0 || res.data.code == 200) {
+            this.formData = _.cloneDeep(res.data.data)
+            this.$refs.authTree.setCheckedKeys(this.formData.menus)
+            setTimeout(() => {
+              this.loading = false
+            }, 150)
+          } else {
             this.loading = false
-          }, 150)
+          }
         }).catch(() => {
           this.loading = false
         })

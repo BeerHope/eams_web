@@ -235,19 +235,19 @@ $hoverOpacity: 0.78;
     @include bg_text_border-color($color_5087E5, $white, $color_497cd4);
     &.blue-btn {
       @include bg_text_border-color($color_36cff6, $white, $color_36cff6);
-      &:hover{
+      &:hover, &:focus{
         @include bg_text_border-color($color_51cae9, $white, $color_51cae9);
       }
     }
     &.orange-btn {
       @include bg_text_border-color($color_f3ad62, $white, $color_f3ad62);
-      &:hover{
+      &:hover, &:focus{
         @include bg_text_border-color($color_e9a65e, $white, $color_e9a65e);
       }
     }
     &.purple-btn {
       @include bg_text_border-color($color_6671e0, $white, $color_6671e0);
-      &:hover{
+      &:hover, &:focus{
         @include bg_text_border-color($color_606ad6, $white, $color_606ad6);
       }
     }
@@ -256,12 +256,11 @@ $hoverOpacity: 0.78;
     }
   }
   &.el-button--danger{
-    &:hover{
+    &:hover, &:focus{
       @include bg_text_border-color($color_ea6a6a, $white, $color_ea6a6a);
     }
   }
   &.line-type{
-    
     &.green-btn {
       @include bg_text_border-color($white, $color_6570E3, $color_6570E3);
     }

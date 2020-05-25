@@ -60,8 +60,8 @@ service.interceptors.response.use(
     }
     if(res.code == 401){
       if (store.getters.tokenExpired) {
-        /* 不进行任何操作 */
-        return
+        // return response
+        throw SyntaxError();
       }
       store.commit('SET_TOKEN_EXPIRED', true)
       /* 判断路由是否改变 && 是否已经给出弹窗提示 */
@@ -83,6 +83,8 @@ service.interceptors.response.use(
         type: 'error',
         duration: 2* 1000
       });
+      throw SyntaxError();
+    } else if (res.code == 401 && store.getters.tokenExpired){
       throw SyntaxError();
     } else {
       return response;

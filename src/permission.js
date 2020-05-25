@@ -17,9 +17,9 @@ function hasPermission(roles, permissionRoles) {
 
 const whiteList = ['/login','/redirect']// no redirect whitelist
 router.beforeEach((to, from, next) => {
-  if (!_.isEqual(to, from)) {
-    store.commit('SET_TOKEN_EXPIRED', false)
-  }
+  // if (!_.isEqual(to, from)) {
+  //   store.commit('SET_TOKEN_EXPIRED', false)
+  // }
   NProgress.start();
   // debugger
   if (getToken()) {

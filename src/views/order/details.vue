@@ -250,16 +250,16 @@
             <el-input v-model="formData.orderRemark" disabled type="textarea" :autosize="{ minRows: 4, maxRows: 6}"></el-input>
           </el-form-item>
         </el-row>
-        <el-button v-if="orderState === 5 && $checkBtnPermission('order.check')" type="primary" class="purple-btn" @click="checkOrder(orderId)">审核</el-button>
+        <el-button v-if="orderState === 5 && $checkBtnPermission('order.check')" type="primary" class="purple-btn" @click="checkOrder(orderId)">通过</el-button>
+        <el-button v-if="orderState === 5 && $checkBtnPermission('order.abandon')" type="danger" @click="abandonOrder(orderId)">废弃</el-button>
       </el-form>
     </el-card>
   </div>
 </template>
 <script>
 import { simStates } from '@/utils/dictionary'
-import { getOrderDetails, checkOrder } from '@/api/order'
+import { getOrderDetails, checkOrder, abandonOrder } from '@/api/order'
 import { getAllFactory } from '@/api/factory'
-import { Sidebar } from '../layout/components'
 export default {
   name: '',
   components: {},
@@ -331,19 +331,8 @@ export default {
         return '否'
       }
     },
-    sidebarOpened() {
-      return this.$store.state.app.sidebar.opened
-    }
   },
-  watch: {
-    // sidebarOpened() {
-    //   this.$nextTick(() => {
-    //     const contentDom = document.getElementsByClassName('el-form-item__content')[0]
-    //     this.contentWidth = contentDom.offsetWidth
-    //     console.log(contentDom.offsetWidth, '11 contentDom width!!!')
-    //   })
-    // }
-  },
+  watch: {},
   created() {
     this.orderState = _.toNumber(localStorage.getItem('orderState'))
     this.getOrderDetails()
@@ -383,6 +372,21 @@ export default {
         this.$router.push('../list')
       }).catch((err) => {
         console.log(err)
+      })
+    },
+     /* 废弃订单 */
+    abandonOrder(id) {
+      this.$confirm(`此操作将废弃订单，是否继续?`, '提示', {
+        confirmButtonText:'确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        abandonOrder({id}).then(res => {
+          this.$message.success('废弃订单成功')
+          this.$router.push('../list')
+        })
+      }).catch(() => {
+        console.log('取消废弃订单')
       })
     },
     handleCancel() {

@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import store from '@/store'
 export default{
   name: 'App',
   methods:{
@@ -16,6 +17,11 @@ export default{
       set (value) {
         this.$router.replace({ name: value })
       }
+    }
+  },
+  mounted() {
+    document.onclick = () => {
+      store.commit('SET_TOKEN_EXPIRED', false)
     }
   }
 }
