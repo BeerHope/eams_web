@@ -24,6 +24,7 @@
 
 <script>
 import ScrollPane from '@/components/ScrollPane'
+import path from 'path'
 
 export default {
   components: { ScrollPane },
@@ -38,6 +39,9 @@ export default {
   computed: {
     visitedViews() {
       return this.$store.state.tagsView.visitedViews
+    },
+    routes() {
+      return this.$store.state.permission.routers
     }
   },
   watch: {
@@ -54,6 +58,7 @@ export default {
     }
   },
   mounted() {
+    this.initTags()
     this.addViewTags()
   },
   methods: {
@@ -69,6 +74,36 @@ export default {
     isAffix(tag) {
       return tag.meta && tag.meta.affix
     },
+    filterAffixTags(routes, basePath = '/') {
+      let tags = []
+      routes.forEach(route => {
+        if (route.meta && route.meta.affix) {
+          const tagPath = path.resolve(basePath, route.path)
+          tags.push({
+            fullPath: tagPath,
+            path: tagPath,
+            name: route.name,
+            meta: { ...route.meta }
+          })
+        }
+        if (route.children) {
+          const tempTags = this.filterAffixTags(route.children, route.path)
+          if (tempTags.length >= 1) {
+            tags = [...tags, ...tempTags]
+          }
+        }
+      })
+      return tags
+    },
+    initTags() {
+      const affixTags = this.affixTags = this.filterAffixTags(this.routes)
+      for (const tag of affixTags) {
+        // Must have tag name
+        if (tag.name) {
+          this.$store.dispatch('tagsView/addVisitedView', tag)
+        }
+      }
+    },
     addViewTags() {
       const route = this.generateRoute()
       if (!route) {
@@ -82,12 +117,10 @@ export default {
         for (const tag of tags) {
           if (tag.to.path === this.$route.path) {
             this.$refs.scrollPane.moveToTarget(tag.$el)
-
             // when query is different then update
             if (tag.to.fullPath !== this.$route.fullPath) {
               this.$store.dispatch('updateVisitedView', this.$route)
             }
-
             break
           }
         }
@@ -134,7 +167,38 @@ export default {
     },
     closeMenu() {
       this.visible = false
-    }
+    },
+    /* filter affix tags */
+    filterAffixTags(routes, basePath = '/') {
+      let tags = []
+      routes.forEach(route => {
+        if (route.meta && route.meta.affix) {
+          const tagPath = path.resolve(basePath, route.path)
+          tags.push({
+            fullPath: tagPath,
+            path: tagPath,
+            name: route.name,
+            meta: { ...route.meta }
+          })
+        }
+        if (route.children) {
+          const tempTags = this.filterAffixTags(route.children, route.path)
+          if (tempTags.length >= 1) {
+            tags = [...tags, ...tempTags]
+          }
+        }
+      })
+      return tags
+    },
+    initTags() {
+      const affixTags = this.affixTags = this.filterAffixTags(this.routes)
+      for (const tag of affixTags) {
+        // Must have tag name
+        if (tag.name) {
+          this.$store.dispatch('addVisitedView', tag)
+        }
+      }
+    },
   }
 }
 </script>
