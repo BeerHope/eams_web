@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /* 查询邮件订阅 */
 export function getSubscriptionList() {
   return request({
-    url: '/subscription/get',
+    url: '/subscription',
     method: 'get'
   })
 }
