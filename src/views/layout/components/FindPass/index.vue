@@ -1,33 +1,34 @@
 <template>
-  <el-dialog 
+  <el-dialog
+    :append-to-body="true"
     width="36%" :visible.sync="dialogVisible"
     custom-class="common-dialog" title="修改密码"
     @close="closeDialog">
     <el-form class="common-form" ref="form" :model="formData" :rules="rules" label-width="100px">
       <el-form-item prop="oldPassword" label="旧密码">
         <el-input v-model="formData.oldPassword" :type="passVisible1 ? 'text': 'password'">
-          <svg-icon 
-            class="cur-pointer" slot="suffix" 
-            :icon-class="passVisible1 ? 'eye-open' : 'eye-close'" 
-            @click.native="passVisible1 = !passVisible1">
+          <svg-icon
+            class="cur-pointer" slot="suffix"
+            :icon-class="passVisible1 ? 'eye-open' : 'eye-close'"
+            @click.native.stop="passVisible1 = !passVisible1">
           </svg-icon>
         </el-input>
       </el-form-item>
       <el-form-item prop="newPassword" label="新密码">
         <el-input v-model="formData.newPassword" :type="passVisible2 ? 'text': 'password'">
-          <svg-icon 
-            class="cur-pointer" slot="suffix" 
-            :icon-class="passVisible2 ? 'eye-open' : 'eye-close'" 
-            @click.native="passVisible2 = !passVisible2">
+          <svg-icon
+            class="cur-pointer" slot="suffix"
+            :icon-class="passVisible2 ? 'eye-open' : 'eye-close'"
+            @click.native.stop="passVisible2 = !passVisible2">
           </svg-icon>
         </el-input>
       </el-form-item>
       <el-form-item prop="reNewPassword" label="确认新密码">
         <el-input v-model="formData.reNewPassword" :type="passVisible3 ? 'text': 'password'">
-          <svg-icon 
-            class="cur-pointer" slot="suffix" 
-            :icon-class="passVisible3 ? 'eye-open' : 'eye-close'" 
-            @click.native="passVisible3 = !passVisible3">
+          <svg-icon
+            class="cur-pointer" slot="suffix"
+            :icon-class="passVisible3 ? 'eye-open' : 'eye-close'"
+            @click.native.stop="passVisible3 = !passVisible3">
           </svg-icon>
         </el-input>
       </el-form-item>
@@ -125,6 +126,6 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 
 </style>

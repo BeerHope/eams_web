@@ -24,7 +24,9 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    console.log(this.$router, 'router!!!!!!!!')
+  },
   beforeMount() {},
   mounted() {},
   beforeDestroy() {},
@@ -66,6 +68,6 @@ export default {
       }
     }
   }
-  
+
 }
 </style>

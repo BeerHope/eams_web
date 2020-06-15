@@ -4,10 +4,10 @@
       <el-input class="filter-item" v-model="filter.workOrderNumber" placeholder="生产订单号" clearable></el-input>
       <el-input class="filter-item" v-model="filter.deliveryOrderNumber" placeholder="K/3单据编号" clearable></el-input>
       <el-select  class="filter-item" v-model="filter.orderState" placeholder="订单状态" clearable>
-        <el-option 
-          v-for="item in orderStates" 
-          :key="item.value" 
-          :value="item.value" 
+        <el-option
+          v-for="item in orderStates"
+          :key="item.value"
+          :value="item.value"
           :label="item.label">
         </el-option>
       </el-select>
@@ -39,8 +39,9 @@
           {{scope.row.createDate | filterTime}}
         </template>
       </el-table-column>
-      <el-table-column width="400" align="center" prop="operation" label="操作">
+      <el-table-column width="440" align="center" prop="operation" label="操作">
         <template slot-scope="scope">
+          <el-button v-if="$checkBtnPermission('order.uploadResource')" :disabled="scope.row.orderState === 4" type="primary" size="mini" class="purple-btn" @click="openResourceDialog(scope.row.id)">{{scope.row.uploadResource ? '更新资料包': '上传资料包'}}</el-button>
           <el-button v-if="$checkBtnPermission('order.program')" :disabled="scope.row.orderState === 4 || scope.row.orderState === 5" type="primary" size="mini" class="purple-btn" @click="openIniUpload(scope.row.id)">上传ini文件</el-button>
           <el-button v-if="$checkBtnPermission('order.export')" :disabled="scope.row.orderState === 4 || scope.row.orderState === 5" type="primary" size="mini" class="blue-btn" @click="exportOrder(scope.row)">导出</el-button>
           <el-button v-if="$checkBtnPermission('order.details')" type="primary" size="mini" class="orange-btn" @click="toDetailsPage(scope.row)">详情</el-button>
@@ -62,6 +63,7 @@
     ></el-pagination>
     <order-upload ref="uploadDialog" @refresh="getOrderList"></order-upload>
     <ini-upload ref="iniUpload" @refresh="getOrderList"></ini-upload>
+    <resource-upload ref="resourceUpload" @refresh="getOrderList"></resource-upload>
   </div>
 </template>
 <script>
@@ -70,6 +72,7 @@
  */
 import OrderUpload from './components/OrderUpload'
 import IniUpload from './components/IniUpload'
+import ResourceUpload from './components/ResourceUpload'
 import { orderStates, orderIcons } from '@/utils/dictionary'
 import { filterState } from '@/filters'
 import { getOrderList, register21Key, abandonOrder, exportOrder } from '@/api/order'
@@ -77,7 +80,8 @@ export default {
   name: 'WorkOrderList',
   components: {
     OrderUpload,
-    IniUpload
+    IniUpload,
+    ResourceUpload
   },
   filters: {
     filterState,
@@ -138,13 +142,6 @@ export default {
       this.$router.push(`./details/${id}`)
       localStorage.setItem('orderState', orderState)
     },
-    /* 注册密钥 */
-    registerKey(orderId) {
-      register21Key(orderId).then(res => {
-        this.$message.success('注册密钥成功！')
-        this.getOrderList()
-      })
-    },
     filterIcon(orderState) {
       return _.find(this.orderIcons, {state: orderState}).icon
     },
@@ -165,7 +162,7 @@ export default {
     },
     /*
       订单导出操作
-      内容为pc上送上来的sn/iccid/imei对应关系 
+      内容为pc上送上来的sn/iccid/imei对应关系
     */
     exportOrder({id, workOrderNumber}) {
         exportOrder(id).then(res => {
@@ -179,6 +176,13 @@ export default {
           link.remove();
       }).catch(err => {
         console.log('export failed:', err)
+      })
+    },
+    openResourceDialog(orderId) {
+      const resourceUpload = this.$refs.resourceUpload
+       _.assign(resourceUpload, {
+        dialogVisible: true,
+        orderId
       })
     }
   }

@@ -17,18 +17,18 @@
         <!-- 状态 -->
         <el-form-item v-if="roleId!==-1" label="状态" prop="state">
           <el-select v-model="formData.state" class="w-100">
-            <el-option 
-              v-for="item in roleStates" :key="item.value" 
+            <el-option
+              v-for="item in roleStates" :key="item.value"
               :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item v-if="roleId === -1" prop="type" label="角色类型">
           <el-select v-model="formData.type">
-            <el-option 
-              v-for="item in roleTypes" 
-              :key="item.value" 
-              :value="item.value" 
+            <el-option
+              v-for="item in roleTypes"
+              :key="item.value"
+              :value="item.value"
               :label="item.label">
             </el-option>
           </el-select>

@@ -32,7 +32,7 @@ export default {
   min-height: calc(100vh - 104px);
   width: 100%;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   padding-top: 104px;
   /* min-width: 1024px; */
 }

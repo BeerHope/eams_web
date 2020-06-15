@@ -68,6 +68,3 @@ export function validateMac(mac) {
   const re = /^[a-fA-F0-9]{2}(-[a-fA-F0-9]{2}){5}$/
   return re.test(mac)
 }
-
-
-

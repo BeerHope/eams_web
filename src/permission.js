@@ -1,4 +1,4 @@
-import router from './router'
+import router, { asyncRoutes1 } from './router'
 import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
     /* has token*/
     if (to.path === '/login') {
       next({ path: '/' })
-      NProgress.done(); // if current page is dashboard will not trigger	afterEach hook, so manually handle it
+      NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       /* 判断vuex中是否存储菜单 */
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
@@ -35,26 +35,27 @@ router.beforeEach((to, from, next) => {
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
             Message.error(err || 'Verification failed, please login again');
-            setTimeout(function () {
-              next({ path: '/' });
+            setTimeout(function() {
+              next({ path: '/' })
             },3000)
           })
         })
       } else {
-        // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
-        if (hasPermission(store.getters.roles, to.meta.roles)) {
-          next()
-        } else {
-          next({ path: '/401', replace: true, query: { noGoBack: true }})
-        }
-        // 可删 ↑
+        // // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
+        // if (hasPermission(store.getters.roles, to.meta.roles)) {
+        //   next()
+        // } else {
+        //   next({ path: '/401', replace: true, query: { noGoBack: true }})
+        // }
+        // // 可删 ↑
+        next()
       }
     }
   } else {
     /* has no token*/
     if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入  包括註冊的单独处理
-      next();
-    }else if(to.path.indexOf("/register/")==0){
+      next()
+    } else if(to.path.indexOf("/register/")==0){
       next();
     } else {
       //next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页;

@@ -1,4 +1,4 @@
-import { constantRoutes, asyncRoutes, errorRoutes } from '@/router'
+import { constantRoutes, asyncRoutes, asyncRoutes1, errorRoutes } from '@/router'
 /**
  * 通过meta.role判断是否与当前用户权限匹配
  * @param roles
@@ -69,7 +69,7 @@ const permission = {
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers;
-      state.routers = _.concat(constantRoutes, routers, errorRoutes)
+      state.routers = _.concat(constantRoutes, routers)
     },
     SET_BUTTONS: (state, permissionButtons) => {
       state.permissionButtons = permissionButtons
@@ -83,7 +83,8 @@ const permission = {
         const buttonsArray = filterAsyncButtons(accessRoutes)
         const permissionButtons = array2Json(buttonsArray, 'className')
         // console.log(accessedRoutes1)
-        commit('SET_ROUTERS', accessedRoutes1)
+        const totalAsyncRoutes = _.concat(accessedRoutes1, errorRoutes)
+        commit('SET_ROUTERS', totalAsyncRoutes)
         commit('SET_BUTTONS', permissionButtons)
         resolve()
       })

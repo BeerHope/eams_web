@@ -34,7 +34,7 @@ export function register21Key(orderId) {
   return request({
     url: `/order/registration21key/${orderId}`,
     method: 'get',
-  })  
+  })
 }
 
 /* 上传ini文件 */
@@ -73,6 +73,18 @@ export function checkOrder(data) {
   return request({
     url: '/order/check',
     method: 'post',
+    data
+  })
+}
+
+/* 上传资料 */
+export function uploadResource(orderId, data) {
+  return request({
+    url: `/order/uploadResource/${orderId}`,
+    method: 'post',
+    headers: {
+      "Content-Type": 'multipart/form-data'
+    },
     data
   })
 }

@@ -66,26 +66,7 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'home', noCache: true, affix: true}
       }
     ]
-  },
-  /* 新增测试模块 */
-  // {
-  //   path: '/test',
-  //   component: Layout,
-  //   redirect: '/test/list',
-  //   name: 'Test',
-  //   meta: {
-  //     title: '',
-  //     icon: ''
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       component: () => import('@/views/test/list'),
-  //       name: 'TestList',
-  //       meta: { title: '测试模块', icon: 'process' }
-  //     }
-  //   ]
-  // },
+  }
 ]
 
 export default new Router({
@@ -311,6 +292,67 @@ export const asyncRoutes = [
         component: () => import('@/views/process/list'),
         name: 'ProcessList',
         meta: { title: '标识管理', icon: 'process' }
+      }
+    ]
+  },
+  /* 资料管理 */
+  {
+    path: '/resource',
+    component: Layout,
+    redirect: '/resource/list',
+    name: 'Resource',
+    meta: {
+      title: '',
+      icon: ''
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/resource/list'),
+        name: 'ResourceList',
+        meta: { title: '资料管理', icon: 'resource' }
+      }
+    ]
+  },
+  /* 看板 */
+  {
+    path: '/board',
+    component: Layout,
+    redirect: '/board/list',
+    name: 'Board',
+    meta: {
+      title: '',
+      icon: ''
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/board/list'),
+        name: 'BoardList',
+        meta: { title: '看板', icon: 'board' }
+      }
+    ]
+  },
+]
+
+
+export const asyncRoutes1 = [
+  /* 资料管理 */
+  {
+    path: '/resource',
+    component: Layout,
+    redirect: '/resource/list',
+    name: 'Resource',
+    meta: {
+      title: '',
+      icon: ''
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/resource/list'),
+        name: 'ResourceList',
+        meta: { title: '资料管理', icon: 'process' }
       }
     ]
   }

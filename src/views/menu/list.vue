@@ -139,7 +139,7 @@ export default {
     handleTreeClick(data) {
       this.isFirst = false
       this.menuId = data.id
-      this.menuType = data.type
+      this.menuType = _.toNumber(data.type)
       this.$refs.menuTree.setCurrentKey(data.id)
       this.getMenuDetails()
     },
@@ -157,7 +157,7 @@ export default {
       }
       this.$refs.form.validate((valid) => {
         if (valid) {
-          const reqData = _.omit(this.menuDetails, ['id', 'level']) 
+          const reqData = _.omit(this.menuDetails, ['id', 'level'])
           updateMenu(this.menuId, reqData).then(res => {
             this.getMenuList()
             this.$message.success('修改菜单成功！')
